@@ -1,0 +1,104 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/04/05 01:41:55 by mlektaib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ast.h"
+
+t_ast	*add_new_cmd(char *cmd, char **args, int arg_count)
+{
+	t_ast	*node;
+	int		i;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+	{
+		return (NULL);
+	}
+	node->type = ast_cmd;
+	node->u_data.cmd.cmd = cmd;
+	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
+	if (!node->u_data.cmd.args)
+	{
+		free(node);
+		return (NULL);
+	}
+	i = 0;
+	while (i < arg_count)
+	{
+		node->u_data.cmd.args[i] = args[i];
+		i++;
+	}
+	node->u_data.cmd.args[arg_count] = NULL;
+	node->u_data.cmd.arg_count = arg_count;
+	return (node);
+}
+
+t_ast	*add_new_subshell(t_ast *child)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+	{
+		exit(EXIT_FAILURE);
+	}
+	node->type = ast_subshell;
+	node->u_data.operation.left = child;
+	node->u_data.operation.right = NULL;
+	return (node);
+}
+
+t_ast	*add_new_operation(enum e_ast_type type, t_ast *left, t_ast *right)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+	{
+		return (NULL);
+	}
+	node->type = type;
+	node->u_data.operation.left = left;
+	node->u_data.operation.right = right;
+	return (node);
+}
+
+t_ast	*add_new_redirect(int fd, char *path, t_ast *child, int tag)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+	{
+		return (NULL);
+	}
+	node->type = ast_redirect;
+	node->u_data.redirect.fd = fd;
+	node->u_data.redirect.path = path;
+	node->u_data.redirect.child = child;
+	node->u_data.redirect.tag = tag;
+	return (node);
+}
+
+t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+	{
+		return (NULL);
+	}
+	node->type = ast_heredoc;
+	node->u_data.heredoc.delimiter = delimiter;
+	node->u_data.heredoc.child = child;
+	return (node);
+}
