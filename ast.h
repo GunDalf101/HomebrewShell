@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/05 01:53:52 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/05 03:30:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef struct s_ast			t_ast;
+typedef struct s_ast		t_ast;
 enum						e_ast_type
 {
 	ast_cmd,
@@ -87,12 +87,11 @@ struct						s_ast
 		struct s_subshell	subshell;
 	} u_data;
 };
-t_ast							*add_new_cmd(char *cmd, char **args, int arg_count);
-t_ast							*add_new_subshell(t_ast *child);
-t_ast							*add_new_operation(enum e_ast_type type, t_ast *left,
-								t_ast *right);
-t_ast							*add_new_redirect(int fd, char *path, t_ast *child,
+t_ast						*add_new_cmd(char *cmd, char **args, int arg_count);
+t_ast						*add_new_subshell(t_ast *child);
+t_ast						*add_new_operation(enum e_ast_type type,
+								t_ast *left, t_ast *right);
+t_ast						*add_new_redirect(int fd, char *path, t_ast *child,
 								int tag);
-t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
-int execute_commands(t_ast* node);
+t_ast						*add_new_heredoc(char *delimiter, t_ast *child);
 #endif
