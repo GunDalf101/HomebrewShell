@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/05 01:30:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/05 01:53:52 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ t_ast							*add_new_operation(enum e_ast_type type, t_ast *left,
 t_ast							*add_new_redirect(int fd, char *path, t_ast *child,
 								int tag);
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
+int execute_commands(t_ast* node);
 #endif
