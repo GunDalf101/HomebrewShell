@@ -6,13 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:21:46 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/05 03:29:27 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/06 23:12:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	execute_redirect(t_ast *node)
+int	execute_redirect(t_ast *node,t_env **env)
 {
 	int	open_flags;
 	int	file_flags;
@@ -36,7 +36,7 @@ int	execute_redirect(t_ast *node)
 	}
 	dup2(file_fd, node->u_data.redirect.fd);
 	close(file_fd);
-	return (execute_commands(node->u_data.redirect.child));
+	return (execute_commands(node->u_data.redirect.child,env));
 }
 
 void	heredoc_reading_input(t_ast *node, int pipefd[2])
@@ -67,7 +67,7 @@ void	heredoc_reading_input(t_ast *node, int pipefd[2])
 	exit(0);
 }
 
-int	execute_heredoc(t_ast *node)
+int	execute_heredoc(t_ast *node,t_env **env)
 {
 	int		pipefd[2];
 	int		status;
@@ -84,7 +84,7 @@ int	execute_heredoc(t_ast *node)
 	{
 		close(pipefd[1]);
 		dup2(pipefd[0], STDIN_FILENO);
-		execute_commands(node->u_data.heredoc.child);
+		execute_commands(node->u_data.heredoc.child,env);
 		close(pipefd[0]);
 		waitpid(pid, &status, 0);
 	}

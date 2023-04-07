@@ -1,0 +1,10 @@
+{
+"C_Cpp.errorSquiggles": "disabled",
+"files.associations": {
+	"libft.h": "c",
+	"minishell.h": "c",
+	"execute.h": "c",
+	"commands.h": "c",
+	"__node_handle": "c"
+}
+}

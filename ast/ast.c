@@ -6,13 +6,14 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/05 01:41:55 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/06 21:04:22 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-t_ast	*add_new_cmd(char *cmd, char **args, int arg_count)
+t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
+		enum e_ast_type type)
 {
 	t_ast	*node;
 	int		i;
@@ -22,7 +23,7 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count)
 	{
 		return (NULL);
 	}
-	node->type = ast_cmd;
+	node->type = type;
 	node->u_data.cmd.cmd = cmd;
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!node->u_data.cmd.args)
