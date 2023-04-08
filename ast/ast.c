@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/06 21:04:22 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/08 02:07:59 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_ast	*add_new_operation(enum e_ast_type type, t_ast *left, t_ast *right)
 	return (node);
 }
 
-t_ast	*add_new_redirect(int fd, char *path, t_ast *child, int tag)
+t_ast	*add_new_redirect_out(char *outfile, t_ast *cmd, int tag)
 {
 	t_ast	*node;
 
@@ -81,11 +81,10 @@ t_ast	*add_new_redirect(int fd, char *path, t_ast *child, int tag)
 	{
 		return (NULL);
 	}
-	node->type = ast_redirect;
-	node->u_data.redirect.fd = fd;
-	node->u_data.redirect.path = path;
-	node->u_data.redirect.child = child;
-	node->u_data.redirect.tag = tag;
+	node->type = ast_redirect_in;
+	node->u_data.redirect_out.outfile = outfile;
+	node->u_data.redirect_out.cmd = cmd;
+	node->u_data.redirect_out.tag = tag;
 	return (node);
 }
 
@@ -99,7 +98,7 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 		return (NULL);
 	}
 	node->type = ast_heredoc;
-	node->u_data.heredoc.delimiter = delimiter;
-	node->u_data.heredoc.child = child;
+	node->u_data.heredoc.delim = delimiter;
+	node->u_data.heredoc.cmd = child;
 	return (node);
 }

@@ -6,93 +6,108 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/07 01:40:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/08 20:19:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
-#include<unistd.h>
-#include <stdlib.h>
-#include "../env/env.h"
-typedef struct s_ast		t_ast;
-enum						e_ast_type
+# include "../env/env.h"
+# include <stdlib.h>
+# include <unistd.h>
+typedef struct s_ast			t_ast;
+enum							e_ast_type
 {
 	ast_cmd,
 	ast_imp,
 	ast_pipe,
-	ast_redirect,
+	ast_redirect_out,
 	ast_heredoc,
+	ast_redirect_in,
 	ast_and,
 	ast_or,
 	ast_subshell,
 	ast_exit,
 };
 
-struct						s_cmd
+struct							s_cmd
 {
-	char					*cmd;
-	char					**args;
-	int						arg_count;
+	char						*cmd;
+	char						**args;
+	int							arg_count;
 };
 
-struct						s_operation
+struct							s_operation
 {
-	t_ast					*left;
-	t_ast					*right;
+	t_ast						*left;
+	t_ast						*right;
 };
 
-struct						s_redirect
+struct							s_redirect_out
 {
-	int						fd;
-	char					*path;
-	t_ast					*child;
-	int						tag;
+	char						*outfile;
+	t_ast						*cmd;
+	int							tag;
+	t_ast						*next;
 };
 
-struct						s_heredoc
+struct							s_redirect_in
 {
-	char					*delimiter;
-	t_ast					*child;
+	char						*infile;
+	t_ast						*cmd;
+	t_ast						*next;
 };
 
-struct						s_and
+typedef struct s_heredoc
 {
-	t_ast					*left;
-	t_ast					*right;
+	char						*delim;
+	t_ast						*cmd;
+	t_ast						*next;
+	char						*tmp;
+}								t_heredoc;
+
+struct							s_and
+{
+	t_ast						*left;
+	t_ast						*right;
 };
 
-struct						s_or
+struct							s_or
 {
-	t_ast					*left;
-	t_ast					*right;
+	t_ast						*left;
+	t_ast						*right;
 };
 
-struct						s_subshell
+struct							s_subshell
 {
-	t_ast					*child;
+	t_ast						*child;
 };
 
-struct						s_ast
+struct							s_ast
 {
-	enum e_ast_type			type;
+	enum e_ast_type				type;
 	union
 	{
-		struct s_cmd		cmd;
-		struct s_operation	operation;
-		struct s_redirect	redirect;
-		struct s_heredoc	heredoc;
-		struct s_and		_and;
-		struct s_or			_or;
-		struct s_subshell	subshell;
-		t_env				envadds;
+		struct s_cmd			cmd;
+		struct s_operation		operation;
+		struct s_redirect_in	redirect_in;
+		struct s_redirect_out	redirect_out;
+		struct s_heredoc		heredoc;
+		struct s_and			_and;
+		struct s_or				_or;
+		struct s_subshell		subshell;
+		t_env					envadds;
 	} u_data;
 };
-t_ast						*add_new_cmd(char *cmd, char **args, int arg_count,enum e_ast_type type);
-t_ast						*add_new_subshell(t_ast *child);
-t_ast						*add_new_operation(enum e_ast_type type,
-								t_ast *left, t_ast *right);
-t_ast						*add_new_redirect(int fd, char *path, t_ast *child,
-								int tag);
-t_ast						*add_new_heredoc(char *delimiter, t_ast *child);
+t_ast							*add_new_cmd(char *cmd, char **args,
+									int arg_count, enum e_ast_type type);
+t_ast							*add_new_subshell(t_ast *child);
+t_ast	*add_new_operation(enum e_ast_type type,
+							t_ast *left,
+							t_ast *right);
+t_ast	*add_new_redirectout(char *path,
+							t_ast *cmd,
+							int tag);
+
+t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
 #endif

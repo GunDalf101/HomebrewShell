@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/04/08 21:21:27 by mlektaib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
@@ -8,7 +20,6 @@ int		exportcmd(t_env *head);
 int		exportadd(t_env **head, t_ast *node);
 int		envcmd(t_env *head);
 int		unsetcmd(t_env **head, t_ast *node);
-int		envadd(t_env **head, t_ast *node);
 int		check_key(char *key);
 int		pwd(void);
 char	*return_pwd(void);

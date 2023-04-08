@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/04/08 21:21:02 by mlektaib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "env.h"
 #include <string.h>
 
@@ -11,14 +23,16 @@ t_env	*key_value_to_list(char **env)
 	int k = 0;
 	while (*env != NULL)
 	{
+		k = 0;
 		keyvalue = ft_split(*env,'=');
 		d = ft_strlen(keyvalue[0])-1;
-		
+		k = 0;
 		if(keyvalue[0][d] == '+')
-		{
+		{	
 			keyvalue[0][d] = '\0';
 			k= 1;
 		}
+		
 		if(!keyvalue[1])
 			envadd_back(&head,envnew(keyvalue[0],ft_strdup(""),k));
 		else

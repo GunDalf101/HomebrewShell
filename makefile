@@ -1,9 +1,13 @@
 SRCS =	ast/ast.c \
 		execute/execute.c  \
 		execute/pipe.c \
-		execute/redhere.c \
+		execute/redirections.c\
+		execute/heredoc.c\
 		execute/subshell.c \
 		execute/execute_imp.c \
+		execute/checker.c \
+		execute/mix.c \
+		execute/rand_tmp.c\
 		main.c	\
 		commands/cd.c \
 		commands/echo.c \
@@ -12,8 +16,9 @@ SRCS =	ast/ast.c \
 		commands/pwd.c \
 		commands/unset.c \
 		env/env.c		\
-
-
+		env/lst2env.c	\
+		gnl/get_next_line_utils.c \
+		gnl/get_next_line.c
 
 
 NAME = minishell

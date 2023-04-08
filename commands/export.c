@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/04/08 21:21:36 by mlektaib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "commands.h"
 #include <stdio.h>
 int	assign_ranks(t_env *head)
@@ -9,12 +21,7 @@ int	assign_ranks(t_env *head)
 	int		rank;
 
 	temp = head;
-	size = 0;
-	while (temp != NULL)
-	{
-		size++;
-		temp = temp->next;
-	}
+	size = lstsize(head);
 	int l = 0;
 	arr = malloc(sizeof(t_env *));
 	while(l < size)
@@ -97,9 +104,9 @@ int	exportadd(t_env **head,t_ast *node)
 			tmp = get_env(*head,new->key);
 			if(!tmp)
 				envadd_back(head, new);
-			else if( tmp->append == 0)
+			else if( new->append == 0)
 					tmp->value = new->value;
-			else if( tmp->append == 1)
+			else if( new->append == 1)
 				tmp->value = ft_strjoin(tmp->value,new->value);
 		}
 		else
