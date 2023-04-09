@@ -6,49 +6,50 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:21:46 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 02:11:40 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/08 23:00:42 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	execute_redirect_out(t_ast *node, t_env **env)
+t_ast	*getting_infile_fd(t_ast *node, int *infile_fd)
 {
 	int	open_flags;
 	int	file_flags;
-	int	file_fd;
-	t_ast *last;
 
-	while (node && node->type == ast_redirect_out)
+	open_flags = O_RDONLY;
+	file_flags = 0633;
+	*infile_fd = open(node->u_data.redirect_in.infile, open_flags, file_flags);
+	if (*infile_fd == -1)
 	{
-		if (node->u_data.redirect_out.tag  == 1)
-		{
-			open_flags = O_WRONLY | O_CREAT | O_TRUNC;
-			file_flags = 0633;
-		}
-		else if (node->u_data.redirect_out.tag  == 2)
-		{
-			open_flags = O_WRONLY | O_CREAT | O_APPEND;
-			file_flags = 0633;
-		}
-		file_fd = open(node->u_data.redirect_out.outfile, open_flags,
-				file_flags);
-		if (file_fd == -1)
-		{
-			perror(node->u_data.redirect_out.outfile);
-			exit(1);
-		}
-		last = node;
-		node = node->u_data.redirect_out.next;
+		perror(node->u_data.redirect_in.infile);
 	}
-	dup2(file_fd, STDOUT_FILENO);
-	close(file_fd);
-	return (execute_commands(last->u_data.redirect_out.cmd, env));
+	return (node->u_data.redirect_in.next);
 }
 
-int	execute_redirect_in(t_ast *node, t_env **env)
+t_ast	*create_red_files(t_ast *node, int *outfile_fd)
 {
-	int i = 0;
-	i++;
-	return (execute_commands(node->u_data.redirect_in.cmd, env));
+	int	file_flags;
+	int	open_flags;
+
+	file_flags = 0;
+	open_flags = 0;
+	if (node->u_data.redirect_out.tag == 1)
+	{
+		open_flags = O_WRONLY | O_CREAT | O_TRUNC;
+		file_flags = 0633;
+	}
+	else if (node->u_data.redirect_out.tag == 2)
+	{
+		open_flags = O_WRONLY | O_CREAT | O_APPEND;
+		file_flags = 0633;
+	}
+	*outfile_fd = open(node->u_data.redirect_out.outfile, open_flags,
+			file_flags);
+	if (*outfile_fd == -1)
+	{
+		perror(node->u_data.redirect_out.outfile);
+		exit(1);
+	}
+	return (node->u_data.redirect_out.next);
 }

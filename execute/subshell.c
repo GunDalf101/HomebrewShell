@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/06 23:12:58 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/08 22:42:40 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid)
 	return (status);
 }
 
-int	execute_subshell(t_ast *node,t_env **env)
+int	execute_subshell(t_ast *node, t_env **env)
 {
 	int		pipefd[2];
 	int		subshell_status;
@@ -48,7 +48,7 @@ int	execute_subshell(t_ast *node,t_env **env)
 	{
 		close(pipefd[0]);
 		dup2(pipefd[1], STDIN_FILENO);
-		subshell_status = execute_commands(node->u_data.subshell.child,env);
+		subshell_status = execute_commands(node->u_data.subshell.child, env);
 		write(pipefd[1], &subshell_status, sizeof(int));
 		exit(0);
 	}

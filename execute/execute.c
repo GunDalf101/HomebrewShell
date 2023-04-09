@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 05:51:02 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/08 22:42:22 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	int		status;
 	pid_t	pid;
 
-	if (node == NULL)
+	if (node == NULL || infile_fd == STDIN_FILENO)
 		return (0);
 	status = check_cmd(node, *env);
 	if (status)
@@ -30,34 +30,13 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 		exit(1);
 	}
 	else if (pid == 0)
-	{
-		if (infile_fd != STDIN_FILENO)
-		{
-			if (dup2(infile_fd, STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-			close(infile_fd);
-		}
-		if (outfile_fd != STDOUT_FILENO)
-		{
-			if (dup2(outfile_fd, STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(1);
-			}
-			close(outfile_fd);
-		}
-		execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
-		perror(node->u_data.cmd.cmd);
-		exit(1);
-	}
+		execute_command_fd(node, env, infile_fd, outfile_fd);
 	else
 	{
 		waitpid(pid, &status, 0);
 		return (status);
 	}
+	return (1);
 }
 
 int	execute_simple_command(t_ast *node, t_env **env)
@@ -126,7 +105,7 @@ int	execute_commands(t_ast *node, t_env **env)
 	else if (node->type == ast_pipe)
 		return (create_pipe(node, env));
 	else if (node->type == ast_redirect_in || node->type == ast_redirect_out
-			|| node->type == ast_heredoc)
+		|| node->type == ast_heredoc)
 		return (execute_redirect_heredoc(node, env));
 	else if (node->type == ast_subshell)
 		return (execute_subshell(node, env));

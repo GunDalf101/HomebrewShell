@@ -17,8 +17,6 @@ SRCS =	ast/ast.c \
 		commands/unset.c \
 		env/env.c		\
 		env/lst2env.c	\
-		gnl/get_next_line_utils.c \
-		gnl/get_next_line.c
 
 
 NAME = minishell
@@ -28,16 +26,16 @@ OBJS = $(SRCS:.c=.o)
 
 MH = execute/exectue.h ast/ast.h commands/commands.h env/env.h minishell.h libft.h
 
-CC_FLAGS = -lreadline#-Wall -Wextra -Werror
+CC_FLAGS = 
 
 all: $(NAME)
 
+$(NAME): $(OBJS)
+	cc $(OBJS) libft.a -o $(NAME) -L$(shell brew --prefix readline)/lib -lreadline
 
 %.o : %.c $(MH)
-	cc $(CC_FLAGS) -c $< -o $@
+	cc  -I$(shell brew --prefix readline)/include -c $< -o $@ -I minishell.h
 
-$(NAME): $(OBJS)
-	cc $(OBJS) libft.a -o $(NAME) -lreadline
 
 	
 
