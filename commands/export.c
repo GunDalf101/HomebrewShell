@@ -6,142 +6,117 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 21:21:36 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/10 03:18:46 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 #include <stdio.h>
-int	assign_ranks(t_env *head)
-{
-	t_env	*temp;
-	int		size;
-	t_env	**arr;
-	t_env	*tmp;
-	int		rank;
-
-	temp = head;
-	size = lstsize(head);
-	int l = 0;
-	arr = malloc(sizeof(t_env *));
-	while(l < size)
-	{
-		arr[l] = malloc(sizeof(t_env));
-		l++;
-	}
-	temp = head;
-	for (int i = 0; i < size; i++)
-	{
-		arr[i] = temp;
-		temp = temp->next;
-	}
-	for (int i = 0; i < size; i++)
-	{
-		for (int j = 0; j < size - i - 1; j++)
-		{
-			if (strcmp(arr[j]->key, arr[j + 1]->key) > 0)
-			{
-				tmp = arr[j];
-				arr[j] = arr[j + 1];
-				arr[j + 1] = tmp;
-			}
-		}
-	}
-	rank = 1;
-		
-
-	for (int i = 0; i < size; i++)
-	{
-		arr[i]->rank = rank;
-		if (i < size - 1 && strcmp(arr[i]->key, arr[i + 1]->key) < 0)
-		{
-			rank++;
-		}
-	}
-	return (size);
-}
 
 int	exportcmd(t_env *head)
 {
 	int		size;
-	t_env	*tmp;
+	char	**env;
 	int		i;
 
-	
-	size = assign_ranks(head);
-	tmp = head;
-	i = 1;
-	while (i <= size)
+	size = lstsize(head);
+	env = lst_to_env(head);
+	sort_env(env, size);
+	i = 0;
+	while (i < size)
 	{
-		if (tmp->rank == i)
-		{
-			ft_putstr_fd("declare -x ", 1);
-			ft_putstr_fd(tmp->key, 1);
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd("\"", 1);
-			ft_putstr_fd(tmp->value, 1);
-			ft_putstr_fd("\"\n", 1);
-			i++;
-			tmp = head;
-		}
-		tmp = tmp->next;
-		if (!tmp)
-			tmp = head;
+		ft_putendl_fd(env[i], 1);
+		i++;
 	}
+	free_env(env, size);
 	return (0);
 }
-int	exportadd(t_env **head,t_ast *node)
+
+void	display_export_error(t_env *new, int *k)
 {
-	int k = 0;
-	t_env *tmp;
-	if(!node->u_data.cmd.args[1])
-		exportcmd(*head);
-	t_env *new = key_value_to_list(node->u_data.cmd.args+1);
+	ft_putstr_fd("bash: export: ", 1);
+	ft_putstr_fd("\'", 1);
+	ft_putstr_fd(new->key, 1);
+	ft_putstr_fd("=", 1);
+	ft_putstr_fd(new->value, 1);
+	ft_putstr_fd("\'", 1);
+	ft_putendl_fd(": not a valid identifier", 1);
+	free(new->key);
+	free(new->value);
+	free(new);
+	*k = 1;
+}
+
+void	add_to_env(t_env **head, t_env *new)
+{
+	t_env	*tmp;
+	char	*tmpvalue;
+
+	tmp = get_env(*head, new->key);
+	if (!tmp)
+		envadd_back(head, new);
+	else if (new->append == 0)
+	{
+		tmpvalue = tmp->value;
+		tmp->value = new->value;
+		free(tmpvalue);
+		free(new->key);
+		free(new);
+	}
+	else if (new->append == 1)
+	{
+		tmpvalue = tmp->value;
+		tmp->value = ft_strjoin(tmp->value, new->value);
+		free(tmpvalue);
+		free(new->value);
+		free(new->key);
+		free(new);
+	}
+}
+
+int	exportadd(t_env **head, t_ast *node)
+{
+	int		k;
+	t_env	*new;
+	t_env	*newhead;
+	t_env	*prenext;
+
+	k = 0;
+	if (!node->u_data.cmd.args[1])
+		return (exportcmd(*head));
+	new = key_value_to_list(node->u_data.cmd.args + 1);
+	newhead = new;
 	while (new)
 	{
+		prenext = new->next;
 		if (check_key(new->key))
-		{
-			tmp = get_env(*head,new->key);
-			if(!tmp)
-				envadd_back(head, new);
-			else if( new->append == 0)
-					tmp->value = new->value;
-			else if( new->append == 1)
-				tmp->value = ft_strjoin(tmp->value,new->value);
-		}
+			add_to_env(head, new);
 		else
-		{
-			ft_putstr_fd("bash: export: ",1);
-			ft_putstr_fd("\'",1);
-			ft_putstr_fd(new->key, 1);
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd(new->value, 1);
-			ft_putstr_fd("\'",1);
-			ft_putendl_fd(": not a valid identifier",1);
-			k = 1;
-		}
-		new = new->next;
+			display_export_error(new, &k);
+		new = prenext;
 	}
-	return k;
+	return (k);
 }
+
 int	exportadd_for_cd(t_env **head, t_env *new)
 {
-	int k = 0;
-	t_env *tmp;
+	int		k;
+	t_env	*tmp;
+
+	k = 0;
 	while (new)
 	{
 		if (check_key(new->key))
 		{
-			tmp = get_env(*head,new->key);
-			if(!tmp)
+			tmp = get_env(*head, new->key);
+			if (!tmp)
 				envadd_back(head, new);
 			else
-					tmp->value = new->value;
+				tmp->value = new->value;
 		}
 		else
 			k = 1;
 		new = new->next;
 	}
-
 	return (k);
 }

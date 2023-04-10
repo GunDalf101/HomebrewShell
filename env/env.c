@@ -6,43 +6,42 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 21:21:02 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/10 03:15:27 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <string.h>
 
-
 t_env	*key_value_to_list(char **env)
 {
-	t_env *head;
+	t_env	*head;
+	char	**keyvalue;
+	int		d;
+	int		k;
+
 	head = NULL;
-	char **keyvalue;
-	int d ;
-	int k = 0;
+	k = 0;
 	while (*env != NULL)
 	{
 		k = 0;
-		keyvalue = ft_split(*env,'=');
-		d = ft_strlen(keyvalue[0])-1;
-		k = 0;
-		if(keyvalue[0][d] == '+')
-		{	
-			keyvalue[0][d] = '\0';
-			k= 1;
+		keyvalue = ft_split(*env, '=');
+		d = ft_strlen(keyvalue[0]) - 1;
+		if (keyvalue[0][d] == '+')
+		{
+			keyvalue[0] = append_env_mode(keyvalue[0], &k);
 		}
-		
-		if(!keyvalue[1])
-			envadd_back(&head,envnew(keyvalue[0],ft_strdup(""),k));
+		if (!keyvalue[1])
+			envadd_back(&head, envnew(keyvalue[0], ft_strdup(""), k));
 		else
-			envadd_back(&head,envnew(keyvalue[0],keyvalue[1],k));
+			envadd_back(&head, envnew(keyvalue[0], keyvalue[1], k));
+		free(keyvalue);
 		env++;
 	}
-	return head;
+	return (head);
 }
 
-t_env	*envnew(char *key, char *value,int append)
+t_env	*envnew(char *key, char *value, int append)
 {
 	t_env	*new;
 
@@ -51,7 +50,7 @@ t_env	*envnew(char *key, char *value,int append)
 		return (0);
 	new->key = key;
 	new->value = value;
-	new->append =  append;
+	new->append = append;
 	new->next = NULL;
 	return (new);
 }
@@ -71,33 +70,36 @@ void	envadd_back(t_env **head, t_env *node)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
+	node->next = NULL;
 }
 
 t_env	*load_env(char **env)
 {
-	t_env *head;
+	t_env	*head;
+	char	**keyvalue;
+
 	head = NULL;
-	char **keyvalue;
 	while (*env != NULL)
 	{
-		keyvalue = ft_split(*env,'=');
-		envadd_back(&head,envnew(keyvalue[0],keyvalue[1],0));
+		keyvalue = ft_split(*env, '=');
+		envadd_back(&head, envnew(keyvalue[0], keyvalue[1], 0));
 		env++;
 	}
-	return head;
+	return (head);
 }
 
-t_env *get_env(t_env *head,char *env)
+t_env	*get_env(t_env *head, char *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
+
 	tmp = head;
-	if(!env)
-		return 0;
-	while(tmp)
+	if (!env)
+		return (0);
+	while (tmp)
 	{
-		if(strcmp(tmp->key,env) == 0)
-			return(tmp);
+		if (strcmp(tmp->key, env) == 0)
+			return (tmp);
 		tmp = tmp->next;
 	}
-	return 0;
+	return (0);
 }

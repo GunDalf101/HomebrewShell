@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 20:19:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/10 01:49:22 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../env/env.h"
 # include <stdlib.h>
 # include <unistd.h>
+
 typedef struct s_ast			t_ast;
 enum							e_ast_type
 {
@@ -99,15 +100,14 @@ struct							s_ast
 		t_env					envadds;
 	} u_data;
 };
+
 t_ast							*add_new_cmd(char *cmd, char **args,
 									int arg_count, enum e_ast_type type);
 t_ast							*add_new_subshell(t_ast *child);
-t_ast	*add_new_operation(enum e_ast_type type,
-							t_ast *left,
-							t_ast *right);
-t_ast	*add_new_redirectout(char *path,
-							t_ast *cmd,
-							int tag);
-
+t_ast							*add_new_operation(enum e_ast_type type,
+									t_ast *left, t_ast *right);
+t_ast							*add_new_redirectout(char *path, t_ast *cmd,
+									int tag);
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
+
 #endif

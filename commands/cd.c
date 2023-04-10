@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 21:21:24 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/10 01:55:57 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	cd(t_ast *node, t_env **env)
 			path = ft_strjoin("/Users/", get_env(*env, "USER")->value);
 			if (get_env(*env, "OLDPWD"))
 				exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
-			else if (chdir(path) == 0)
+			if (chdir(path) == 0)
 			{
 				free(path);
 				return (0);
@@ -33,8 +33,7 @@ int	cd(t_ast *node, t_env **env)
 		}
 		else if (!strcmp(node->u_data.cmd.args[1], "-"))
 		{
-			
-			if(get_env(*env, "OLDPWD"))
+			if (get_env(*env, "OLDPWD"))
 				path = get_env(*env, "OLDPWD")->value;
 			if (!path)
 			{

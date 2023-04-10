@@ -15,6 +15,7 @@ SRCS =	ast/ast.c \
 		commands/export.c \
 		commands/pwd.c \
 		commands/unset.c \
+		commands/sort_env.c \
 		env/env.c		\
 		env/lst2env.c	\
 
@@ -30,14 +31,15 @@ CC_FLAGS =
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	cc $(OBJS) libft.a -o $(NAME) -L$(shell brew --prefix readline)/lib -lreadline
-
-%.o : %.c $(MH)
-	cc  -I$(shell brew --prefix readline)/include -c $< -o $@ -I minishell.h
+$(NAME): $(OBJS) $(LIBFT)
+	@cc  $(OBJS) libft.a -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	@echo "minishell created"
 
 
-	
+%.o:%.c 
+	@echo "Building $@..."
+	@$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@ -I ./minishell.h
+	@echo "Done building $@!"
 
 clean:
 	rm -f $(OBJS) $(OBJSB)
