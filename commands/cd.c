@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 01:55:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/10 04:50:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 int	cd(t_ast *node, t_env **env)
 {
-	char *path = NULL;
+	char	*path;
+
+	path = NULL;
 	if (!node->u_data.cmd.args[1])
 		return (0);
 	else
@@ -37,10 +39,10 @@ int	cd(t_ast *node, t_env **env)
 				path = get_env(*env, "OLDPWD")->value;
 			if (!path)
 			{
-				printf("dfsafd\n");
 				ft_putendl_fd("bash: cd: OLDPWD not set", 2);
+				return (1);
 			}
-			else if (chdir(path) == 0)
+			if (chdir(path) == 0)
 			{
 				exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
 				return (0);
@@ -48,10 +50,12 @@ int	cd(t_ast *node, t_env **env)
 		}
 		else
 		{
+			if (get_env(*env, "OLDPWD"))
+				path = get_env(*env, "OLDPWD")->value;
 			if (chdir(node->u_data.cmd.args[1]) == 0)
 			{
 				if (get_env(*env, "OLDPWD"))
-					exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
+					exportadd_for_cd(env, envnew("OLDPWD", path, 0));
 				return (0);
 			}
 			else

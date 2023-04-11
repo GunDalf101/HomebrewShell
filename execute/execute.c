@@ -6,11 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 22:42:22 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/11 01:34:25 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+extern int run;
+
 
 int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
@@ -18,11 +20,13 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	int		status;
 	pid_t	pid;
 
-	if (node == NULL || infile_fd == STDIN_FILENO)
+	
+	if (node == NULL)
 		return (0);
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
+	run = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -34,6 +38,7 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	else
 	{
 		waitpid(pid, &status, 0);
+		run = 0;
 		return (status);
 	}
 	return (1);
@@ -47,6 +52,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
+	run = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -55,6 +61,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	}
 	else if (pid == 0)
 	{
+		// signal(SIGINT, SIG_DFL);
 		execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
 		perror(node->u_data.cmd.cmd);
 		exit(1);
@@ -62,6 +69,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		run = 0;
 		return (status);
 	}
 }

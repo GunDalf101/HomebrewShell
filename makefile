@@ -18,6 +18,8 @@ SRCS =	ast/ast.c \
 		commands/sort_env.c \
 		env/env.c		\
 		env/lst2env.c	\
+		gnl/get_next_line_utils.c \
+		gnl/get_next_line.c 
 
 
 NAME = minishell
@@ -38,7 +40,7 @@ $(NAME): $(OBJS) $(LIBFT)
 
 %.o:%.c 
 	@echo "Building $@..."
-	@$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@ -I ./minishell.h
+	@$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
 	@echo "Done building $@!"
 
 clean:

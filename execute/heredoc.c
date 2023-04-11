@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 22:51:23 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/11 01:32:32 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_last_heredoc(t_ast *node)
 {
-	if (node->u_data.heredoc.next)
+	if (node->u_data.heredoc.next || !node->u_data.heredoc.next)
 	{
 		if (!node->u_data.heredoc.next
 			|| node->u_data.heredoc.next->type != ast_heredoc)
@@ -48,7 +48,7 @@ t_ast	*heredoc_handler(t_ast *node, int infile_fd)
 		end = check_last_heredoc(node);
 		buffer = readline("heredoc> ");
 		if (!buffer)
-			exit(1);
+			break;
 		if (strcmp(buffer, node->u_data.heredoc.delim) == 0)
 		{
 			node = node->u_data.heredoc.next;
@@ -75,13 +75,13 @@ void	open_tmp_file(t_ast *node, int *infile_fd)
 	if (*infile_fd == -1)
 	{
 		perror(node->u_data.heredoc.tmp);
-		exit(1);
+		return ;
 	}
 	open_flags = O_WRONLY | O_CREAT | O_APPEND;
 	*infile_fd = open(node->u_data.heredoc.tmp, open_flags, file_flags);
 	if (*infile_fd == -1)
 	{
 		perror(node->u_data.heredoc.tmp);
-		exit(1);
+		return ;
 	}
 }

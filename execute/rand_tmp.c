@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:53 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 21:20:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/11 01:18:25 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	generate_rand(void)
 	a = 1103515245;
 	c = 12345;
 	m = 214748368;
-	ref = 0;
 	ref += (unsigned int)get_time();
 	ref = (a * ref + c) % m;
 	x = ref;

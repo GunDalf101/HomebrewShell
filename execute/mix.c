@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/09 06:02:51 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/11 01:39:08 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	fd_init(t_fd *fd)
 {
 	fd->error = 0;
 	fd->infile_fd = 0;
-	fd->error = 0;
+	fd->outfile_fd = 1;
 }
 
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
@@ -61,7 +61,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	cmd = get_cmd_node(node);
 	while (node)
 	{
-		if (fd.infile_fd == -1)
+		if (fd.infile_fd == -1 || fd.outfile_fd == -1)
 			fd.error = 1;
 		if (node->type == ast_redirect_out)
 			node = create_red_files(node, &fd.outfile_fd);

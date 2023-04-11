@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 01:49:32 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 01:49:56 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/11 00:33:06 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+void	handler(int sig);
 
 #endif
