@@ -6,12 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/11 01:39:08 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:12:51 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
+extern int run;
 void	fd_init(t_fd *fd)
 {
 	fd->error = 0;
@@ -22,18 +23,25 @@ void	fd_init(t_fd *fd)
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
 {
-	if (dup2(infile_fd, STDIN_FILENO) == -1)
+	infile_fd = open("/tmp/heredoc", O_WRONLY | O_APPEND, 0777);
+	if (infile_fd != STDIN_FILENO)
 	{
-		perror("dup2");
-		exit(1);
+		if (dup2(infile_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(infile_fd);
 	}
-	close(infile_fd);
-	if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+	if (outfile_fd != STDOUT_FILENO)
 	{
-		perror("dup2");
-		exit(1);
+		if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(outfile_fd);
 	}
-	close(outfile_fd);
 	execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
 	perror(node->u_data.cmd.cmd);
 	exit(1);
@@ -58,8 +66,9 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	t_ast	*cmd;
 
 	fd_init(&fd);
-	cmd = get_cmd_node(node);
-	while (node)
+	if (!fd.error)
+		cmd = get_cmd_node(node);
+	while (node && run != 130)
 	{
 		if (fd.infile_fd == -1 || fd.outfile_fd == -1)
 			fd.error = 1;
@@ -76,7 +85,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = node->u_data.heredoc.next;
 		}
 	}
-	if (!fd.error)
+	if (!fd.error && run != 130)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
-	return (0);
+	return (run);
 }

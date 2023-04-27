@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/11 01:16:14 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/27 08:13:39 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 	node->type = ast_heredoc;
 	node->u_data.heredoc.delim = delimiter;
 	node->u_data.heredoc.cmd = child;
-	node->u_data.heredoc.next =NULL;
+	node->u_data.heredoc.next = NULL;
 	return (node);
 }

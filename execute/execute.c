@@ -6,13 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/11 01:34:25 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/27 08:42:51 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-extern int run;
 
+extern int	run;
 
 int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
@@ -20,7 +20,6 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	int		status;
 	pid_t	pid;
 
-	
 	if (node == NULL)
 		return (0);
 	status = check_cmd(node, *env);
@@ -113,7 +112,7 @@ int	execute_commands(t_ast *node, t_env **env)
 	else if (node->type == ast_pipe)
 		return (create_pipe(node, env));
 	else if (node->type == ast_redirect_in || node->type == ast_redirect_out
-		|| node->type == ast_heredoc)
+			|| node->type == ast_heredoc)
 		return (execute_redirect_heredoc(node, env));
 	else if (node->type == ast_subshell)
 		return (execute_subshell(node, env));
