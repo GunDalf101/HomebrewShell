@@ -6,13 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/27 11:12:51 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:35:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-extern int run;
+extern int	run;
 void	fd_init(t_fd *fd)
 {
 	fd->error = 0;
@@ -23,7 +23,6 @@ void	fd_init(t_fd *fd)
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
 {
-	infile_fd = open("/tmp/heredoc", O_WRONLY | O_APPEND, 0777);
 	if (infile_fd != STDIN_FILENO)
 	{
 		if (dup2(infile_fd, STDIN_FILENO) == -1)
@@ -72,14 +71,14 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	{
 		if (fd.infile_fd == -1 || fd.outfile_fd == -1)
 			fd.error = 1;
-		if (node->type == ast_redirect_out)
+		else if (node->type == ast_redirect_out)
 			node = create_red_files(node, &fd.outfile_fd);
 		else if (node->type == ast_redirect_in)
 			node = getting_infile_fd(node, &fd.infile_fd);
 		else if (node->type == ast_heredoc)
 		{
 			open_tmp_file(node, &fd.infile_fd);
-			node = heredoc_handler(node, fd.infile_fd);
+			node = heredoc_handler(node, &fd.infile_fd);
 			if (!node || node->type != ast_heredoc)
 				continue ;
 			node = node->u_data.heredoc.next;

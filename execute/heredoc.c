@@ -6,10 +6,11 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/27 11:15:07 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:35:35 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../gnl/get_next_line.h"
 #include "../minishell.h"
 #include "execute.h"
 
@@ -44,7 +45,7 @@ void	write_heredoc_file(char *buffer, int infile_fd)
 	}
 }
 
-t_ast	*heredoc_handler(t_ast *node, int infile_fd)
+t_ast	*heredoc_handler(t_ast *node, int *infile_fd)
 {
 	char	*buffer;
 	int		end;
@@ -59,6 +60,7 @@ t_ast	*heredoc_handler(t_ast *node, int infile_fd)
 		signal(SIGINT, her_handler);
 		while (node && node->type == ast_heredoc)
 		{
+			buffer = NULL;
 			end = check_last_heredoc(node);
 			buffer = readline("heredoc> ");
 			if (!buffer)
@@ -69,14 +71,15 @@ t_ast	*heredoc_handler(t_ast *node, int infile_fd)
 				if (!node || node->type != ast_heredoc)
 					continue ;
 			}
-			if (end)
-				write_heredoc_file(buffer, infile_fd);
+			else if (end)
+				write_heredoc_file(buffer, *infile_fd);
 			free(buffer);
 		}
 		exit(0);
 	}
 	else
 	{
+		*infile_fd = open(node->u_data.heredoc.tmp, O_RDWR | O_EXCL, 0600);
 		while (node && node->type == ast_heredoc)
 			node = node->u_data.heredoc.next;
 		waitpid(pid, &status, 0);
@@ -90,8 +93,8 @@ t_ast	*heredoc_handler(t_ast *node, int infile_fd)
 
 void	open_tmp_file(t_ast *node, int *infile_fd)
 {
-
-	*infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	*infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_CREAT | O_TRUNC,
+			0777);
 	if (*infile_fd == -1)
 	{
 		perror(node->u_data.heredoc.tmp);

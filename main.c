@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:28 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/27 11:08:03 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:32:08 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	else if (run == 1)
+	else
 		write(STDOUT_FILENO, "\n", 1);
 }
 
@@ -33,7 +33,7 @@ int	main(int argc, char *argv[], char **env)
 	run = 0;
 	rl_catch_signals = 0;
 
-	char *heredoctmp = "/tmp/heredoc";
+	char *heredoctmp = ft_strjoin("/tmp/heredoc", ft_itoa(generate_rand()));
 	t_env *envlst = load_env(env);
 	t_env *tmp;
 
@@ -46,7 +46,7 @@ int	main(int argc, char *argv[], char **env)
 	heredoc1->u_data.heredoc.delim = "dd";
 	heredoc1->u_data.heredoc.tmp = heredoctmp;
 
-	//wc -l << dd > test2 > test3
+	//wc -l << dd > test2 > test 3 < input
 	t_ast *in = malloc(sizeof(t_ast));
 	in->type = ast_redirect_in;
 	in->u_data.redirect_in.cmd = NULL;
@@ -75,6 +75,8 @@ int	main(int argc, char *argv[], char **env)
 	heredoc1->u_data.heredoc.next = heredoc2;
 	heredoc2->u_data.redirect_out.next = heredoc3;
 	heredoc3->u_data.redirect_out.next = NULL;
+	in->u_data.redirect_in.next = NULL;
+	//wc -l << dd > test2 > test3 < input 
 
 	if (signal(SIGINT, handler) == SIG_ERR)
 	{
@@ -85,7 +87,6 @@ int	main(int argc, char *argv[], char **env)
 	{
 		run = 0;
 		input = NULL;
-		input = NULL;
 		input = readline("minishell>");
 		add_history(input);
 		if (!input && run == 0)
@@ -94,7 +95,5 @@ int	main(int argc, char *argv[], char **env)
 			exit(0);
 		}
 		execute_commands(heredoc1, &envlst);
-
-		unlink(heredoctmp);
 	}
 }

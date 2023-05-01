@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/09 05:58:50 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/04/29 17:22:42 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		generate_rand(void);
 t_ast	*create_red_files(t_ast *node, int *outfile_fd);
 t_ast	*getting_infile_fd(t_ast *node, int *infile_fd);
 void	open_tmp_file(t_ast *node, int *infile_fd);
-t_ast	*heredoc_handler(t_ast *node, int infile_fd);
+t_ast	*heredoc_handler(t_ast *node, int *infile_fd);
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
 			int outfile_fd);
 typedef struct s_fd
