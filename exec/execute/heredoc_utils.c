@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:50:11 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 13:51:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 20:47:55 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishellexec.h"
 #include "execute.h"
 
 extern int	g_run;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:34:06 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:08:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_ast	*get_cmd_node(t_ast *node)
 {
 	t_ast	*cmd;
 
+	cmd = NULL;
 	if (node->type == ast_redirect_out)
 		cmd = node->u_data.redirect_out.cmd;
 	else if (node->type == ast_redirect_in)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 22:42:40 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:06:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid)
 {
+	(void)node;
 	int	read_result;
 	int	subshell_status;
 	int	subshell_exit_status;
@@ -37,7 +38,7 @@ int	execute_subshell(t_ast *node, t_env **env)
 	int		pipefd[2];
 	int		subshell_status;
 	pid_t	pid;
-	ssize_t	read_result;
+	// ssize_t	read_result;
 
 	if (pipe(pipefd) == -1)
 		exit(1);

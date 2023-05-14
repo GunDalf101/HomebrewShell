@@ -6,6 +6,8 @@
 	"commands.h": "c",
 	"readline.h": "c",
 	"env.h": "c",
-	"ast.h": "c"
+	"ast.h": "c",
+	"minishell.h": "c",
+	"minishellexec.h": "c"
 }
 }

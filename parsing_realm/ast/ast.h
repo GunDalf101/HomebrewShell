@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:19:00 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:16:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
-# include "../env/env.h"
 # include <stdlib.h>
 # include <unistd.h>
+# include "../../exec/env/env.h"
 
 typedef struct s_ast			t_ast;
 enum							e_ast_type

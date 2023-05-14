@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 15:37:30 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:55:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishellexec.h"
 #include "execute.h"
 
 extern int	g_run;
@@ -83,7 +83,6 @@ void	read_heredoc(t_ast *node, t_fd *fd, int *end, char *totalbuffer)
 
 t_ast	*heredoc_handler(t_ast *node, t_fd *fd)
 {
-	char	*buffer;
 	int		end;
 	char	*totalbuffer;
 	t_ast	*tmp;

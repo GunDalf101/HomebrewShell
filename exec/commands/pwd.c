@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:37 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/09 22:20:05 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:08:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ char	*return_pwd(void)
 int	pwd(void)
 {
 	char	*buffer;
-	size_t	size;
-	char	*re_buffer;
+	// size_t	size;
+	// char	*re_buffer;
 
 	buffer = return_pwd();
 	ft_putendl_fd(buffer, 1);

@@ -1,8 +1,29 @@
 NAME = minishell
 
-SOURCES = minishell.c \
-		ast/ast.c \
-		ast/clearast.c\
+SOURCES = exec/env/env.c		\
+		exec/env/lst2env.c	\
+		exec/env/clearenv.c \
+		parsing_realm/ast/ast.c \
+		parsing_realm/ast/clearast.c\
+		exec/execute/execute.c  \
+		exec/execute/pipe.c \
+		exec/execute/redirections.c\
+		exec/execute/finder.c \
+		exec/execute/heredoc.c\
+		exec/execute/heredoc_utils.c\
+		exec/execute/subshell.c \
+		exec/execute/execute_imp.c \
+		exec/execute/checker.c \
+		exec/execute/mix.c \
+		exec/execute/rand_tmp.c\
+		exec/commands/cd.c \
+		exec/commands/echo.c \
+		exec/commands/env.c \
+		exec/commands/export.c \
+		exec/commands/pwd.c \
+		exec/commands/unset.c \
+		exec/commands/sort_env.c \
+		minishell.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -18,11 +39,11 @@ all: libft $(NAME)
 	fi
 
 $(NAME):$(OBJECTS)
-	@$(CC) -o $@ $(OBJECTS) $(CFLAGS) $(LIBFT)
+	cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h
-	@$(CC) -c $(CFLAGS) $<
+	@$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
 	@echo "\033[33m$< compiled \033[0m"
 
 libft:

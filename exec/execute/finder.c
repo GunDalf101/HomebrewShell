@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   finder.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:56:30 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:02:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ extern int	g_run;
 
 void	command_sig(int sig)
 {
+	(void) sig;
 	write(1, "\n", 1);
 	g_run = 130;
 	exit(130);
