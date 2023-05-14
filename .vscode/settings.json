@@ -1,10 +1,11 @@
 {
   "files.associations": {
-    "execute.h": "c",
-    "history.h": "c",
-    "stdio.h": "c",
-    "commands.h": "c",
-    "readline.h": "c",
-    "env.h": "c"
-  }
+	"execute.h": "c",
+	"history.h": "c",
+	"stdio.h": "c",
+	"commands.h": "c",
+	"readline.h": "c",
+	"env.h": "c",
+	"ast.h": "c"
+}
 }

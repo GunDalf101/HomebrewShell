@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   clearenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 01:49:32 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:57:59 by mlektaib         ###   ########.fr       */
+/*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/05/11 18:28:46 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "env.h"
 
-# include "ast/ast.h"
-# include "commands/commands.h"
-# include "env/env.h"
-# include "execute/execute.h"
-# include "libft.h"
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/wait.h>
-# include <unistd.h>
+void	clearenv(t_env **head)
+{
+	t_env	*tmp;
 
-void	signal_hand(int signum);
-
-#endif
+	while (*head)
+	{
+		tmp = *head;
+		*head = (*head)->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
+	free(*head);
+}

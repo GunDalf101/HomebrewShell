@@ -6,105 +6,97 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/01 14:35:35 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 15:37:30 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../gnl/get_next_line.h"
 #include "../minishell.h"
 #include "execute.h"
 
-extern int	run;
+extern int	g_run;
 
-void	her_handler(int sig)
+int	handle_dupstdin_and_sig(void)
 {
-	exit(130);
-}
-int	check_last_heredoc(t_ast *node)
-{
-	if (node->u_data.heredoc.next || !node->u_data.heredoc.next)
+	int	dupstdin;
+
+	dupstdin = dup(0);
+	if (dupstdin == -1)
 	{
-		if (!node->u_data.heredoc.next
-			|| node->u_data.heredoc.next->type != ast_heredoc)
-			return (1);
+		perror("dup");
+		return (-1);
 	}
-	return (0);
+	signal(SIGINT, heredoc_sig);
+	return (dupstdin);
 }
 
-void	write_heredoc_file(char *buffer, int infile_fd)
+void	write_in_heredoc_file(char *totalbuffer, t_ast *tmp, t_fd *fd)
 {
-	if (write(infile_fd, buffer, strlen(buffer)) == -1)
+	write_heredoc_file(totalbuffer, tmp);
+	fd->infile_fd = open(tmp->u_data.heredoc.tmp, O_RDWR | O_EXCL, 0600);
+	if (fd->infile_fd == -1)
 	{
-		perror("write");
-		exit(1);
-	}
-	if (write(infile_fd, "\n", 1) == -1)
-	{
-		perror("write");
-		exit(1);
+		perror(tmp->u_data.heredoc.tmp);
+		fd->error = 1;
 	}
 }
 
-t_ast	*heredoc_handler(t_ast *node, int *infile_fd)
+void	redup_stdin(t_fd *fd)
+{
+	if (g_run == 130)
+	{
+		if (dup2(fd->dupstdin, 0) == -1)
+		{
+			perror("dup2");
+			fd->error = 1;
+		}
+	}
+}
+
+void	read_heredoc(t_ast *node, t_fd *fd, int *end, char *totalbuffer)
+{
+	char	*buffer;
+
+	while (node && node->type == ast_heredoc)
+	{
+		buffer = NULL;
+		*end = check_last_heredoc(node);
+		buffer = readline("heredoc> ");
+		if (!buffer)
+		{
+			redup_stdin(fd);
+			break ;
+		}
+		else if (strcmp(buffer, node->u_data.heredoc.delim) == 0)
+		{
+			node = node->u_data.heredoc.next;
+			if (!node || node->type != ast_heredoc)
+				continue ;
+		}
+		else if (*end)
+		{
+			buffer = ft_strjoin(buffer, "\n");
+			totalbuffer = ft_strjoin(totalbuffer, buffer);
+		}
+		free(buffer);
+	}
+}
+
+t_ast	*heredoc_handler(t_ast *node, t_fd *fd)
 {
 	char	*buffer;
 	int		end;
-	int		pid;
-	int		status;
+	char	*totalbuffer;
+	t_ast	*tmp;
 
+	fd->dupstdin = handle_dupstdin_and_sig();
+	tmp = node;
 	end = 0;
-	pid = fork();
-	run = 1;
-	if (pid == 0)
-	{
-		signal(SIGINT, her_handler);
-		while (node && node->type == ast_heredoc)
-		{
-			buffer = NULL;
-			end = check_last_heredoc(node);
-			buffer = readline("heredoc> ");
-			if (!buffer)
-				break ;
-			if (strcmp(buffer, node->u_data.heredoc.delim) == 0)
-			{
-				node = node->u_data.heredoc.next;
-				if (!node || node->type != ast_heredoc)
-					continue ;
-			}
-			else if (end)
-				write_heredoc_file(buffer, *infile_fd);
-			free(buffer);
-		}
-		exit(0);
-	}
-	else
-	{
-		*infile_fd = open(node->u_data.heredoc.tmp, O_RDWR | O_EXCL, 0600);
-		while (node && node->type == ast_heredoc)
-			node = node->u_data.heredoc.next;
-		waitpid(pid, &status, 0);
-		run = 0;
-		if (status)
-			run = 130;
-		return (node);
-	}
-	return (NULL);
-}
-
-void	open_tmp_file(t_ast *node, int *infile_fd)
-{
-	*infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_CREAT | O_TRUNC,
-			0777);
-	if (*infile_fd == -1)
-	{
-		perror(node->u_data.heredoc.tmp);
-		return ;
-	}
-	close(*infile_fd);
-	*infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_APPEND, 0777);
-	if (*infile_fd == -1)
-	{
-		perror(node->u_data.heredoc.tmp);
-		return ;
-	}
+	g_run = 1;
+	totalbuffer = ft_strdup("");
+	read_heredoc(node, fd, &end, totalbuffer);
+	if (g_run != 130)
+		write_in_heredoc_file(totalbuffer, tmp, fd);
+	free(totalbuffer);
+	signal(SIGINT, signal_hand);
+	return (node);
 }

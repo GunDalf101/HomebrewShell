@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:20:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/08 22:44:07 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:29:06 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int	create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 		close(pipefd[0]);
 		close(pipefd[1]);
 		waitpid(left_pid, NULL, 0);
-		if (node->u_data.operation.right->type == ast_exit)
-			exit(25);
 		waitpid(right_pid, &status, 0);
 		return (status);
 	}
 }
+		// if (node->u_data.operation.right->type == ast_exit)
+		// 	exit(25);
 
 int	create_pipe(t_ast *node, t_env **env)
 {

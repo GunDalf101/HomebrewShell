@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 01:49:22 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:19:00 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ typedef struct s_heredoc
 	char						*tmp;
 }								t_heredoc;
 
+typedef struct s_exit
+{
+	int							status;
+}								t_exit;
+
 struct							s_and
 {
 	t_ast						*left;
@@ -97,6 +102,7 @@ struct							s_ast
 		struct s_and			_and;
 		struct s_or				_or;
 		struct s_subshell		subshell;
+		struct s_exit			exit;
 		t_env					envadds;
 	} u_data;
 };
@@ -109,5 +115,6 @@ t_ast							*add_new_operation(enum e_ast_type type,
 t_ast							*add_new_redirectout(char *path, t_ast *cmd,
 									int tag);
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
+void							free_ast_node(t_ast *node);
 
 #endif

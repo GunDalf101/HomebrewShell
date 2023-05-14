@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 03:15:27 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:17:16 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_env	*envnew(char *key, char *value, int append)
 
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (0);
+		return (NULL);
 	new->key = key;
 	new->value = value;
 	new->append = append;
@@ -76,13 +76,26 @@ void	envadd_back(t_env **head, t_env *node)
 t_env	*load_env(char **env)
 {
 	t_env	*head;
-	char	**keyvalue;
+	char	*key;
+	char	*value;
+	int		i;
+	char	*tmp;
 
 	head = NULL;
-	while (*env != NULL)
+	i = 0;
+	while (*env)
 	{
-		keyvalue = ft_split(*env, '=');
-		envadd_back(&head, envnew(keyvalue[0], keyvalue[1], 0));
+		key = NULL;
+		value = NULL;
+		i = 0;
+		tmp = strdup(*env);
+		key = tmp;
+		while (tmp[i] != '=' && tmp[i] != '\0')
+			i++;
+		if (tmp[i] == '=')
+			value = &tmp[i + 1];
+		tmp[i] = '\0';
+		envadd_back(&head, envnew(key, value, 0));
 		env++;
 	}
 	return (head);

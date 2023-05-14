@@ -6,13 +6,14 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/01 14:35:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/11 18:34:06 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-extern int	run;
+extern int	g_run;
+
 void	fd_init(t_fd *fd)
 {
 	fd->error = 0;
@@ -23,6 +24,7 @@ void	fd_init(t_fd *fd)
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
 {
+	signal(SIGINT, command_sig);
 	if (infile_fd != STDIN_FILENO)
 	{
 		if (dup2(infile_fd, STDIN_FILENO) == -1)
@@ -67,24 +69,22 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	fd_init(&fd);
 	if (!fd.error)
 		cmd = get_cmd_node(node);
-	while (node && run != 130)
+	while (node && g_run != 130)
 	{
-		if (fd.infile_fd == -1 || fd.outfile_fd == -1)
-			fd.error = 1;
-		else if (node->type == ast_redirect_out)
-			node = create_red_files(node, &fd.outfile_fd);
+		if (node->type == ast_redirect_out)
+			node = create_red_files(node, &fd);
 		else if (node->type == ast_redirect_in)
-			node = getting_infile_fd(node, &fd.infile_fd);
+			node = getting_infile_fd(node, &fd);
 		else if (node->type == ast_heredoc)
 		{
-			open_tmp_file(node, &fd.infile_fd);
-			node = heredoc_handler(node, &fd.infile_fd);
+			open_tmp_file(node, &fd);
+			node = heredoc_handler(node, &fd);
 			if (!node || node->type != ast_heredoc)
 				continue ;
 			node = node->u_data.heredoc.next;
 		}
 	}
-	if (!fd.error && run != 130)
+	if (!fd.error && g_run != 130)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
-	return (run);
+	return (g_run);
 }
