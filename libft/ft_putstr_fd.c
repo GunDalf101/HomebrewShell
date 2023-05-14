@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/07 19:34:37 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/16 08:34:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+void	ft_putstr_fd(char *s, int fd)
 {
-	FALSE,
-	TRUE
-};
+	int	i;
 
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}

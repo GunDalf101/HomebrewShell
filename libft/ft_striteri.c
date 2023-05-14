@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/13 08:33:50 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/13 09:03:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	FALSE,
-	TRUE
-};
+	size_t		i;
 
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	i = 0;
+	if (s && f)
+	{
+		while (i < ft_strlen(s))
+		{
+			(*f)(i, &s[i]);
+			i++;
+		}
+	}
+}

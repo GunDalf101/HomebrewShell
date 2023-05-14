@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/08 21:20:28 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:30:09 by mlektaib         ###   ########.fr       */
+/*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
+/*   Updated: 2023/05/14 18:21:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <signal.h>
 
 int		g_run;
 char	*input;
@@ -33,6 +32,7 @@ int	main(int argc, char *argv[], char **env)
 	g_run = 0;
 	rl_catch_signals = 0;
 	signal(SIGINT, signal_hand);
+	t_ast *root;
 
 	// char *randomnum = ft_itoa(generate_rand());
 	// char *heredoctmp = ft_strjoin("/tmp/heredoc", randomnum);
@@ -41,8 +41,6 @@ int	main(int argc, char *argv[], char **env)
 
 	while (1)
 	{
-		char *command2_args[] = {"make","re", NULL};
-		t_ast *command2 = add_new_cmd("make", command2_args, 2, ast_cmd);
 		g_run = 0;
 		input = NULL;
 		input = readline("minishell>");
@@ -53,9 +51,10 @@ int	main(int argc, char *argv[], char **env)
 			write(1, "exit\n", 6);
 			exit(0);
 		}
+		root = parsing(input);
 		g_run = 0;
-		g_run = execute_commands(command2, &envlst);
-		free_ast_node(command2);
+		g_run = execute_commands(root, &envlst);
+		free_ast_node(root);
 	}
 	clearenv(&envlst);
 }

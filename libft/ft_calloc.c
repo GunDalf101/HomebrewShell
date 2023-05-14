@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/07 08:59:26 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/23 00:56:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+void	*ft_calloc(size_t nitems, size_t size)
 {
-	FALSE,
-	TRUE
-};
+	void	*v;
+	size_t	allo;
 
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	allo = nitems * size;
+	if (size != 0 && allo / size != nitems)
+		return (NULL);
+	v = malloc(allo);
+	if (v)
+		ft_bzero (v, nitems * size);
+	return (v);
+}

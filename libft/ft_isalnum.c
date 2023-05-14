@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/05 21:51:35 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/16 10:30:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+int	ft_isalnum(int c)
 {
-	FALSE,
-	TRUE
-};
-
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	else if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}

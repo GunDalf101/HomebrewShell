@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/17 04:58:25 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/20 21:49:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	FALSE,
-	TRUE
-};
+	t_list	*newlst;
+	t_list	*newel;
 
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	if (!f || !del)
+		return (NULL);
+	newlst = NULL;
+	while (lst)
+	{
+		newel = ft_lstnew (f(lst->content));
+		if (!newel)
+		{
+			ft_lstclear(&newlst, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&newlst, newel);
+		lst = lst->next;
+	}
+	return (newlst);
+}

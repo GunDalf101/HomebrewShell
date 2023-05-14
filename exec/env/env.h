@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/09 14:43:47 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 18:18:29 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-# include "../libft.h"
+# include "../../libft/libft.h"
 
 typedef struct s_env
 {

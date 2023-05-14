@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 18:25:55 by mbennani         ###   ########.fr       */
+/*   Created: 2022/10/07 08:43:24 by mbennani          #+#    #+#             */
+/*   Updated: 2022/10/19 01:12:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "parsing_realm/ast/ast.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
-
-enum				e_bool
+char	*ft_strnstr(const char *str, const char *to_find, size_t len)
 {
-	FALSE,
-	TRUE
-};
+	size_t	i;
+	size_t	j;
 
-enum				e_rval
-{
-	SUCCESS,
-	FAILURE
-};
-
-#endif
+	i = 0;
+	j = 0;
+	if (to_find[j] == '\0')
+		return ((char *)str);
+	while (i < len && str[i])
+	{
+		while (str[i + j] == to_find[j] && str[i + j] != '\0' && (i + j) < len)
+			j++;
+		if (to_find[j] == '\0')
+			return ((char *)str + i);
+		i++;
+		j = 0;
+	}
+	return (0);
+}

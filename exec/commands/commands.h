@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 03:19:00 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 18:18:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
-# include "../ast/ast.h"
+# include "../../parsing_realm/ast/ast.h"
 # include "../env/env.h"
 # include <string.h>
 

@@ -1,57 +1,70 @@
-SRCS =	ast/ast.c \
-		ast/clearast.c\
-		execute/execute.c  \
-		execute/pipe.c \
-		execute/redirections.c\
-		execute/finder.c \
-		execute/heredoc.c\
-		execute/heredoc_utils.c\
-		execute/subshell.c \
-		execute/execute_imp.c \
-		execute/checker.c \
-		execute/mix.c \
-		execute/rand_tmp.c\
-		main.c	\
-		commands/cd.c \
-		commands/echo.c \
-		commands/env.c \
-		commands/export.c \
-		commands/pwd.c \
-		commands/unset.c \
-		commands/sort_env.c \
-		env/env.c		\
-		env/lst2env.c	\
-		env/clearenv.c
-
-
-
 NAME = minishell
 
+SOURCES = minishell.c \
+		ast/ast.c \
+		ast/clearast.c\
 
-OBJS = $(SRCS:.c=.o)
+OBJECTS = $(SOURCES:.c=.o)
 
-MH = execute/exectue.h ast/ast.h commands/commands.h env/env.h minishell.h libft.h
+INCLUDES = minishell.h
 
-CC_FLAGS = 
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LIBFT = libft/libft.a
 
-all: $(NAME)
+all: libft $(NAME)
+	@if [ $$? -eq 0 ]; then \
+		echo "\033[3m\033[1m\033[42m\033[31m~~Nothing to be done for 'all' anymore~~\033[0m"; \
+	fi
 
-$(NAME): $(OBJS) $(LIBFT)
-	@cc  $(OBJS) libft.a -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
-	@echo "minishell created"
+$(NAME):$(OBJECTS)
+	@$(CC) -o $@ $(OBJECTS) $(CFLAGS) $(LIBFT)
+	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
+%.o: %.c minishell.h
+	@$(CC) -c $(CFLAGS) $<
+	@echo "\033[33m$< compiled \033[0m"
 
-%.o:%.c 
-	@echo "Building $@..."
-	@$(CC) $(CFLAGS) -I$(shell brew --prefix readline)/include -c $< -o $@
-	@echo "Done building $@!"
+libft:
+	@echo '                                             _______________________'
+	@echo '   _______________________-------------------                        \'
+	@echo ' /:--__                                                              |'
+	@echo '||< > |                                   ___________________________/'
+	@echo '| \__/_________________-------------------                         |'
+	@echo '|                                                                  |'
+	@echo ' |                  THE SCROLL OF INFINITE WISDOM                   |'
+	@echo ' |                                                                  |'
+	@echo ' |       Three Rings for the Elven-kings under the sky,             |'
+	@echo '  |        Seven for the Dwarf-lords in their halls of stone,        |'
+	@echo '  |      Nine for Mortal Men doomed to die,                          |'
+	@echo '  |        One for the Dark Lord on his dark throne                  |'
+	@echo '  |      In the Land of Mordor where the Shadows lie.                 |'
+	@echo '   |       One Ring to rule them all, One Ring to find them,          |'
+	@echo '   |       One Ring to bring them all and in the darkness bind them   |'
+	@echo '   |     In the Land of Mordor where the Shadows lie.                |'
+	@echo '  |                                                                  |'
+	@echo '  |                                             -----------          |'
+	@echo '  |                                            )) GunDalf ((          |'
+	@echo '  |                                             -----------           |'
+	@echo '  |                                              ____________________|_'
+	@echo '  |  ___________________-------------------------                       \'
+	@echo '  |/ --_                                                                 |'
+	@echo '  ||[ ]||                                            ___________________/'
+	@echo '   \===/___________________--------------------------'
+	@echo ''
+	@make -s -C libft bonus
+	@echo "\033[35m$@ have been made \033[0m"
 
 clean:
-	rm -f $(OBJS) $(OBJSB)
-
+	@rm -f $(OBJECTS)
+	@make -s -C libft clean
+	@echo "\033[3m\033[1m\033[42m\033[31m~~   The objects have been cleaned   ~~\033[0m"; \
+	
 fclean: clean
-	rm -f $(NAME) $(BONUS)
+	@make -s -C libft fclean
+	@rm -f minishell
+	@echo "\033[3m\033[1m\033[42m\033[31m~~The directory have been fully wiped~~\033[0m"; \
 
 re: fclean all
 
-.PHONY : clean fclean re all
+.PHONY: all bonus libft clean fclean re
