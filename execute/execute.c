@@ -6,13 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/28 14:06:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:18:08 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-extern int	run;
+extern int	g_run;
 
 int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
@@ -25,7 +25,7 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
-	run = 1;
+	g_run = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -37,7 +37,7 @@ int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 	else
 	{
 		waitpid(pid, &status, 0);
-		run = 0;
+		g_run = 0;
 		return (status);
 	}
 	return (1);
@@ -51,7 +51,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
-	run = 1;
+	g_run = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -59,18 +59,14 @@ int	execute_simple_command(t_ast *node, t_env **env)
 		exit(1);
 	}
 	else if (pid == 0)
-	{
-		// signal(SIGINT, SIG_DFL);
-		execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
-		perror(node->u_data.cmd.cmd);
-		exit(1);
-	}
+		exec_cmd(node, env);
 	else
 	{
 		waitpid(pid, &status, 0);
-		run = 0;
+		g_run = 0;
 		return (status);
 	}
+	return (1);
 }
 
 int	execute_and(t_ast *node, t_env **env)
@@ -80,9 +76,7 @@ int	execute_and(t_ast *node, t_env **env)
 
 	left_status = execute_commands(node->u_data.operation.left, env);
 	if (left_status == 0)
-	{
 		status = execute_commands(node->u_data.operation.right, env);
-	}
 	else
 		status = left_status;
 	return (status);
@@ -104,7 +98,7 @@ int	execute_commands(t_ast *node, t_env **env)
 	if (!node)
 		return (0);
 	if (node->type == ast_exit)
-		exit(25);
+		exit(node->u_data.exit.status);
 	else if (node->type == ast_imp)
 		return (execute_imp_commands(node, env));
 	else if (node->type == ast_cmd)
@@ -112,7 +106,7 @@ int	execute_commands(t_ast *node, t_env **env)
 	else if (node->type == ast_pipe)
 		return (create_pipe(node, env));
 	else if (node->type == ast_redirect_in || node->type == ast_redirect_out
-			|| node->type == ast_heredoc)
+		|| node->type == ast_heredoc)
 		return (execute_redirect_heredoc(node, env));
 	else if (node->type == ast_subshell)
 		return (execute_subshell(node, env));

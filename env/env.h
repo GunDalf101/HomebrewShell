@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/09 23:02:55 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:43:47 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ char				**lst_to_env(t_env *head);
 int					lstsize(t_env *head);
 void				free_env_lst(t_env *head);
 char				*append_env_mode(char *key, int *k);
+void				clearenv(t_env **head);
 #endif

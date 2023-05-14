@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/27 08:13:39 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:15:07 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	}
 	node->type = type;
-	node->u_data.cmd.cmd = cmd;
+	node->u_data.cmd.cmd = ft_strdup(cmd);
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!node->u_data.cmd.args)
 	{
+		free(node->u_data.cmd.cmd);
 		free(node);
 		return (NULL);
 	}
 	i = 0;
 	while (i < arg_count)
 	{
-		node->u_data.cmd.args[i] = args[i];
+		node->u_data.cmd.args[i] = ft_strdup(args[i]);
 		i++;
 	}
 	node->u_data.cmd.args[arg_count] = NULL;

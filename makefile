@@ -1,8 +1,11 @@
 SRCS =	ast/ast.c \
+		ast/clearast.c\
 		execute/execute.c  \
 		execute/pipe.c \
 		execute/redirections.c\
+		execute/finder.c \
 		execute/heredoc.c\
+		execute/heredoc_utils.c\
 		execute/subshell.c \
 		execute/execute_imp.c \
 		execute/checker.c \
@@ -18,8 +21,7 @@ SRCS =	ast/ast.c \
 		commands/sort_env.c \
 		env/env.c		\
 		env/lst2env.c	\
-		gnl/get_next_line.c \
-		gnl/get_next_line_utils.c \
+		env/clearenv.c
 
 
 
