@@ -5,6 +5,7 @@ SOURCES = exec/env/env.c		\
 		exec/env/clearenv.c \
 		parsing_realm/ast/ast.c \
 		parsing_realm/ast/clearast.c\
+		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \
 		exec/execute/pipe.c \
 		exec/execute/redirections.c\
@@ -39,7 +40,7 @@ all: libft $(NAME)
 	fi
 
 $(NAME):$(OBJECTS)
-	cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h

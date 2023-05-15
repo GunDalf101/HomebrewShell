@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   lexing_lexer.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/15 21:40:22 by mbennani         ###   ########.fr       */
+/*   Created: 2023/05/15 21:51:57 by mbennani          #+#    #+#             */
+/*   Updated: 2023/05/15 23:00:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef LEXING_LEXER_H
+# define LEXING_LEXER_H
 
-# include "parsing_realm/parsing101.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
+# include "../../minishell.h"
+
+enum				e_bool
+{
+	FALSE,
+	TRUE
+};
+
+enum				e_rval
+{
+	SUCCESS,
+	FAILURE
+};
+
+char	**tokenizer(char *input);
+t_ast	**lex_luthor(char **tokens);
 
 #endif

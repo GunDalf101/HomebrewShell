@@ -8,6 +8,7 @@
 	"env.h": "c",
 	"ast.h": "c",
 	"minishell.h": "c",
-	"minishellexec.h": "c"
+	"minishellexec.h": "c",
+	"parsing101.h": "c"
 }
 }

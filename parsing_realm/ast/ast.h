@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 21:16:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:52:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ enum							e_ast_type
 	ast_or,
 	ast_subshell,
 	ast_exit,
+};
+
+enum				e_bool
+{
+	FALSE,
+	TRUE
+};
+
+enum				e_rval
+{
+	SUCCESS,
+	FAILURE
 };
 
 struct							s_cmd

@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parsing101.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/15 21:40:22 by mbennani         ###   ########.fr       */
+/*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
+/*   Updated: 2023/05/15 23:14:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+# include "parsing101.h"
 
-# include "parsing_realm/parsing101.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
+t_ast	*parsinginit(char	*input)
+{
+	t_ast	*root;
+	t_ast	**lexical_table;
+	char	**tokens;
 
-#endif
+	tokens = tokenizer(input);
+	lexical_table = lex_luthor(tokens);
+	root = parse_tree(lexical_table);
+
+	return (root);
+}

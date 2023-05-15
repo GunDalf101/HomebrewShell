@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/14 21:54:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:44:17 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char *argv[], char **env)
 		input = NULL;
 		input = readline("minishell>");
 		add_history(input);
-		root = parsing(input);
+		root = parsinginit(input);
 		free(input);
 		if (!input)
 		{

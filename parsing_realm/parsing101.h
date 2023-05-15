@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   parsing101.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/15 21:40:22 by mbennani         ###   ########.fr       */
+/*   Created: 2023/05/15 21:35:40 by mbennani          #+#    #+#             */
+/*   Updated: 2023/05/15 23:14:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PARSING101_H
+# define PARSING101_H
 
-# include "parsing_realm/parsing101.h"
-# include "exec/minishellexec.h"
-# include <pthread.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/time.h>
-# include <unistd.h>
-# include <unistd.h>
+# include "ast/ast.h"
+# include "lexical_analyzer/lexing_lexer.h"
+
+
+t_ast	*parsinginit(char	*input);
+void	error_thrower(int code);
 
 #endif
