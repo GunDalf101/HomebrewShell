@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/16 15:36:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/16 23:32:27 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,49 @@ int	syntax_checker(char **tokens)
 	return (0);
 }
 
-char	**space_expand(char **inittokens)
+char	*space_expand(char *input)
 {
-	(void)inittokens;
-	char	**tokens = NULL;
+	int		i = 0;
+	int		j = 0;
+	int		it = 0;
+	char	*expansion;
 
-	return (tokens);
+	while(input[it])
+	{
+		if (input[it + 1] == '(' || input[it + 1] == ')' || (input[it + 1] == '|' && input[it] != '|') || (input[it + 1] == '&' && input[it] != '&') || (input[it + 1] == '>' && input[it] != '>') || (input[it + 1] == '<' && input[it] != '<'))
+			it++;
+		if (input[it] == '(' || input[it] == ')' || (input[it + 1] != '|' && input[it] == '|') || (input[it + 1] != '&' && input[it] == '&') || (input[it + 1] != '>' && input[it] == '>') || (input[it + 1] != '<' && input[it] == '<'))
+			it++;
+		it++;
+	}
+	expansion = ft_calloc(it + 1, 1);
+	while(input[i])
+	{
+		expansion[j] = input[i];
+		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' && input[i] != '|') || (input[i + 1] == '&' && input[i] != '&') || (input[i + 1] == '>' && input[i] != '>') || (input[i + 1] == '<' && input[i] != '<')))
+		{
+			j++;
+			expansion[j] = ' ';
+		}
+		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' && input[i] == '|') || (input[i + 1] != '&' && input[i] == '&') || (input[i + 1] != '>' && input[i] == '>') || (input[i + 1] != '<' && input[i] == '<')))
+		{
+			expansion[j + 1] = ' ';
+			j++;
+		}
+		j++;
+		i++;
+	}
+	expansion[j] = '\0';
+	return (expansion);
 }
 
 char	**tokenizer(char *input)
 {
+	char	*exp_input = NULL;
 	char	**tokens = NULL;
-	char	**exp_tokens = NULL;
 
-	tokens = ft_split(input, ' ');
-	exp_tokens = space_expand(tokens);
+	exp_input = space_expand(input);
+	tokens = ft_split(exp_input, ' ');
 	if (syntax_checker(tokens) == FAILURE)
 		return(free_tokens(tokens), error_thrower(0), NULL);
 	return (tokens);

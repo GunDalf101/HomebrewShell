@@ -43,7 +43,7 @@ all: libft $(NAME)
 	fi
 
 $(NAME):$(OBJECTS)
-	cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h
