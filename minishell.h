@@ -27,7 +27,6 @@ enum				e_bool
 	FALSE,
 	TRUE
 };
-
 enum				e_rval
 {
 	SUCCESS,

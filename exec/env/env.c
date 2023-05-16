@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 15:17:16 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:55:44 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ t_env	*load_env(char **env)
 		if (tmp[i] == '=')
 			value = &tmp[i + 1];
 		tmp[i] = '\0';
-		envadd_back(&head, envnew(key, value, 0));
+		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0));
+		free(tmp);
 		env++;
 	}
 	return (head);
