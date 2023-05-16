@@ -5,6 +5,9 @@ SOURCES = exec/env/env.c		\
 		exec/env/clearenv.c \
 		parsing_realm/ast/ast.c \
 		parsing_realm/ast/clearast.c\
+		parsing_realm/lexical_analyzer/lexer.c \
+		parsing_realm/lexical_analyzer/tokens_gen.c \
+		parsing_realm/error_checker.c\
 		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \
 		exec/execute/pipe.c \

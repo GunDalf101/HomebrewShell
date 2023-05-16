@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/15 23:18:39 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:36:09 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,27 @@ void free_tokens(char **s)
 
 int	syntax_checker(char **tokens)
 {
-	
+	(void)tokens;
+
+	return (0);
 }
 
 char	**space_expand(char **inittokens)
 {
-	char	**tokens;
+	(void)inittokens;
+	char	**tokens = NULL;
 
 	return (tokens);
 }
 
 char	**tokenizer(char *input)
 {
-	char	**tokens;
-	char	**exp_tokens;
+	char	**tokens = NULL;
+	char	**exp_tokens = NULL;
 
 	tokens = ft_split(input, ' ');
 	exp_tokens = space_expand(tokens);
 	if (syntax_checker(tokens) == FAILURE)
-		return(free_tokens(tokens), error_thrower(0));
+		return(free_tokens(tokens), error_thrower(0), NULL);
 	return (tokens);
 }

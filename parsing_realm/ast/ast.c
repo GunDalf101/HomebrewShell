@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 14:15:07 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:38:01 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,12 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 	node->u_data.heredoc.cmd = child;
 	node->u_data.heredoc.next = NULL;
 	return (node);
+}
+
+t_ast	*parse_tree(t_ast	**lexical_table)
+{
+	t_ast	*root = NULL;
+	(void)lexical_table;
+
+	return (root);
 }
