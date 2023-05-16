@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 21:08:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:58:55 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = node->u_data.heredoc.next;
 		}
 	}
-	if (!fd.error && g_run != 130)
+	if (!fd.error && g_run != 130 && cmd)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
 	return (g_run);
 }

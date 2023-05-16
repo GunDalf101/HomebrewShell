@@ -34,7 +34,7 @@ OBJECTS = $(SOURCES:.c=.o)
 INCLUDES = minishell.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 LIBFT = libft/libft.a
 
 all: libft $(NAME)
@@ -43,7 +43,7 @@ all: libft $(NAME)
 	fi
 
 $(NAME):$(OBJECTS)
-	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+	cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h
@@ -68,9 +68,9 @@ libft:
 	@echo '   |       One Ring to bring them all and in the darkness bind them   |'
 	@echo '   |     In the Land of Mordor where the Shadows lie.                |'
 	@echo '  |                                                                  |'
-	@echo '  |                                             -----------          |'
-	@echo '  |                                            )) GunDalf ((          |'
-	@echo '  |                                             -----------           |'
+	@echo '  |                                       -----------------          |'
+	@echo '  |                                     ))SnooZe && GunDalf ((       |'
+	@echo '  |                                       -----------------          |'
 	@echo '  |                                              ____________________|_'
 	@echo '  |  ___________________-------------------------                       \'
 	@echo '  |/ --_                                                                 |'
