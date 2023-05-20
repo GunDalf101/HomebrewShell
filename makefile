@@ -7,6 +7,7 @@ SOURCES = exec/env/env.c		\
 		parsing_realm/ast/clearast.c\
 		parsing_realm/lexical_analyzer/lexer.c \
 		parsing_realm/lexical_analyzer/tokens_gen.c \
+		parsing_realm/lexical_analyzer/split_with_a_twist.c \
 		parsing_realm/error_checker.c\
 		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \

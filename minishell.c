@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/16 16:49:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:18:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,33 @@ int	main(int argc, char *argv[], char **env)
 		input = NULL;
 		input = readline("minishell>");
 		add_history(input);
-		root = parsinginit(input);
-		free(input);
 		if (!input)
 		{
 			write(1, "exit\n", 6);
 			break ;
 		}
-		char *heredoctmp = ft_strdup("/tmp/heredoc");
+		root = parsinginit(input);
+		free(input);
+		// char *heredoctmp = ft_strdup("/tmp/heredoc");
 
-		// char *command2_args[] = {"wc", "-l", NULL};
-		// t_ast *command2 = add_new_cmd("wc", command2_args, 2, ast_cmd);
+		// // char *command2_args[] = {"wc", "-l", NULL};
+		// // t_ast *command2 = add_new_cmd("wc", command2_args, 2, ast_cmd);
 
-		t_ast *heredoc1 = malloc(sizeof(t_ast));
-		heredoc1->type = ast_heredoc;
-		heredoc1->u_data.heredoc.cmd = NULL;
-		heredoc1->u_data.heredoc.delim = ft_strdup("dd");
-		heredoc1->u_data.heredoc.tmp = heredoctmp;
+		// t_ast *heredoc1 = malloc(sizeof(t_ast));
+		// heredoc1->type = ast_heredoc;
+		// heredoc1->u_data.heredoc.cmd = NULL;
+		// heredoc1->u_data.heredoc.delim = ft_strdup("dd");
+		// heredoc1->u_data.heredoc.tmp = heredoctmp;
 
 
-		heredoc1->u_data.heredoc.next = NULL;
-		// out->u_data.redirect_out.next = NULL;
-		// out2->u_data.redirect_out.next = NULL;
-		root = heredoc1;
-		g_run = 0;
-		g_run = execute_commands(heredoc1, &envlst);
-		free_ast_node(heredoc1);
-		unlink(heredoctmp);
+		// heredoc1->u_data.heredoc.next = NULL;
+		// // out->u_data.redirect_out.next = NULL;
+		// // out2->u_data.redirect_out.next = NULL;
+		// root = heredoc1;
+		// g_run = 0;
+		// g_run = execute_commands(heredoc1, &envlst);
+		// free_ast_node(heredoc1);
+		// unlink(heredoctmp);
 	}
 	clearenv(&envlst);
 	return (0);

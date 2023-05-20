@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:51:57 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/16 15:33:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/21 00:10:14 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,7 @@
 
 char	**tokenizer(char *input);
 t_ast	**lex_luthor(char **tokens);
+char	**split_with_a_twist(char const *s, char c);
+void	super_quote_hander(int *dubquo, int *sinquo, char c);
 
 #endif

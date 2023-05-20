@@ -6,11 +6,13 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/16 23:32:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/21 00:46:42 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "lexing_lexer.h"
+#include "lexing_lexer.h"
+
+// this functions gets you free tokens or maybe does it FREE the tokens (guess we'll never know)
 
 void free_tokens(char **s)
 {
@@ -27,6 +29,8 @@ void free_tokens(char **s)
 	s = NULL;
 }
 
+//  this function checks every possible syntax error
+
 int	syntax_checker(char **tokens)
 {
 	(void)tokens;
@@ -34,31 +38,42 @@ int	syntax_checker(char **tokens)
 	return (0);
 }
 
+// function to to expand the input with a space next to the operators
+// maybe i should skip later what's between spaces too???
+
 char	*space_expand(char *input)
 {
 	int		i = 0;
 	int		j = 0;
 	int		it = 0;
+	int		counter = 0;
 	char	*expansion;
+	int	dubquo;
+	int	sinquo;
 
+	dubquo = FALSE;
+	sinquo = FALSE;
 	while(input[it])
 	{
-		if (input[it + 1] == '(' || input[it + 1] == ')' || (input[it + 1] == '|' && input[it] != '|') || (input[it + 1] == '&' && input[it] != '&') || (input[it + 1] == '>' && input[it] != '>') || (input[it + 1] == '<' && input[it] != '<'))
-			it++;
-		if (input[it] == '(' || input[it] == ')' || (input[it + 1] != '|' && input[it] == '|') || (input[it + 1] != '&' && input[it] == '&') || (input[it + 1] != '>' && input[it] == '>') || (input[it + 1] != '<' && input[it] == '<'))
-			it++;
+		super_quote_hander(&dubquo, &sinquo, input[it]);
+		if ((input[it + 1] == '(' || input[it + 1] == ')' || (input[it + 1] == '|' && input[it] != '|') || (input[it + 1] == '&' && input[it] != '&') || (input[it + 1] == '>' && input[it] != '>') || (input[it + 1] == '<' && input[it] != '<')) && (dubquo == FALSE && sinquo == FALSE))
+			counter++;
+		if ((input[it] == '(' || input[it] == ')' || (input[it + 1] != '|' && input[it] == '|') || (input[it + 1] != '&' && input[it] == '&') || (input[it + 1] != '>' && input[it] == '>') || (input[it + 1] != '<' && input[it] == '<')) && (dubquo == FALSE && sinquo == FALSE))
+			counter++;
 		it++;
 	}
-	expansion = ft_calloc(it + 1, 1);
+	counter+=it;
+	expansion = ft_calloc(counter + 1, 1);
 	while(input[i])
 	{
+		super_quote_hander(&dubquo, &sinquo, input[i]);
 		expansion[j] = input[i];
-		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' && input[i] != '|') || (input[i + 1] == '&' && input[i] != '&') || (input[i + 1] == '>' && input[i] != '>') || (input[i + 1] == '<' && input[i] != '<')))
+		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' && input[i] != '|') || (input[i + 1] == '&' && input[i] != '&') || (input[i + 1] == '>' && input[i] != '>') || (input[i + 1] == '<' && input[i] != '<')) && (dubquo == FALSE && sinquo == FALSE))
 		{
 			j++;
 			expansion[j] = ' ';
 		}
-		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' && input[i] == '|') || (input[i + 1] != '&' && input[i] == '&') || (input[i + 1] != '>' && input[i] == '>') || (input[i + 1] != '<' && input[i] == '<')))
+		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' && input[i] == '|') || (input[i + 1] != '&' && input[i] == '&') || (input[i + 1] != '>' && input[i] == '>') || (input[i + 1] != '<' && input[i] == '<')) && (dubquo == FALSE && sinquo == FALSE))
 		{
 			expansion[j + 1] = ' ';
 			j++;
@@ -76,8 +91,14 @@ char	**tokenizer(char *input)
 	char	**tokens = NULL;
 
 	exp_input = space_expand(input);
-	tokens = ft_split(exp_input, ' ');
+	tokens = split_with_a_twist(exp_input, ' ');
 	if (syntax_checker(tokens) == FAILURE)
 		return(free_tokens(tokens), error_thrower(0), NULL);
+	int i = 0;
+	while (tokens[i])
+	{
+		printf("%s\n", tokens[i]);
+		i++;
+	}
 	return (tokens);
 }
