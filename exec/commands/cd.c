@@ -6,28 +6,52 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/11 18:57:47 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/17 14:47:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 #include <stdio.h>
 
-int	to_home_dir(t_env **env)
+int	to_relative_dir(char *dir, char *path)
+{
+	char	*tmp;
+
+	if (!strncmp(dir, "~/", 2))
+	{
+		tmp = ft_strjoin(path, dir + 1);
+		if (chdir(tmp) == 0)
+		{
+			free(path);
+			free(tmp);
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int	to_home_dir(t_env **env, char *dir)
 {
 	char	*path;
 
 	path = NULL;
-	path = ft_strjoin("/Users/", get_env(*env, "USER")->value);
+	path = ft_strjoin("/Users/", getenv("USER"));
 	if (get_env(*env, "OLDPWD"))
 		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
-	if (chdir(path) == 0)
+	if (!strcmp(dir, "~"))
 	{
-		free(path);
-		return (0);
+		if (chdir(path) == 0)
+		{
+			free(path);
+			return (0);
+		}
 	}
-	else
-		return (1);
+	else if (!to_relative_dir(env, dir))
+		return (0);
+	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd(dir, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	return (1);
 }
 
 int	to_prev_dir(t_env **env)
@@ -47,8 +71,10 @@ int	to_prev_dir(t_env **env)
 		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
 		return (0);
 	}
-	else
-		return (1);
+	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd(path, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	return (1);
 }
 
 int	to_dir(t_ast *node, t_env **env)
@@ -63,14 +89,11 @@ int	to_dir(t_ast *node, t_env **env)
 			exportadd_for_cd(env, envnew("OLDPWD", path, 0));
 		return (0);
 	}
-	else
-	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(node->u_data.cmd.args[1], 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		return (1);
-	}
+	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd(node->u_data.cmd.args[1], 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
+	return (1);
 }
 
 int	cd(t_ast *node, t_env **env)
@@ -79,8 +102,8 @@ int	cd(t_ast *node, t_env **env)
 		return (0);
 	else
 	{
-		if (!strcmp(node->u_data.cmd.args[1], "~"))
-			return (to_home_dir(env));
+		if (!ft_strncmp(node->u_data.cmd.args[1], "~", 1))
+			return (to_home_dir(env, node->u_data.cmd.args[1]));
 		else if (!strcmp(node->u_data.cmd.args[1], "-"))
 			return (to_prev_dir(env));
 		else
