@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/16 15:38:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/23 21:27:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-	{
 		return (NULL);
-	}
 	node->type = type;
 	node->u_data.cmd.cmd = ft_strdup(cmd);
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
@@ -105,9 +103,9 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 	return (node);
 }
 
-t_ast	*parse_tree(t_ast	**lexical_table)
+t_ast	*parse_tree(t_ast **lexical_table)
 {
-	t_ast	*root = NULL;
+	t_ast *root = NULL;
 	(void)lexical_table;
 
 	return (root);

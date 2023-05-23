@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/17 14:47:37 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/05/21 01:22:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	to_home_dir(t_env **env, char *dir)
 			return (0);
 		}
 	}
-	else if (!to_relative_dir(env, dir))
+	else if (!to_relative_dir(dir, path))
 		return (0);
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(dir, 2);

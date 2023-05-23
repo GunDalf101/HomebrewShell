@@ -6,13 +6,14 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/16 16:01:01 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/22 20:04:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AST_H
 # define AST_H
 # include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
 # include "../../exec/env/env.h"
 
@@ -125,7 +126,7 @@ t_ast							*add_new_cmd(char *cmd, char **args,
 t_ast							*add_new_subshell(t_ast *child);
 t_ast							*add_new_operation(enum e_ast_type type,
 									t_ast *left, t_ast *right);
-t_ast							*add_new_redirectout(char *path, t_ast *cmd,
+t_ast							*add_new_redirect_out(char *outfile, t_ast *cmd,
 									int tag);
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
 void							free_ast_node(t_ast *node);

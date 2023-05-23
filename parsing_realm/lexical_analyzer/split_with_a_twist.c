@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/21 00:41:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/23 15:10:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ static size_t	ft_countwords(char const *str, char c)
 		if (sinquo == FALSE && dubquo == FALSE)
 		{
 			while (str[i] == c)
-				i++;
+					i++;
 			if (str[i] != c && str[i])
 				count++;
 			while (str[i] != c && str[i])
 				i++;
 		}
+		i++;
 	}
 	return (count);
 }
@@ -68,7 +69,6 @@ static size_t	ft_wordlen(char const *str, char c)
 	{
 		super_quote_hander(&dubquo, &sinquo, str[count]);
 		count++;
-		printf("%d %d\n", dubquo, sinquo);
 	}
 	if (dubquo == TRUE || sinquo == TRUE)
 		return (printf("The fuck you doing mate\n"), exit(1), 0);
