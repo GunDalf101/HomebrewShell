@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/22 20:04:35 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:46:34 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,6 @@ t_ast							*add_new_redirect_out(char *outfile, t_ast *cmd,
 									int tag);
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
 void							free_ast_node(t_ast *node);
+t_ast							*add_new_redirect_in(char *infile, t_ast *cmd);
 
 #endif

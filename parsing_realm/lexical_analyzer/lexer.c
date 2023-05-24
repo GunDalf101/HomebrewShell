@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/24 11:46:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/24 20:24:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,39 +48,108 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 		arg_count++;
 		tempi++;
 	}
-	args = calloc(arg_count + 1, sizeof(char *));
+	printf("-------------%d-----------\n", arg_count);
+	args = ft_calloc(arg_count + 1, sizeof(char *));
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&')
 	{
 		while ((tokens[*i + 1] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i + 1] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
 			*i = *i + 1;
-		args[argcnt] = ft_strdup(tokens[*i]);
+		args[argcnt] = calloc(ft_strlen(tokens[*i]) + 1, 1);
+		args[argcnt] = tokens[*i];
 		*i = *i + 1;
 		argcnt++;
 	}
-	// printf("---------<%d>------------\n", *i);
+	args[argcnt] = NULL;
 	return (add_new_cmd(cmd, args, arg_count, ast_cmd));
 }
 
-// this is where the output redirections are ordered
+// this is where output redirections are ordered
 
-// t_ast	*order_redirectout(char **tokens, t_ast **astable, int *i, int *ascnt)
-// {
-	
-// }
+t_ast	*order_redirectout(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+{
+	char	*outfile;
+	int		tag = 0;
+
+	(void)astable;
+	(void)ascnt;
+	if (strcmp(tokens[*i], ">") == 0)
+		tag = 1;
+	else if (strcmp(tokens[*i], ">>") == 0)
+		tag = 2;
+	*i = *i + 1;
+	outfile = ft_calloc(ft_strlen(tokens[*i]), 1);
+	outfile = tokens[*i];
+	*i = *i + 1;
+	printf("%s\n", outfile);
+	return (add_new_redirect_out(outfile, cmd, tag));
+}
+
+// this is where input redirections are ordered
+
+t_ast	*order_redirectin(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+{
+	char	*infile;
+
+	(void)astable;
+	(void)ascnt;
+	*i = *i + 1;
+	infile = ft_calloc(ft_strlen(tokens[*i]), 1);
+	infile = tokens[*i];
+	*i = *i + 1;
+	printf("%s\n", infile);
+	return (add_new_redirect_in(infile, cmd));
+}
+
+// this is where heredocs are ordered
+
+t_ast	*order_heredoc(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+{
+	char	*delimiter;
+
+	(void)astable;
+	(void)ascnt;
+	*i = *i + 1;
+	delimiter = ft_calloc(ft_strlen(tokens[*i]), 1);
+	delimiter = tokens[*i];
+	*i = *i + 1;
+	printf("%s\n", delimiter);
+	return (add_new_heredoc(delimiter, cmd));
+}
+
+// 0rder all kinds of redirections
+
+t_ast	*order_redirection(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+{
+	if (tokens[*i + 1] && tokens[*i][0] == '>')
+		return (order_redirectout(cmd, tokens, astable, i, ascnt));
+	else if (strcmp(tokens[*i], "<") == 0)
+		return (order_redirectin(cmd, tokens, astable, i, ascnt));
+	else if (strcmp(tokens[*i], "<<") == 0)
+		return (order_heredoc(cmd, tokens, astable, i, ascnt));
+	else
+		*i = *i + 1;
+	return (NULL);
+}
 
 // this function parses the command and redirecion chunks
 
 t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
 	int		com_researcher;
+	t_ast	*cmd;
 
 	com_researcher = *i;
-	while (tokens[com_researcher][0] == '>' || (com_researcher > 0 && tokens[com_researcher] && tokens[com_researcher - 1][0] == '>'))
+	while ((tokens[com_researcher + 1] && (tokens[com_researcher][0] == '>' || tokens[com_researcher][0] == '<')) || (com_researcher > 0 && tokens[com_researcher + 1] && (tokens[com_researcher - 1][0] == '>' || tokens[com_researcher - 1][0] == '<')))
 		com_researcher++;
 	astable[*ascnt] = order_command(tokens, astable, &com_researcher, ascnt);
-	*i = *i + com_researcher;
-	// if (tokens[*i][0] == '>')
-	// 	return (order_redirectout(tokens, astable, i, ascnt));
+	cmd = ft_calloc(1, sizeof(t_ast));
+	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&')
+	{
+		*ascnt = *ascnt + 1;
+		astable[*ascnt] = order_redirection(cmd, tokens, astable, i, ascnt);
+	}
+	if (*i == com_researcher)
+		*ascnt = *ascnt - 1;
 	return (NULL);
 }
 
@@ -89,13 +158,15 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
 	if (*i == 0 || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and || tokens[*i][0] == '<' || tokens[*i][0] == '>')
+	{
 		parse_com_red(tokens, astable, i, ascnt);
+	}
 	else if (strcmp(tokens[*i], "|") == 0)
 	{
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_pipe, NULL, NULL);
 	}
-	else if (strcmp(tokens[*i], "||") == 0)
+	else if (printf("pleaaaaaase\n") && strcmp(tokens[*i], "||") == 0)
 	{
 		*i = *i + 1;	
 		astable[*ascnt] = add_new_operation(ast_or, NULL, NULL);
@@ -115,7 +186,7 @@ t_ast	**lex_luthor(char **tokens)
 	t_ast **astable = NULL;
 	(void) tokens;
 	int i;
-	int j;
+	// int j;
 	int ascnt;
 
 	i = 0;
@@ -125,12 +196,12 @@ t_ast	**lex_luthor(char **tokens)
 	{
 		astable[ascnt] = ft_calloc(1, sizeof(t_ast));
 		cre_node(tokens, astable, &i, &ascnt);
-		j = 0;
-		while (j < astable[ascnt]->u_data.cmd.arg_count)
-		{
-			printf("%s\n", astable[ascnt]->u_data.cmd.args[j]);
-			j++;
-		}
+		// j = 0;
+		// while (j < astable[ascnt]->u_data.cmd.arg_count)
+		// {
+		// 	printf("%s\n", astable[ascnt]->u_data.cmd.args[j]);
+		// 	j++;
+		// }
 		ascnt++;
 	}
 	return (astable);

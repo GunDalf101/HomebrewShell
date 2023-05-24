@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/23 21:27:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:51:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ t_ast	*add_new_subshell(t_ast *child)
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-	{
 		exit(EXIT_FAILURE);
-	}
 	node->type = ast_subshell;
 	node->u_data.operation.left = child;
 	node->u_data.operation.right = NULL;
@@ -62,9 +60,7 @@ t_ast	*add_new_operation(enum e_ast_type type, t_ast *left, t_ast *right)
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-	{
 		return (NULL);
-	}
 	node->type = type;
 	node->u_data.operation.left = left;
 	node->u_data.operation.right = right;
@@ -77,13 +73,24 @@ t_ast	*add_new_redirect_out(char *outfile, t_ast *cmd, int tag)
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-	{
 		return (NULL);
-	}
-	node->type = ast_redirect_in;
+	node->type = ast_redirect_out;
 	node->u_data.redirect_out.outfile = outfile;
 	node->u_data.redirect_out.cmd = cmd;
 	node->u_data.redirect_out.tag = tag;
+	return (node);
+}
+
+t_ast	*add_new_redirect_in(char *infile, t_ast *cmd)
+{
+	t_ast	*node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (NULL);
+	node->type = ast_redirect_in;
+	node->u_data.redirect_in.infile = infile;
+	node->u_data.redirect_in.cmd = cmd;
 	return (node);
 }
 
@@ -93,9 +100,7 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-	{
 		return (NULL);
-	}
 	node->type = ast_heredoc;
 	node->u_data.heredoc.delim = delimiter;
 	node->u_data.heredoc.cmd = child;
