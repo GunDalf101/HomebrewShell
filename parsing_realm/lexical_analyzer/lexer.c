@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/23 21:52:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:46:23 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 	int		arg_count = 0;
 	int		argcnt;
 	int		tempi;
+	(void)ascnt;
 
 
 	(void)astable;
@@ -39,7 +40,7 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 	cmd = ft_calloc(ft_strlen(tokens[*i]), 1);
 	cmd = tokens[*i];
 	*i = *i + 1;
-	tempi = 1;
+	tempi = *i;
 	while (tokens[tempi] && tokens[tempi][0] != '|' && tokens[tempi][0] != '(' && tokens[tempi][0] != '&')
 	{
 		if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
@@ -47,17 +48,16 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 		arg_count++;
 		tempi++;
 	}
-	printf("---------<%d>------------\n", arg_count);
 	args = calloc(arg_count + 1, sizeof(char *));
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&')
 	{
 		while ((tokens[*i + 1] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i + 1] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
 			*i = *i + 1;
-		args[argcnt] = calloc(ft_strlen(tokens[*i]) + 1, 1);
-		args[argcnt] = tokens[*i];
+		args[argcnt] = ft_strdup(tokens[*i]);
 		*i = *i + 1;
 		argcnt++;
 	}
+	// printf("---------<%d>------------\n", *i);
 	return (add_new_cmd(cmd, args, arg_count, ast_cmd));
 }
 
@@ -91,11 +91,20 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 	if (*i == 0 || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and || tokens[*i][0] == '<' || tokens[*i][0] == '>')
 		parse_com_red(tokens, astable, i, ascnt);
 	else if (strcmp(tokens[*i], "|") == 0)
+	{
+		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_pipe, NULL, NULL);
+	}
 	else if (strcmp(tokens[*i], "||") == 0)
+	{
+		*i = *i + 1;	
 		astable[*ascnt] = add_new_operation(ast_or, NULL, NULL);
+	}
 	else if (strcmp(tokens[*i], "&&") == 0)
+	{
+		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_and, NULL, NULL);
+	}
 	return (NULL);
 }
 
@@ -112,15 +121,14 @@ t_ast	**lex_luthor(char **tokens)
 	i = 0;
 	ascnt = 0;
 	astable = ft_calloc(strtablen(tokens), sizeof(t_ast *));
-	// return (NULL);
-	while (tokens[i] != NULL)
+	while (i < (int)strtablen(tokens))
 	{
 		astable[ascnt] = ft_calloc(1, sizeof(t_ast));
 		cre_node(tokens, astable, &i, &ascnt);
 		j = 0;
-		while (j < astable[0]->u_data.cmd.arg_count)
+		while (j < astable[ascnt]->u_data.cmd.arg_count)
 		{
-			printf("%s\n", astable[0]->u_data.cmd.args[j]);
+			printf("%s\n", astable[ascnt]->u_data.cmd.args[j]);
 			j++;
 		}
 		ascnt++;

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/23 14:17:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:41:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,5 @@ char	**tokenizer(char *input)
 	tokens = split_with_a_twist(exp_input, ' ');
 	if (syntax_checker(tokens) == FAILURE)
 		return(free_tokens(tokens), error_thrower(0), NULL);
-	int i = 0;
-	while (tokens[i])
-	{
-		printf("%s\n", tokens[i]);
-		i++;
-	}
 	return (tokens);
 }
