@@ -66,9 +66,9 @@ int	checking_current_dir(t_ast *node)
 
 int	check_cmd(t_ast *node, t_env *env)
 {
-	int	k;
+	// int	k;
 
-	k = 0;
+	// k = 0;
 	if (get_env(env, "PATH") && check_if_path(node->u_data.cmd.cmd) == 0)
 	{
 		if (find_command_path(node, env) == 0)

@@ -78,14 +78,14 @@ int	exportadd(t_env **head, t_ast *node)
 {
 	int		k;
 	t_env	*new;
-	t_env	*newhead;
+	// t_env	*newhead;
 	t_env	*prenext;
 
 	k = 0;
 	if (!node->u_data.cmd.args[1])
 		return (exportcmd(*head));
 	new = key_value_to_list(node->u_data.cmd.args + 1);
-	newhead = new;
+	// newhead = new;
 	while (new)
 	{
 		prenext = new->next;

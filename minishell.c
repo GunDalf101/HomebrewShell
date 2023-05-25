@@ -30,7 +30,7 @@ void	signal_hand(int signum)
 	}
 }
 
-int	main(int argc, char *argv[], char **env)
+int	main(int argc, char *argv[])
 {
 	(void)argc;
 	(void)argv;
@@ -41,7 +41,7 @@ int	main(int argc, char *argv[], char **env)
 
 	rl_catch_signals = 0;
 
-	t_env *envlst = load_env(env);
+	// t_env *envlst = load_env(env);
 	while (1)
 	{
 		
@@ -57,6 +57,7 @@ int	main(int argc, char *argv[], char **env)
 		}
 		root = parsinginit(input);
 		free(input);
+		free(root);
 		// char *heredoctmp = ft_strdup("/tmp/heredoc");
 
 		// // char *command2_args[] = {"wc", "-l", NULL};
@@ -78,6 +79,6 @@ int	main(int argc, char *argv[], char **env)
 		// free_ast_node(heredoc1);
 		// unlink(heredoctmp);
 	}
-	clearenv(&envlst);
+	// clearenv(&envlst);
 	return (0);
 }

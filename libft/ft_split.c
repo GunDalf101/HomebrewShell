@@ -50,7 +50,7 @@ static char	*wordput(const char *str, size_t start, size_t finish)
 
 static char	**free_all(char **s, size_t i)
 {
-	while (i >= 0 && s[i] != NULL)
+	while (s[i] != NULL)
 	{
 		free(s[i]);
 		s[i] = NULL;

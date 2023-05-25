@@ -12,17 +12,17 @@
 
 #include "env.h"
 
-void	clearenv(t_env **head)
-{
-	t_env	*tmp;
+// void	clearenv(t_env **head)
+// {
+// 	t_env	*tmp;
 
-	while (*head)
-	{
-		tmp = *head;
-		*head = (*head)->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
-	free(*head);
-}
+// 	while (*head)
+// 	{
+// 		tmp = *head;
+// 		*head = (*head)->next;
+// 		free(tmp->key);
+// 		free(tmp->value);
+// 		free(tmp);
+// 	}
+// 	free(*head);
+// }
