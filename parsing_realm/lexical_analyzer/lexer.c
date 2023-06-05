@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/05 19:21:53 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/05 22:54:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,18 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_and, NULL, NULL);
 	}
+	else if (strcmp(tokens[*i], "(") == 0)
+	{
+		*i = *i + 1;
+		astable[*ascnt] = add_new_subshell(NULL);
+	}
+	else if (strcmp(tokens[*i], ")") == 0)
+	{
+		*i = *i + 1;
+		astable[*ascnt] = add_new_operation(ast_subshell_end, NULL, NULL);
+	}
+	else
+		*i = *i + 1;
 	return (NULL);
 }
 
@@ -198,13 +210,6 @@ t_ast	**lex_luthor(char **tokens)
 	{
 		astable[ascnt] = ft_calloc(1, sizeof(t_ast));
 		cre_node(tokens, astable, &i, &ascnt);
-		// j = 0;
-		// while (j < astable[ascnt]->u_data.cmd.arg_count)
-		// {
-		// 	printf("%s\n", astable[ascnt]->u_data.cmd.args[j]);
-		// 	j++;
-		// }
-		
 		ascnt++;
 	}
 	return (astable);

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/05 17:23:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/05 22:49:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ enum							e_ast_type
 	ast_and,
 	ast_or,
 	ast_subshell,
+	ast_subshell_end,
 	ast_exit,
 };
 
