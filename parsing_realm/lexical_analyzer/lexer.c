@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/24 20:24:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:21:53 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,11 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 	{
 		*ascnt = *ascnt + 1;
 		astable[*ascnt] = order_redirection(cmd, tokens, astable, i, ascnt);
+		if (!astable[*ascnt])
+			*ascnt = *ascnt - 1;
 	}
-	if (*i == com_researcher)
-		*ascnt = *ascnt - 1;
+	// if (*i == com_researcher)
+	// 	*ascnt = *ascnt - 1;
 	return (NULL);
 }
 
@@ -157,7 +159,7 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
-	if (*i == 0 || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and || tokens[*i][0] == '<' || tokens[*i][0] == '>')
+	if (*i == 0 || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and|| tokens[*i][0] == '<' || tokens[*i][0] == '>')
 	{
 		parse_com_red(tokens, astable, i, ascnt);
 	}
@@ -166,7 +168,7 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_pipe, NULL, NULL);
 	}
-	else if (printf("pleaaaaaase\n") && strcmp(tokens[*i], "||") == 0)
+	else if (strcmp(tokens[*i], "||") == 0)
 	{
 		*i = *i + 1;	
 		astable[*ascnt] = add_new_operation(ast_or, NULL, NULL);
@@ -202,6 +204,7 @@ t_ast	**lex_luthor(char **tokens)
 		// 	printf("%s\n", astable[ascnt]->u_data.cmd.args[j]);
 		// 	j++;
 		// }
+		
 		ascnt++;
 	}
 	return (astable);

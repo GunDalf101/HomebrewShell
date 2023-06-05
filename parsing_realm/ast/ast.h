@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/24 16:46:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:23:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ struct							s_redirect_in
 	t_ast						*next;
 };
 
-typedef struct s_heredoc
+struct s_heredoc
 {
 	char						*delim;
 	t_ast						*cmd;
@@ -80,7 +80,7 @@ typedef struct s_heredoc
 	char						*tmp;
 }								t_heredoc;
 
-typedef struct s_exit
+struct s_exit
 {
 	int							status;
 }								t_exit;
