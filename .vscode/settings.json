@@ -10,6 +10,7 @@
 	"minishell.h": "c",
 	"minishellexec.h": "c",
 	"parsing101.h": "c",
-	"sstream": "c"
+	"sstream": "c",
+	"__node_handle": "c"
 }
 }

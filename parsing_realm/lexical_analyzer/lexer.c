@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/08 11:08:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:05:00 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,5 @@ t_ast	**lex_luthor(char **tokens)
 		ascnt++;
 	}
 	astable[ascnt] = NULL;
-	i = 0;
-	while (i < ascnt)
-	{
-		printf("%d ", astable[i]->type);
-		i++;
-	}
-	printf("\n");
 	return (astable);
 }

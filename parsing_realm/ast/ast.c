@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 14:38:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:27:57 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,17 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	}
 	i = 0;
-	while (i < arg_count)
+	node->u_data.cmd.args[i] = ft_strdup(cmd);
+	// printf("node->u_data.cmd.args[i] = %s\n", node->u_data.cmd.args[i]);
+	i++;
+	int k = 0;
+	while (k < arg_count)
 	{
-		node->u_data.cmd.args[i] = ft_strdup(args[i]);
+		node->u_data.cmd.args[i] = ft_strdup(args[k]);
 		i++;
+		k++;
 	}
-	node->u_data.cmd.args[arg_count] = NULL;
+	node->u_data.cmd.args[arg_count+1] = NULL;
 	node->u_data.cmd.arg_count = arg_count;
 	return (node);
 }
@@ -249,9 +254,11 @@ t_ast	*getting_the_root(t_ast **lexical_table, int type, int counter)
 // let's grow the tree
 t_ast	*parse_tree(t_ast **lexical_table)
 {
-	t_ast *root = NULL;
+	t_ast *root;
 
+	if (!lexical_table)
+		return (NULL);
 	root = getting_the_root(lexical_table, 0, 0);
-	printf("root = %p\n", root);
+	// printf("root = %d\n", root->type);
 	return (root);
 }

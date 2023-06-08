@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/16 15:55:44 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/08 15:41:04 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	envadd_back(t_env **head, t_env *node)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
+	node
 	node->next = NULL;
 }
 
