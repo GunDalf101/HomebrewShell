@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 15:40:28 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:25:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-void				envadd_back(t_env **head, t_env *node);
+void	envadd_back(t_env **head, t_env *node,int hidden);
 t_env				*envnew(char *key, char *value, int append);
 t_env				*load_env(char **env);
 t_env				*get_env(t_env *head, char *env);

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/23 15:10:20 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 20:08:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ static size_t	ft_countwords(char const *str, char c)
 		if (sinquo == FALSE && dubquo == FALSE)
 		{
 			while (str[i] == c)
-					i++;
+				i++;
 			if (str[i] != c && str[i])
 				count++;
 			while (str[i] != c && str[i])
 				i++;
 		}
-		i++;
+		// i++;
 	}
 	return (count);
 }
@@ -98,7 +98,7 @@ char	**split_with_a_twist(char const *s, char c)
 		return (0);
 	i = -1;
 	pos = 0;
-	res = malloc(sizeof(char *) * ft_countwords(s, c) + 1);
+	res = ft_calloc(sizeof(char *), ft_countwords(s, c) + 1);
 	if (!res)
 		return (0);
 	while (++i < ft_countwords(s, c))
@@ -114,5 +114,6 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
+	printf("split dzpp\n");
 	return (res);
 }

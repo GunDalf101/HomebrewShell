@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 15:27:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/09 00:53:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,13 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	}
 	i = 0;
-	node->u_data.cmd.args[i] = ft_strdup(cmd);
-	// printf("node->u_data.cmd.args[i] = %s\n", node->u_data.cmd.args[i]);
-	i++;
-	int k = 0;
-	while (k < arg_count)
+		// printf("node->u_data.cmd.args[i] = %s\n", node->u_data.cmd.args[i]);
+	while (i < arg_count && args[i])
 	{
-		node->u_data.cmd.args[i] = ft_strdup(args[k]);
+		node->u_data.cmd.args[i] = ft_strdup(args[i]);
 		i++;
-		k++;
 	}
-	node->u_data.cmd.args[arg_count+1] = NULL;
+	node->u_data.cmd.args[arg_count] = NULL;
 	node->u_data.cmd.arg_count = arg_count;
 	return (node);
 }
@@ -124,24 +120,60 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 	return (subshell);
 }
 
+void	ft_redir_back(t_ast **lst, t_ast *new)
+{
+	t_ast	*last;
+	t_ast	*tmp;
+
+	last = *lst;
+	tmp = new;
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		while (last != NULL)
+		{
+			tmp = last;
+			if (last->type == ast_heredoc)
+				last = last->u_data.heredoc.next;
+			else if (last->type == ast_redirect_in)
+				last = last->u_data.redirect_in.next;
+			else if (last->type == ast_redirect_out)
+				last = last->u_data.redirect_out.next;
+		}
+		if (tmp->type == ast_heredoc)
+		{
+			tmp->u_data.heredoc.next = new;
+			new->u_data.heredoc.next = NULL;
+		}
+		else if (tmp->type == ast_redirect_in)
+		{
+			tmp->u_data.redirect_in.next = new;
+			new->u_data.redirect_in.next = NULL;
+		}
+		else if (tmp->type == ast_redirect_out)
+		{
+			tmp->u_data.redirect_out.next= new;
+			new->u_data.redirect_in.next = NULL;
+		}
+	}
+}
+
 t_ast	*setting_redirection(t_ast **lexical_table, int counter)
 {
 	t_ast *head;
-	t_ast *node = NULL;
+	t_ast *node;
+	int i;
 
-	head = node;
+	i = counter;
+	head = NULL;
 	while (lexical_table[counter] && (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in))
 	{
-		node = ft_calloc(sizeof(t_ast), 1);
 		node = lexical_table[counter];
-		if (node->type == ast_heredoc)
-			node = node->u_data.heredoc.next;
-		else if (node->type == ast_redirect_in)
-			node = node->u_data.redirect_in.next;
-		else if (node->type == ast_redirect_out)
-			node = node->u_data.redirect_out.next;
+		ft_redir_back(&head, node);
 		counter++;
 	}
+	// printf("node->type = %d\n", node->u_data.redirect_out.next->type);
 	return (head);
 }
 
@@ -180,6 +212,7 @@ t_ast	*setting_east_side(t_ast **lexical_table, int counter)
 {
 	t_ast	*right = NULL;
 
+	// printf("counter ------> %d\n", lexical_table[0]->type);
 	if (lexical_table[counter + 1]->type == ast_subshell)
 		right = setting_subshell(lexical_table, counter + 1);
 	else if (lexical_table[counter + 1]->type == ast_cmd)
@@ -259,6 +292,6 @@ t_ast	*parse_tree(t_ast **lexical_table)
 	if (!lexical_table)
 		return (NULL);
 	root = getting_the_root(lexical_table, 0, 0);
-	// printf("root = %d\n", root->type);
+	printf("exec dzpppp\n");
 	return (root);
 }

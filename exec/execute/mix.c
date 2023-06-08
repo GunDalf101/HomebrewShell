@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/16 15:58:55 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/08 17:01:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	t_fd	fd;
 	t_ast	*cmd;
 
+	cmd = NULL;
 	fd_init(&fd);
 	if (!fd.error)
 		cmd = get_cmd_node(node);
+	printf("cmd = %s\n", cmd->u_data.cmd.cmd);
 	while (node && g_run != 130)
 	{
 		if (node->type == ast_redirect_out)
@@ -87,5 +89,6 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	}
 	if (!fd.error && g_run != 130 && cmd)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
+	printf("g_run = %d\n", g_run);
 	return (g_run);
 }

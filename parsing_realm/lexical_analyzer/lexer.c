@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/08 15:05:00 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/09 00:57:09 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,11 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 	(void)astable;
 	arg_count = 0;
 	argcnt = 0;
+	tempi = *i;
+	if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
+		return (NULL);
 	cmd = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 	cmd = tokens[*i];
-	*i = *i + 1;
-	tempi = *i;
 	while (tokens[tempi] && tokens[tempi][0] != '|' && tokens[tempi][0] != '(' && tokens[tempi][0] != '&' && tokens[tempi][0] != ')')
 	{
 		if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
@@ -48,17 +49,30 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 		arg_count++;
 		tempi++;
 	}
+	printf("arg_count = %d\n", arg_count);
 	args = ft_calloc(arg_count + 1, sizeof(char *));
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
-		while ((tokens[*i + 1] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i + 1] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
+		while ((tokens[*i] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
 			*i = *i + 1;
+		if (!tokens[*i])
+			break;
+		printf("tokens[*i] = %s\n", tokens[*i]);
 		args[argcnt] = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 		args[argcnt] = tokens[*i];
 		*i = *i + 1;
 		argcnt++;
 	}
-	args[argcnt] = NULL;
+	args[argcnt + 1] = NULL;
+	
+	// int j = 0;
+	// 	while(args[j])
+	// 	{
+	// 		printf("A\n");
+	// 		printf("astable[ascnt]->u_data.cmd.args[j] = %s\n", args[j]);
+	// 		j++;
+	// 	}
+	// printf("B\n");
 	return (add_new_cmd(cmd, args, arg_count, ast_cmd));
 }
 
@@ -138,10 +152,11 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 	while ((tokens[com_researcher + 1] && (tokens[com_researcher][0] == '>' || tokens[com_researcher][0] == '<')) || (com_researcher > 0 && tokens[com_researcher + 1] && (tokens[com_researcher - 1][0] == '>' || tokens[com_researcher - 1][0] == '<')))
 		com_researcher++;
 	astable[*ascnt] = order_command(tokens, astable, &com_researcher, ascnt);
-	cmd = ft_calloc(1, sizeof(t_ast));
+	cmd = astable[*ascnt];
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
-		*ascnt = *ascnt + 1;
+		if (astable[*ascnt])
+			*ascnt = *ascnt + 1;
 		astable[*ascnt] = order_redirection(cmd, tokens, astable, i, ascnt);
 		if (!astable[*ascnt])
 			*ascnt = *ascnt - 1;
@@ -196,6 +211,7 @@ t_ast	**lex_luthor(char **tokens)
 	t_ast **astable = NULL;
 	(void) tokens;
 	int i;
+	// int j = 0;
 	int ascnt;
 
 	i = 0;
@@ -205,6 +221,13 @@ t_ast	**lex_luthor(char **tokens)
 	{
 		astable[ascnt] = ft_calloc(1, sizeof(t_ast));
 		cre_node(tokens, astable, &i, &ascnt);
+		// j = 0;
+		// while(astable[ascnt]->u_data.redirect_out.cmd->u_data.cmd.args[j] != NULL)
+		// {
+		// 	printf("out = %s\n", astable[ascnt]->u_data.redirect_out.outfile);
+		// 	printf("astable[ascnt]->u_data.cmd.args[j] = %d\n", (int)astable[ascnt]->u_data.redirect_out.cmd->u_data.cmd.args[j][0]);
+		// 	j++;
+		// }
 		ascnt++;
 	}
 	astable[ascnt] = NULL;

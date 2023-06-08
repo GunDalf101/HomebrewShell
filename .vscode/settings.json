@@ -11,6 +11,11 @@
 	"minishellexec.h": "c",
 	"parsing101.h": "c",
 	"sstream": "c",
-	"__node_handle": "c"
+	"__node_handle": "c",
+	"__bit_reference": "c",
+	"algorithm": "c",
+	"bitset": "c",
+	"chrono": "c",
+	"unordered_map": "c"
 }
 }

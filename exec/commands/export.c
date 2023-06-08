@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 03:18:46 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:28:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	add_to_env(t_env **head, t_env *new)
 
 	tmp = get_env(*head, new->key);
 	if (!tmp)
-		envadd_back(head, new);
+		envadd_back(head, new,0);
 	else if (new->append == 0)
 	{
 		tmpvalue = tmp->value;
@@ -110,7 +110,7 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 		{
 			tmp = get_env(*head, new->key);
 			if (!tmp)
-				envadd_back(head, new);
+				envadd_back(head, new,0);
 			else
 				tmp->value = new->value;
 		}

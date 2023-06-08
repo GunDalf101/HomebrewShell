@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 15:41:04 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/08 16:27:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_env	*key_value_to_list(char **env)
 			keyvalue[0] = append_env_mode(keyvalue[0], &k);
 		}
 		if (!keyvalue[1])
-			envadd_back(&head, envnew(keyvalue[0], ft_strdup(""), k));
+			envadd_back(&head, envnew(keyvalue[0], ft_strdup(""), k),0);
 		else
-			envadd_back(&head, envnew(keyvalue[0], keyvalue[1], k));
+			envadd_back(&head, envnew(keyvalue[0], keyvalue[1], k),0);
 		free(keyvalue);
 		env++;
 	}
@@ -55,7 +55,7 @@ t_env	*envnew(char *key, char *value, int append)
 	return (new);
 }
 
-void	envadd_back(t_env **head, t_env *node)
+void	envadd_back(t_env **head, t_env *node,int hidden)
 {
 	t_env	*tmp;
 
@@ -70,7 +70,7 @@ void	envadd_back(t_env **head, t_env *node)
 			tmp = tmp->next;
 		tmp->next = node;
 	}
-	node
+	node->hidden = hidden;
 	node->next = NULL;
 }
 
@@ -96,7 +96,7 @@ t_env	*load_env(char **env)
 		if (tmp[i] == '=')
 			value = &tmp[i + 1];
 		tmp[i] = '\0';
-		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0));
+		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0),0);
 		free(tmp);
 		env++;
 	}
