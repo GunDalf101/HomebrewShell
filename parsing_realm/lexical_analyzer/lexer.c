@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/05 22:54:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 11:08:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,23 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 	(void)astable;
 	arg_count = 0;
 	argcnt = 0;
-	cmd = ft_calloc(ft_strlen(tokens[*i]), 1);
+	cmd = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 	cmd = tokens[*i];
 	*i = *i + 1;
 	tempi = *i;
-	while (tokens[tempi] && tokens[tempi][0] != '|' && tokens[tempi][0] != '(' && tokens[tempi][0] != '&')
+	while (tokens[tempi] && tokens[tempi][0] != '|' && tokens[tempi][0] != '(' && tokens[tempi][0] != '&' && tokens[tempi][0] != ')')
 	{
 		if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
 			arg_count--;
 		arg_count++;
 		tempi++;
 	}
-	printf("-------------%d-----------\n", arg_count);
 	args = ft_calloc(arg_count + 1, sizeof(char *));
-	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&')
+	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
 		while ((tokens[*i + 1] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i + 1] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
 			*i = *i + 1;
-		args[argcnt] = calloc(ft_strlen(tokens[*i]) + 1, 1);
+		args[argcnt] = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 		args[argcnt] = tokens[*i];
 		*i = *i + 1;
 		argcnt++;
@@ -77,10 +76,9 @@ t_ast	*order_redirectout(t_ast *cmd,char **tokens, t_ast **astable, int *i, int 
 	else if (strcmp(tokens[*i], ">>") == 0)
 		tag = 2;
 	*i = *i + 1;
-	outfile = ft_calloc(ft_strlen(tokens[*i]), 1);
+	outfile = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 	outfile = tokens[*i];
 	*i = *i + 1;
-	printf("%s\n", outfile);
 	return (add_new_redirect_out(outfile, cmd, tag));
 }
 
@@ -93,10 +91,9 @@ t_ast	*order_redirectin(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *
 	(void)astable;
 	(void)ascnt;
 	*i = *i + 1;
-	infile = ft_calloc(ft_strlen(tokens[*i]), 1);
+	infile = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 	infile = tokens[*i];
 	*i = *i + 1;
-	printf("%s\n", infile);
 	return (add_new_redirect_in(infile, cmd));
 }
 
@@ -109,10 +106,9 @@ t_ast	*order_heredoc(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *asc
 	(void)astable;
 	(void)ascnt;
 	*i = *i + 1;
-	delimiter = ft_calloc(ft_strlen(tokens[*i]), 1);
+	delimiter = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 	delimiter = tokens[*i];
 	*i = *i + 1;
-	printf("%s\n", delimiter);
 	return (add_new_heredoc(delimiter, cmd));
 }
 
@@ -143,7 +139,7 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 		com_researcher++;
 	astable[*ascnt] = order_command(tokens, astable, &com_researcher, ascnt);
 	cmd = ft_calloc(1, sizeof(t_ast));
-	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&')
+	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
 		*ascnt = *ascnt + 1;
 		astable[*ascnt] = order_redirection(cmd, tokens, astable, i, ascnt);
@@ -159,7 +155,7 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
-	if (*i == 0 || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and|| tokens[*i][0] == '<' || tokens[*i][0] == '>')
+	if ((*i == 0 || astable[*ascnt - 1]->type == ast_subshell || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and || tokens[*i][0] == '<' || tokens[*i][0] == '>') && (tokens[*i][0] != '('))
 	{
 		parse_com_red(tokens, astable, i, ascnt);
 	}
@@ -200,7 +196,6 @@ t_ast	**lex_luthor(char **tokens)
 	t_ast **astable = NULL;
 	(void) tokens;
 	int i;
-	// int j;
 	int ascnt;
 
 	i = 0;
@@ -212,5 +207,13 @@ t_ast	**lex_luthor(char **tokens)
 		cre_node(tokens, astable, &i, &ascnt);
 		ascnt++;
 	}
+	astable[ascnt] = NULL;
+	i = 0;
+	while (i < ascnt)
+	{
+		printf("%d ", astable[i]->type);
+		i++;
+	}
+	printf("\n");
 	return (astable);
 }

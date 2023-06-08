@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/05 22:49:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:30:40 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,5 +132,9 @@ t_ast							*add_new_redirect_out(char *outfile, t_ast *cmd,
 t_ast							*add_new_heredoc(char *delimiter, t_ast *child);
 void							free_ast_node(t_ast *node);
 t_ast							*add_new_redirect_in(char *infile, t_ast *cmd);
+t_ast							*getting_the_root(t_ast **lexical_table, int type, int counter);
+t_ast							*setting_west_side(t_ast **lexical_table, int counter);
+t_ast							*setting_east_side(t_ast **lexical_table, int counter);
+t_ast							*setting_command_redir(t_ast **lexical_table, int counter);
 
 #endif

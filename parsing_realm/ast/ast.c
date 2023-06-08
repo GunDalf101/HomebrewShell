@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/05 18:51:11 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:38:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,150 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 	return (node);
 }
 
+//the function that handles the subshell AKA parenthesis
+t_ast	*setting_subshell(t_ast **lexical_table, int counter)
+{
+	t_ast	*subshell;
+
+	subshell = ft_calloc(sizeof(t_ast), 1);
+	subshell = lexical_table[counter];
+	subshell->u_data.subshell.child = getting_the_root(lexical_table, 1, counter);
+	return (subshell);
+}
+
+t_ast	*setting_redirection(t_ast **lexical_table, int counter)
+{
+	t_ast *head;
+	t_ast *node = NULL;
+
+	head = node;
+	while (lexical_table[counter] && (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in))
+	{
+		node = ft_calloc(sizeof(t_ast), 1);
+		node = lexical_table[counter];
+		if (node->type == ast_heredoc)
+			node = node->u_data.heredoc.next;
+		else if (node->type == ast_redirect_in)
+			node = node->u_data.redirect_in.next;
+		else if (node->type == ast_redirect_out)
+			node = node->u_data.redirect_out.next;
+		counter++;
+	}
+	return (head);
+}
+
+
+// growing commands n shit
+
+t_ast	*setting_command_redir(t_ast **lexical_table, int counter)
+{
+	t_ast	*head;
+	int		i;
+
+	i = 0;
+	while (lexical_table[counter] && lexical_table[counter]->type != ast_and && lexical_table[counter]->type != ast_or && lexical_table[counter]->type != ast_pipe)
+	{
+		if (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in)
+		{
+			head = ft_calloc(sizeof(t_ast), 1);
+			head = setting_redirection(lexical_table, counter);
+			i++;
+			break ;
+		}
+		counter++;
+	}
+	if (i == 0)
+	{
+		counter--;
+		head = ft_calloc(sizeof(t_ast), 1);
+		head = lexical_table[counter];
+	}
+	return (head);
+}
+
+
+// this function is used to set the right side of the tree
+t_ast	*setting_east_side(t_ast **lexical_table, int counter)
+{
+	t_ast	*right = NULL;
+
+	if (lexical_table[counter + 1]->type == ast_subshell)
+		right = setting_subshell(lexical_table, counter + 1);
+	else if (lexical_table[counter + 1]->type == ast_cmd)
+		right = setting_command_redir(lexical_table, counter + 1);
+	return (right);
+}
+
+// this function is used to set the left side of the tree
+t_ast	*setting_west_side(t_ast **lexical_table, int counter)
+{
+	t_ast	*root = NULL;
+
+
+	while(lexical_table[counter] && counter >= 0)
+	{
+		// printf ("tbbi lol\n");
+		if (lexical_table[counter]->type == ast_pipe || lexical_table[counter]->type == ast_and || lexical_table[counter]->type == ast_or)
+		{
+			root = ft_calloc(sizeof(t_ast), 1);
+			root = lexical_table[counter];
+			root->u_data.operation.right = setting_east_side(lexical_table, counter);
+			root->u_data.operation.left = setting_west_side(lexical_table, counter - 1);
+			break ;
+		}
+		counter--;
+	}
+	if (counter == -1)
+	{
+		root = ft_calloc(sizeof(t_ast), 1);
+		root = setting_east_side(lexical_table, counter);
+	}
+	return (root);
+}
+
+
+//this function gets the root and initiate the growth of the tree
+t_ast	*getting_the_root(t_ast **lexical_table, int type, int counter)
+{
+	t_ast	*root = NULL;
+
+	if (type == 0)
+	{
+		while(lexical_table[counter])
+			counter++;
+	}
+	else if (type == 1)
+	{
+		while(lexical_table[counter] && lexical_table[counter]->type != ast_subshell_end)
+			counter++;
+	}
+	counter--;
+	while(lexical_table[counter] && counter >= 0)
+	{
+		if (lexical_table[counter]->type == ast_pipe || lexical_table[counter]->type == ast_and || lexical_table[counter]->type == ast_or)
+		{
+			root = ft_calloc(sizeof(t_ast), 1);
+			root = lexical_table[counter];
+			root->u_data.operation.right = setting_east_side(lexical_table, counter);
+			root->u_data.operation.left = setting_west_side(lexical_table, counter - 1);
+			break ;
+		}
+		counter--;
+	}
+	if (counter == -1)
+	{
+		root = ft_calloc(sizeof(t_ast), 1);
+		root = setting_east_side(lexical_table, counter);
+	}
+	return (root);
+}
+
+// let's grow the tree
 t_ast	*parse_tree(t_ast **lexical_table)
 {
 	t_ast *root = NULL;
-	(void)lexical_table;
 
+	root = getting_the_root(lexical_table, 0, 0);
+	printf("root = %p\n", root);
 	return (root);
 }
