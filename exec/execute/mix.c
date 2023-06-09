@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 17:01:11 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 12:06:19 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	fd_init(&fd);
 	if (!fd.error)
 		cmd = get_cmd_node(node);
-	printf("cmd = %s\n", cmd->u_data.cmd.cmd);
 	while (node && g_run != 130)
 	{
 		if (node->type == ast_redirect_out)
@@ -80,6 +79,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = getting_infile_fd(node, &fd);
 		else if (node->type == ast_heredoc)
 		{
+			node->u_data.heredoc.tmp = "/tmp/.minishell_heredoc";
 			open_tmp_file(node, &fd);
 			node = heredoc_handler(node, &fd);
 			if (!node || node->type != ast_heredoc)
@@ -89,6 +89,5 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	}
 	if (!fd.error && g_run != 130 && cmd)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
-	printf("g_run = %d\n", g_run);
 	return (g_run);
 }

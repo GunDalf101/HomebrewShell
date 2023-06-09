@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/09 00:57:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:56:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 		arg_count++;
 		tempi++;
 	}
-	printf("arg_count = %d\n", arg_count);
 	args = ft_calloc(arg_count + 1, sizeof(char *));
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
@@ -57,7 +56,6 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 			*i = *i + 1;
 		if (!tokens[*i])
 			break;
-		printf("tokens[*i] = %s\n", tokens[*i]);
 		args[argcnt] = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
 		args[argcnt] = tokens[*i];
 		*i = *i + 1;

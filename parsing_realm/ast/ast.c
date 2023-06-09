@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 00:53:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:56:42 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	}
 	i = 0;
-		// printf("node->u_data.cmd.args[i] = %s\n", node->u_data.cmd.args[i]);
 	while (i < arg_count && args[i])
 	{
 		node->u_data.cmd.args[i] = ft_strdup(args[i]);
@@ -173,7 +172,6 @@ t_ast	*setting_redirection(t_ast **lexical_table, int counter)
 		ft_redir_back(&head, node);
 		counter++;
 	}
-	// printf("node->type = %d\n", node->u_data.redirect_out.next->type);
 	return (head);
 }
 
@@ -292,6 +290,5 @@ t_ast	*parse_tree(t_ast **lexical_table)
 	if (!lexical_table)
 		return (NULL);
 	root = getting_the_root(lexical_table, 0, 0);
-	printf("exec dzpppp\n");
 	return (root);
 }

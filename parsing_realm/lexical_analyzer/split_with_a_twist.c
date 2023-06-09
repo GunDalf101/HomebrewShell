@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_with_a_twist.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/08 20:08:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 11:57:07 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static size_t	ft_wordlen(char const *str, char c)
 		count++;
 	}
 	if (dubquo == TRUE || sinquo == TRUE)
-		return (printf("The fuck you doing mate\n"), exit(1), 0);
+		return (exit(1), 0);
 	return (count);
 }
 
@@ -114,6 +114,5 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
-	printf("split dzpp\n");
 	return (res);
 }
