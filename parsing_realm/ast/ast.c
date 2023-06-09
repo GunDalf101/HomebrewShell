@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 00:53:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:38:23 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	}
 	i = 0;
-		// printf("node->u_data.cmd.args[i] = %s\n", node->u_data.cmd.args[i]);
 	while (i < arg_count && args[i])
 	{
 		node->u_data.cmd.args[i] = ft_strdup(args[i]);
@@ -142,20 +141,11 @@ void	ft_redir_back(t_ast **lst, t_ast *new)
 				last = last->u_data.redirect_out.next;
 		}
 		if (tmp->type == ast_heredoc)
-		{
 			tmp->u_data.heredoc.next = new;
-			new->u_data.heredoc.next = NULL;
-		}
 		else if (tmp->type == ast_redirect_in)
-		{
 			tmp->u_data.redirect_in.next = new;
-			new->u_data.redirect_in.next = NULL;
-		}
 		else if (tmp->type == ast_redirect_out)
-		{
 			tmp->u_data.redirect_out.next= new;
-			new->u_data.redirect_in.next = NULL;
-		}
 	}
 }
 
@@ -173,7 +163,6 @@ t_ast	*setting_redirection(t_ast **lexical_table, int counter)
 		ft_redir_back(&head, node);
 		counter++;
 	}
-	// printf("node->type = %d\n", node->u_data.redirect_out.next->type);
 	return (head);
 }
 
@@ -212,7 +201,6 @@ t_ast	*setting_east_side(t_ast **lexical_table, int counter)
 {
 	t_ast	*right = NULL;
 
-	// printf("counter ------> %d\n", lexical_table[0]->type);
 	if (lexical_table[counter + 1]->type == ast_subshell)
 		right = setting_subshell(lexical_table, counter + 1);
 	else if (lexical_table[counter + 1]->type == ast_cmd)
@@ -228,7 +216,6 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 
 	while(lexical_table[counter] && counter >= 0)
 	{
-		// printf ("tbbi lol\n");
 		if (lexical_table[counter]->type == ast_pipe || lexical_table[counter]->type == ast_and || lexical_table[counter]->type == ast_or)
 		{
 			root = ft_calloc(sizeof(t_ast), 1);

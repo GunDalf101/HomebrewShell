@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/08 15:31:48 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/09 19:34:46 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,5 @@ int	main(int argc, char *argv[],char *env[])
 			g_run = execute_commands(root, &envlst);
 	
 	}
-	// clearenv(&envlst);
 	return (0);
 }
