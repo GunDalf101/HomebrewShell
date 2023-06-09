@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 19:38:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/09 23:39:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,5 @@ t_ast	*parse_tree(t_ast **lexical_table)
 	if (!lexical_table)
 		return (NULL);
 	root = getting_the_root(lexical_table, 0, 0);
-	printf("exec dzpppp\n");
 	return (root);
 }
