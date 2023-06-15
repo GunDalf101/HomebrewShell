@@ -102,7 +102,7 @@ t_env	*load_env(char **env)
 	}
 	return (head);
 }
-
+#include <stdio.h>
 t_env	*get_env(t_env *head, char *env)
 {
 	t_env	*tmp;
@@ -110,9 +110,10 @@ t_env	*get_env(t_env *head, char *env)
 	tmp = head;
 	if (!env)
 		return (0);
+	
 	while (tmp)
 	{
-		if (strcmp(tmp->key, env) == 0)
+		if (!strcmp(tmp->key, env))
 			return (tmp);
 		tmp = tmp->next;
 	}

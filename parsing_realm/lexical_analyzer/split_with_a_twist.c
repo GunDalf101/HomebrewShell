@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/15 23:27:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:48:24 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,6 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
-	for (int j = 0; res[j]; j++)
-	{
-		printf("res[%d] = %s\n", j, res[j]);
-	}
 	printf("lol split sucks\n");
 	return (res);
 }

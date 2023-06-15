@@ -116,9 +116,7 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 
 	subshell = ft_calloc(sizeof(t_ast), 1);
 	subshell = lexical_table[counter];
-	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
 	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "()");
-	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
 	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);
 	return (subshell);
 }

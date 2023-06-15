@@ -21,6 +21,5 @@ t_ast	*parsinginit(char	*input)
 	tokens = tokenizer(input);
 	lexical_table = lex_luthor(tokens);
 	root = parse_tree(lexical_table);
-
 	return (root);
 }

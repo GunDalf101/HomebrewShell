@@ -13,7 +13,7 @@
 #include "commands.h"
 #include <stdio.h>
 
-int	to_relative_dir(char *dir, char *path)
+int	to_relative_dir(char *dir, char *path,t_env **env)
 {
 	char	*tmp;
 
@@ -22,6 +22,7 @@ int	to_relative_dir(char *dir, char *path)
 		tmp = ft_strjoin(path, dir + 1);
 		if (chdir(tmp) == 0)
 		{
+			exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
 			free(path);
 			free(tmp);
 			return (0);
@@ -38,15 +39,16 @@ int	to_home_dir(t_env **env, char *dir)
 	path = ft_strjoin("/Users/", getenv("USER"));
 	if (get_env(*env, "OLDPWD"))
 		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
-	if (!strcmp(dir, "~"))
+	if (dir == NULL || !strcmp(dir, "~"))
 	{
 		if (chdir(path) == 0)
 		{
+			exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
 			free(path);
 			return (0);
 		}
 	}
-	else if (!to_relative_dir(dir, path))
+	else if (!to_relative_dir(dir, path,env))
 		return (0);
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(dir, 2);
@@ -66,9 +68,10 @@ int	to_prev_dir(t_env **env)
 		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
 		return (1);
 	}
+	exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
 	if (chdir(path) == 0)
 	{
-		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
+		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
 		return (0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);
@@ -87,6 +90,7 @@ int	to_dir(t_ast *node, t_env **env)
 	{
 		if (get_env(*env, "OLDPWD"))
 			exportadd_for_cd(env, envnew("OLDPWD", path, 0));
+		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
 		return (0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);
@@ -99,7 +103,7 @@ int	to_dir(t_ast *node, t_env **env)
 int	cd(t_ast *node, t_env **env)
 {
 	if (!node->u_data.cmd.args[1])
-		return (0);
+		return (to_home_dir(env, NULL));
 	else
 	{
 		if (!ft_strncmp(node->u_data.cmd.args[1], "~", 1))
@@ -108,8 +112,6 @@ int	cd(t_ast *node, t_env **env)
 			return (to_prev_dir(env));
 		else
 			return (to_dir(node, env));
-	}
-	if (get_env(*env, "PWD"))
-		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
+	}	
 	return (1);
 }

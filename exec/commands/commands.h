@@ -23,7 +23,7 @@ int		exportadd(t_env **head, t_ast *node);
 int		envcmd(t_env *head);
 int		unsetcmd(t_env **head, t_ast *node);
 int		check_key(char *key);
-int		pwd(void);
+int		pwd(t_env **env);
 char	*return_pwd(void);
 int		cd(t_ast *node, t_env **env);
 int		echo(t_ast *node);

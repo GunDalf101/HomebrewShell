@@ -17,7 +17,6 @@ char	*return_pwd(void)
 	char	*buffer;
 	size_t	size;
 	char	*re_buffer;
-
 	buffer = NULL;
 	size = 0;
 	re_buffer = NULL;
@@ -41,14 +40,21 @@ char	*return_pwd(void)
 	return (buffer);
 }
 
-int	pwd(void)
+int	pwd(t_env **env)
 {
 	char	*buffer;
-	// size_t	size;
-	// char	*re_buffer;
-
-	buffer = return_pwd();
-	ft_putendl_fd(buffer, 1);
-	free(buffer);
+	if(get_env(*env, "PWD"))
+	{
+		ft_putendl_fd(get_env(*env,"PWD")->value,1);
+		return (0);
+	}
+	else
+	{
+		buffer = return_pwd();
+		if (buffer == NULL)
+			return (1);
+		ft_putendl_fd(buffer,1);
+		envnew("PWD", buffer, 0);
+	}
 	return (0);
 }

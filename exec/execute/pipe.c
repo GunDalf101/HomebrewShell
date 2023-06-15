@@ -24,7 +24,8 @@ int	create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 	else if (right_pid == 0)
 	{
 		close(pipefd[1]);
-		dup2(pipefd[0], STDIN_FILENO);
+		if (node->u_data.operation.left->type != ast_heredoc && node->u_data.operation.left->type != ast_redirect_out && node->u_data.operation.left->type != ast_redirect_in)
+			dup2(pipefd[0], STDIN_FILENO);
 		status = execute_commands(node->u_data.operation.right, env);
 		exit(status);
 	}
@@ -37,8 +38,6 @@ int	create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 		return (status);
 	}
 }
-		// if (node->u_data.operation.right->type == ast_exit)
-		// 	exit(25);
 
 int	create_pipe(t_ast *node, t_env **env)
 {
