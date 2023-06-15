@@ -60,8 +60,6 @@ int	main(int argc, char *argv[],char *env[])
 			continue ;
 		add_history(input);
 		root = parsinginit(input);
-		// printf("root->type = %s\n", root->u_data.operation.right->u_data.subshell.child->u_data.cmd.cmd);
-		printf("exec dzpp\n");
 		if (root)
 			g_run = execute_commands(root, &envlst);
 	

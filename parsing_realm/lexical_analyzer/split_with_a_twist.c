@@ -141,6 +141,5 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
-	printf("lol split sucks\n");
 	return (res);
 }

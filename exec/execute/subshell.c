@@ -14,46 +14,36 @@
 
 int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid)
 {
-	(void)node;
-	int	read_result;
-	int	subshell_status;
-	int	subshell_exit_status;
-	int	status;
+	int		subshell_status;
+	int		status;
 
 	close(pipefd[1]);
-	waitpid(pid, &subshell_status, 0);
-	read_result = read(pipefd[0], &subshell_exit_status, sizeof(int));
-	if (read_result == -1)
-	{
-		perror("read");
-		exit(1);
-	}
-	status = subshell_exit_status;
+	waitpid(pid, &status, 0);
+	read(pipefd[0], &subshell_status, sizeof(int));
 	close(pipefd[0]);
-	return (status);
+	if (node->u_data.subshell.reparsethis)
+		free(node->u_data.subshell.reparsethis);
+	free(node);
+	return (subshell_status);
 }
-
 int	execute_subshell(t_ast *node, t_env **env)
 {
 	int		pipefd[2];
+	int		pid;
 	int		subshell_status;
-	pid_t	pid;
-	// ssize_t	read_result;
 
 	if (pipe(pipefd) == -1)
-		exit(1);
+		exit(EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
-		exit(1);
-	else if (pid == 0)
+		exit(EXIT_FAILURE);
+	if (pid == 0)
 	{
 		close(pipefd[0]);
-		dup2(pipefd[1], STDIN_FILENO);
 		subshell_status = execute_commands(node->u_data.subshell.child, env);
 		write(pipefd[1], &subshell_status, sizeof(int));
-		exit(0);
+		close(pipefd[1]);
+		exit(subshell_status);
 	}
-	else
-		return (get_subshell_exit_status(node, pipefd, pid));
+	return (get_subshell_exit_status(node, pipefd, pid));
 }
-// close(pipefd[1]); line 51
