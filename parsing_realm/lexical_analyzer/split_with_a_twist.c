@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/09 23:40:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/15 19:58:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ void	parenthesis_life_time(int *life_counter, char c, int *paren)
 {
 	if (c == '(')
 	{
-		*life_counter += 1;
+		*life_counter = *life_counter + 1;
 		*paren = TRUE;
 	}
 	else if (c == ')')
 	{
-		*life_counter -= 1;
-		*paren = FALSE;
+		*life_counter = *life_counter - 1;
 	}
+	
+	if (*life_counter == 0 && *paren == TRUE)
+		*paren = FALSE;
 }
 
 static size_t	ft_countwords(char const *str, char c)
@@ -61,11 +63,13 @@ static size_t	ft_countwords(char const *str, char c)
 	{
 		super_quote_hander(&dubquo, &sinquo, str[i]);
 		parenthesis_life_time(&life_counter, str[i], &paren);
-		if (sinquo == FALSE && dubquo == FALSE && life_counter == 0 &&  paren == FALSE)
+		if (sinquo == FALSE && dubquo == FALSE && (paren == FALSE  || str[i] == ')'))
 		{
 			while (str[i] == c)
 				i++;
-			if (str[i] != c && str[i])
+			if (str[i] != ')')
+				parenthesis_life_time(&life_counter, str[i], &paren);
+			if (str[i] != c && str[i] && str[i] != ')')
 				count++;
 			while (str[i] != c && str[i])
 				i++;
@@ -73,7 +77,6 @@ static size_t	ft_countwords(char const *str, char c)
 		if (str[i])
 			i++;
 	}
-	printf("count ----> %d\n", count);
 	return (count);
 }
 
@@ -138,12 +141,6 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
-	size_t j = 0;
-	while (j < ft_countwords(s, c))
-	{
-		printf("split ----> %s\n", res[j]);
-		j++;
-	}
-	printf("lol\n");
+	printf("lol split sucks\n");
 	return (res);
 }

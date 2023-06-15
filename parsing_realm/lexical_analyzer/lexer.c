@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/09 23:39:42 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/13 03:18:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,15 +177,10 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_and, NULL, NULL);
 	}
-	else if (strcmp(tokens[*i], "(") == 0)
+	else if (tokens[*i][0] == '(')
 	{
+		astable[*ascnt] = add_new_subshell(NULL, tokens[*i]);
 		*i = *i + 1;
-		astable[*ascnt] = add_new_subshell(NULL);
-	}
-	else if (strcmp(tokens[*i], ")") == 0)
-	{
-		*i = *i + 1;
-		astable[*ascnt] = add_new_operation(ast_subshell_end, NULL, NULL);
 	}
 	else
 		*i = *i + 1;

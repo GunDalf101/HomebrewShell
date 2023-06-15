@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 23:08:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/13 03:24:53 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include "../../exec/env/env.h"
+
 
 typedef struct s_ast			t_ast;
 enum							e_ast_type
@@ -100,6 +101,7 @@ struct							s_or
 
 struct							s_subshell
 {
+	char						*reparsethis;
 	t_ast						*child;
 };
 
@@ -124,7 +126,7 @@ struct							s_ast
 t_ast							*parse_tree(t_ast	**lexical_table);
 t_ast							*add_new_cmd(char *cmd, char **args,
 									int arg_count, enum e_ast_type type);
-t_ast							*add_new_subshell(t_ast *child);
+t_ast							*add_new_subshell(t_ast *child, char *reparsethis);
 t_ast							*add_new_operation(enum e_ast_type type,
 									t_ast *left, t_ast *right);
 t_ast							*add_new_redirect_out(char *outfile, t_ast *cmd,

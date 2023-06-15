@@ -1,0 +1,31 @@
+total 208
+drwxr-xr-x  17 mbennani  candidate    578 Jun 10 11:50 .
+drwxr-xr-x  12 mbennani  candidate    408 Jun  9 23:59 ..
+drwxr-xr-x  15 mbennani  candidate    510 Jun  9 23:42 .git
+drwxr-xr-x   3 mbennani  candidate    102 Jun  8 16:23 .vscode
+-rw-r--r--   1 mbennani  candidate     54 Jun  8 16:23 README.md
+-rw---x--x   1 mbennani  candidate      0 Jun 10 11:50 a
+-rw---x--x   1 mbennani  candidate      0 Jun 10 11:50 e
+drwxr-xr-x   7 mbennani  candidate    238 Jun  8 16:23 exec
+-rw-r--r--   1 mbennani  candidate    422 Jun  9 23:37 file
+drwxr-xr-x  92 mbennani  candidate   3128 Jun 10 11:49 libft
+-rw-r--r--   1 mbennani  candidate   3846 Jun  8 16:23 makefile
+-rwxr-xr-x   1 mbennani  candidate  74136 Jun 10 11:50 minishell
+-rw-r--r--   1 mbennani  candidate   1757 Jun  9 19:34 minishell.c
+-rw-r--r--   1 mbennani  candidate   1141 Jun  8 16:23 minishell.h
+-rw-r--r--   1 mbennani  candidate   1876 Jun 10 11:17 minishell.o
+-rw-r--r--   1 mbennani  candidate     10 Jun  9 23:37 out
+drwxr-xr-x   9 mbennani  candidate    306 Jun 10 11:17 parsing_realm
+README.md
+a
+e
+exec
+file
+libft
+makefile
+minishell
+minishell.c
+minishell.h
+minishell.o
+out
+parsing_realm

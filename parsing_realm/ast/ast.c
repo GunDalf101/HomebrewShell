@@ -6,11 +6,12 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 23:39:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/13 03:29:31 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
+# include "../parsing101.h"
 
 t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		enum e_ast_type type)
@@ -41,7 +42,7 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 	return (node);
 }
 
-t_ast	*add_new_subshell(t_ast *child)
+t_ast	*add_new_subshell(t_ast *child, char *reparsethis)
 {
 	t_ast	*node;
 
@@ -49,8 +50,8 @@ t_ast	*add_new_subshell(t_ast *child)
 	if (!node)
 		exit(EXIT_FAILURE);
 	node->type = ast_subshell;
-	node->u_data.operation.left = child;
-	node->u_data.operation.right = NULL;
+	node->u_data.subshell.reparsethis = ft_strdup(reparsethis);
+	node->u_data.subshell.child = child;
 	return (node);
 }
 
@@ -115,7 +116,10 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 
 	subshell = ft_calloc(sizeof(t_ast), 1);
 	subshell = lexical_table[counter];
-	subshell->u_data.subshell.child = getting_the_root(lexical_table, 1, counter);
+	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
+	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "()");
+	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
+	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);
 	return (subshell);
 }
 
