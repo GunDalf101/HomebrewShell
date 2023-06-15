@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/15 19:58:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:27:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static size_t	ft_countwords(char const *str, char c)
 	sinquo = FALSE;
 	paren = FALSE;
 	life_counter = 0;
+	if (str[i] == '(')
+		count++;
 	while (str[i])
 	{
 		super_quote_hander(&dubquo, &sinquo, str[i]);
@@ -69,7 +71,7 @@ static size_t	ft_countwords(char const *str, char c)
 				i++;
 			if (str[i] != ')')
 				parenthesis_life_time(&life_counter, str[i], &paren);
-			if (str[i] != c && str[i] && str[i] != ')')
+			if (str[i] && str[i] != c && str[i] != ')')
 				count++;
 			while (str[i] != c && str[i])
 				i++;
@@ -77,6 +79,7 @@ static size_t	ft_countwords(char const *str, char c)
 		if (str[i])
 			i++;
 	}
+	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -141,6 +144,10 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
+	for (int j = 0; res[j]; j++)
+	{
+		printf("res[%d] = %s\n", j, res[j]);
+	}
 	printf("lol split sucks\n");
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/13 03:34:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:17:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char *argv[],char *env[])
 			continue ;
 		add_history(input);
 		root = parsinginit(input);
-		// printf("root->type = %s\n", root->u_data.operation.right->u_data.subshell.child->u_data.cmd.cmd);
+		// printf("root->type = %s\n", root->u_data.operation.left->u_data.redirect_out.cmd->u_data.cmd.cmd);
 		printf("exec dzpp\n");
 		if (root)
 			g_run = execute_commands(root, &envlst);

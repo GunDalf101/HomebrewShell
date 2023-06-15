@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/13 03:18:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/15 23:30:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,7 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
-	if ((*i == 0 || astable[*ascnt - 1]->type == ast_subshell || astable[*ascnt - 1]->type == ast_pipe || astable[*ascnt - 1]->type == ast_or || astable[*ascnt - 1]->type == ast_and || tokens[*i][0] == '<' || tokens[*i][0] == '>') && (tokens[*i][0] != '('))
-	{
-		parse_com_red(tokens, astable, i, ascnt);
-	}
-	else if (strcmp(tokens[*i], "|") == 0)
+	if (strcmp(tokens[*i], "|") == 0)
 	{
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_pipe, NULL, NULL);
@@ -182,7 +178,11 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 		astable[*ascnt] = add_new_subshell(NULL, tokens[*i]);
 		*i = *i + 1;
 	}
-	else
+	else if (1 == 1)
+	{
+		parse_com_red(tokens, astable, i, ascnt);
+	}
+	else 
 		*i = *i + 1;
 	return (NULL);
 }
@@ -207,5 +207,6 @@ t_ast	**lex_luthor(char **tokens)
 		ascnt++;
 	}
 	astable[ascnt] = NULL;
+	printf("nigga AST is gay\n");
 	return (astable);
 }
