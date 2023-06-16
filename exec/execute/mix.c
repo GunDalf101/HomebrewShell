@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 12:06:19 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/16 01:14:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,51 @@ t_ast	*get_cmd_node(t_ast *node)
 		cmd = node->u_data.redirect_in.cmd;
 	else if (node->type == ast_heredoc)
 		cmd = node->u_data.heredoc.cmd;
+	else if (node->type == ast_subshell)
+		cmd = node->u_data.subshell.child;
 	return (cmd);
+}
+
+int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
+
+{
+	int		pipefd[2];
+	int		pid;
+	int		subshell_status;
+
+	if (pipe(pipefd) == -1)
+		exit(EXIT_FAILURE);
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	if (pid == 0)
+	{
+		signal(SIGINT, command_sig);
+	if (infile_fd != STDIN_FILENO)
+	{
+		if (dup2(infile_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(infile_fd);
+	}
+	if (outfile_fd != STDOUT_FILENO)
+	{
+		if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(outfile_fd);
+	}
+		close(pipefd[0]);
+		subshell_status = execute_commands(node->u_data.subshell.child, env);
+		write(pipefd[1], &subshell_status, sizeof(int));
+		close(pipefd[1]);
+		exit(subshell_status);
+	}
+	return (get_subshell_exit_status(node, pipefd, pid));
 }
 
 int	execute_redirect_heredoc(t_ast *node, t_env **env)
@@ -87,7 +131,9 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = node->u_data.heredoc.next;
 		}
 	}
-	if (!fd.error && g_run != 130 && cmd)
+	if (!fd.error && g_run != 130 && cmd && cmd->type == ast_cmd)
 		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
+	else if (!fd.error && g_run != 130 && cmd && cmd->type == ast_subshell)
+		execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
 	return (g_run);
 }

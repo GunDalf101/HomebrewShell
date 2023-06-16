@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:21:46 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 12:13:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/16 02:20:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_ast	*create_red_files(t_ast *node, t_fd *fd)
 	int	open_flags;
 	int	file_flags;
 
-	if (node->u_data.redirect_out.tag == 2)
+	if (node->u_data.redirect_out.tag == 1)
 		open_flags = O_CREAT | O_WRONLY | O_TRUNC;
 	else
 		open_flags = O_CREAT | O_WRONLY | O_APPEND;

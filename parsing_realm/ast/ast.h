@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/13 03:24:53 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/16 01:00:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ struct							s_ast
 	} u_data;
 };
 
+t_ast							*setting_redirection(t_ast **lexical_table, int counter);
 t_ast							*parse_tree(t_ast	**lexical_table);
 t_ast							*add_new_cmd(char *cmd, char **args,
 									int arg_count, enum e_ast_type type);

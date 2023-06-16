@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/15 23:48:24 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/16 02:30:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ static size_t	ft_countwords(char const *str, char c)
 		if (str[i])
 			i++;
 	}
-	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -144,6 +143,6 @@ char	**split_with_a_twist(char const *s, char c)
 		pos += ft_wordlen(s + pos, c);
 	}
 	res[i] = NULL;
-	printf("lol split sucks\n");
+	// printf("lol split sucks\n");
 	return (res);
 }

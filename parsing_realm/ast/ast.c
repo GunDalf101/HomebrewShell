@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/13 03:29:31 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/16 02:33:52 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,37 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 {
 	t_ast	*subshell;
+	t_ast	*head;
+	int		i;
 
 	subshell = ft_calloc(sizeof(t_ast), 1);
 	subshell = lexical_table[counter];
 	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "()");
 	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);
-	return (subshell);
+	counter++;
+	i = 0;
+	while (lexical_table[counter] && lexical_table[counter]->type != ast_and && lexical_table[counter]->type != ast_or && lexical_table[counter]->type != ast_pipe)
+	{
+		if (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in)
+		{
+			head = ft_calloc(sizeof(t_ast), 1);
+			head = setting_redirection(lexical_table, counter);
+			if(head->type == ast_heredoc)
+				head->u_data.heredoc.cmd = subshell;
+			else if (head->type == ast_redirect_out)
+				head->u_data.redirect_out.cmd = subshell;
+			else if (head->type == ast_redirect_in)	
+				head->u_data.redirect_in.cmd = subshell;
+			i++;
+			break ;
+		}
+		counter++;
+	}
+	if (i == 0)
+		return (subshell);
+	else
+		return (head);
+	return(NULL);
 }
 
 void	ft_redir_back(t_ast **lst, t_ast *new)
@@ -205,7 +230,7 @@ t_ast	*setting_east_side(t_ast **lexical_table, int counter)
 
 	if (lexical_table[counter + 1]->type == ast_subshell)
 		right = setting_subshell(lexical_table, counter + 1);
-	else if (lexical_table[counter + 1]->type == ast_cmd)
+	else if (lexical_table[counter + 1]->type == ast_cmd || lexical_table[counter + 1]->type == ast_redirect_in || lexical_table[counter + 1]->type == ast_redirect_out || lexical_table[counter + 1]->type == ast_heredoc)
 		right = setting_command_redir(lexical_table, counter + 1);
 	return (right);
 }
@@ -241,17 +266,10 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 t_ast	*getting_the_root(t_ast **lexical_table, int type, int counter)
 {
 	t_ast	*root = NULL;
+	(void)type;
 
-	if (type == 0)
-	{
-		while(lexical_table[counter])
-			counter++;
-	}
-	else if (type == 1)
-	{
-		while(lexical_table[counter] && lexical_table[counter]->type != ast_subshell_end)
-			counter++;
-	}
+	while(lexical_table[counter])
+		counter++;
 	counter--;
 	while(lexical_table[counter] && counter >= 0)
 	{

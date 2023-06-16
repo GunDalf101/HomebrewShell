@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 20:54:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/16 01:15:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@ void	heredoc_sig(int sig);
 void	write_heredoc_file(char *buffer, t_ast *node);
 int		check_last_heredoc(t_ast *node);
 void set_imp_commands(t_ast *node);
+int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid);
 #endif
