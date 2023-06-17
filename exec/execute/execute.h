@@ -55,5 +55,5 @@ void	heredoc_sig(int sig);
 void	write_heredoc_file(char *buffer, t_ast *node);
 int		check_last_heredoc(t_ast *node);
 void set_imp_commands(t_ast *node);
-int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid);
+int	get_subshell_exit_status(t_ast *node, int pid);
 #endif

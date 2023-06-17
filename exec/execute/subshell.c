@@ -12,38 +12,36 @@
 
 #include "execute.h"
 
-int	get_subshell_exit_status(t_ast *node, int pipefd[2], int pid)
-{
-	int		subshell_status;
-	int		status;
+extern int	g_run;
 
-	close(pipefd[1]);
-	waitpid(pid, &status, 0);
-	read(pipefd[0], &subshell_status, sizeof(int));
-	close(pipefd[0]);
-	if (node->u_data.subshell.reparsethis)
-		free(node->u_data.subshell.reparsethis);
-	free(node);
-	return (subshell_status);
+int	get_subshell_exit_status(t_ast *node, int pid)
+{
+	int status;
+	(void)node;
+    waitpid(pid, &status, 0);
+	g_run = 0;
+    if (WIFEXITED(status)) 
+        return WEXITSTATUS(status);
+    else if (WIFSIGNALED(status)) 
+        return 1;
+	return 0;
 }
-int	execute_subshell(t_ast *node, t_env **env)
-{
-	int		pipefd[2];
-	int		pid;
-	int		subshell_status;
-
-	if (pipe(pipefd) == -1)
-		exit(EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
-		exit(EXIT_FAILURE);
-	if (pid == 0)
+int execute_subshell(t_ast *node, t_env **env) {
+    pid_t pid = fork();
+	g_run = 1;
+    if (pid == -1)
 	{
-		close(pipefd[0]);
-		subshell_status = execute_commands(node->u_data.subshell.child, env);
-		write(pipefd[1], &subshell_status, sizeof(int));
-		close(pipefd[1]);
-		exit(subshell_status);
-	}
-	return (get_subshell_exit_status(node, pipefd, pid));
+        perror("fork");
+        return -1;
+    } 
+	else if (pid == 0) 
+	{
+		signal(SIGINT, command_sig);
+        int result = execute_commands(node->u_data.subshell.child, env);
+        exit(result);
+    } 
+	else 
+	{
+        return get_subshell_exit_status(node, pid);
+    }
 }

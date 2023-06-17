@@ -1,0 +1,10 @@
+README.md
+e
+exec
+libft
+makefile
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing_realm

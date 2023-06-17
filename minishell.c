@@ -20,12 +20,19 @@ char	*input;
 
 void	signal_hand(int signum)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && g_run == 0)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_run = 130;
+	}
+	if (signum == SIGINT && g_run == 1)
+	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
 		g_run = 130;
 	}
 }
@@ -60,8 +67,6 @@ int	main(int argc, char *argv[],char *env[])
 			continue ;
 		add_history(input);
 		root = parsinginit(input);
-		// printf("exec dzpp\n");
-		printf("root->type = %d\n", root->type);
 		if (root)
 			g_run = execute_commands(root, &envlst);
 	}

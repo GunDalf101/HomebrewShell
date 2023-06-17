@@ -52,11 +52,11 @@ void	redup_stdin(t_fd *fd)
 	}
 }
 
-void	read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer)
+t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer)
 {
 	char	*buffer;
 	char	*tmp;
-
+	
 	while (node && node->type == ast_heredoc)
 	{
 		buffer = NULL;
@@ -83,9 +83,10 @@ void	read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer)
 			*totalbuffer = ft_strjoin(*totalbuffer, buffer);
 			free(tmp);
 		}
-		free(buffer);
 	}
+	return (node);
 }
+
 
 t_ast	*heredoc_handler(t_ast *node, t_fd *fd)
 {
@@ -98,7 +99,7 @@ t_ast	*heredoc_handler(t_ast *node, t_fd *fd)
 	end = 0;
 	g_run = 1;
 	totalbuffer = ft_strdup("");
-	read_heredoc(node, fd, &end, &totalbuffer);
+	node = read_heredoc(node, fd, &end, &totalbuffer);
 	if (g_run != 130)
 		write_in_heredoc_file(totalbuffer, tmp, fd);
 	else 

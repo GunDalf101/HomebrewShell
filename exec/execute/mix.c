@@ -67,12 +67,9 @@ t_ast	*get_cmd_node(t_ast *node)
 int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 
 {
-	int		pipefd[2];
 	int		pid;
 	int		subshell_status;
 
-	if (pipe(pipefd) == -1)
-		exit(EXIT_FAILURE);
 	pid = fork();
 	if (pid == -1)
 		exit(EXIT_FAILURE);
@@ -97,13 +94,10 @@ int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 		}
 		close(outfile_fd);
 	}
-		close(pipefd[0]);
 		subshell_status = execute_commands(node->u_data.subshell.child, env);
-		write(pipefd[1], &subshell_status, sizeof(int));
-		close(pipefd[1]);
 		exit(subshell_status);
 	}
-	return (get_subshell_exit_status(node, pipefd, pid));
+	return (get_subshell_exit_status(node, pid));
 }
 
 int	execute_redirect_heredoc(t_ast *node, t_env **env)

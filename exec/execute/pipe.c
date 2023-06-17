@@ -12,28 +12,38 @@
 
 #include "execute.h"
 
-int check_if_anyinput(t_ast *node)
+int check_to_dup_stdin(t_ast *node)
 {
     t_ast    *tmp;
 
-    tmp = node->u_data.operation.right;
-    if(!tmp)
+    tmp = node;
+    if (!tmp)
         return (1);
-    if(tmp->type != ast_redirect_in && tmp->type != ast_heredoc && tmp->type != ast_redirect_out)
-        return (1);
-    while(tmp)
+    while (tmp)
     {
-        if (tmp->type == ast_redirect_in || tmp->type == ast_heredoc)
-            return (0);
-        if(tmp->type == ast_heredoc)
-            tmp = tmp->u_data.heredoc.next;
-        else if (tmp->type == ast_redirect_in)
-            tmp = tmp->u_data.redirect_in.next;
-        else if(tmp->type == ast_redirect_out)
-            tmp = tmp->u_data.redirect_out.next;
+        if (tmp->type == ast_subshell)
+            tmp = tmp->u_data.subshell.child;
+        if (tmp->type == ast_heredoc || tmp->type == ast_redirect_in || tmp->type == ast_redirect_out)
+        {
+            while(tmp)
+            {   
+                if(tmp->type == ast_heredoc)
+                    return (0);
+                else if (tmp->type == ast_redirect_in)
+                    tmp = tmp->u_data.redirect_in.next;
+                else if (tmp->type == ast_redirect_out)
+                    tmp = tmp->u_data.redirect_out.next;
+            }
+        }
+        if(tmp->type == ast_cmd)
+            return (1);
+        if(tmp->type == ast_pipe || tmp->type == ast_and || tmp->type == ast_or)
+            return check_to_dup_stdin(tmp->u_data.operation.left); 
     }
     return (1);
 }
+
+
 int    create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 {
     int        right_pid;
@@ -46,14 +56,16 @@ int    create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
     else if (right_pid == 0)
     {
         close(pipefd[1]);
-        if (check_if_anyinput(node))
+        if (check_to_dup_stdin(node->u_data.operation.right))
+        {
+            printf("test\n ");
             dup2(pipefd[0], STDIN_FILENO);
+        }
         status = execute_commands(node->u_data.operation.right, env);
         exit(status);
     }
     else
     {
-        close(pipefd[0]);
         close(pipefd[1]);
         waitpid(left_pid, &status, 0);
         waitpid(right_pid, &status, 0);
