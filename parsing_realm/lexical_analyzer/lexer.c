@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/16 02:30:40 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/17 22:52:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,29 @@ size_t	strtablen(char **tokens)
 	while (tokens[cnt])
 		cnt++;
 	return (cnt);
+}
+
+// this functions checks the quotes in cmd
+
+char	*quotes_busters(char *str) {
+    int len = strlen(str);
+    int i;
+	int j;
+    int inside_single = FALSE;
+	int	inside_double = FALSE;
+
+    for (i = j = 0; i < len; i++) {
+        if (str[i] == '\'' && !inside_double) {
+            inside_single = !inside_single;
+        } else if (str[i] == '"' && !inside_single) {
+            inside_double = !inside_double;
+        } else {
+            str[j++] = str[i];
+        }
+    }
+
+    str[j] = '\0';
+	return (str);
 }
 
 // this is where the output commands are ordered
@@ -194,7 +217,6 @@ t_ast	**lex_luthor(char **tokens)
 	t_ast **astable = NULL;
 	(void) tokens;
 	int i;
-	// int j = 0;
 	int ascnt;
 
 	i = 0;

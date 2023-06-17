@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing101.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/08 15:25:44 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/17 21:28:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_ast	*parsinginit(char	*input)
 	char	**tokens;
 
 	tokens = tokenizer(input);
+	for (int i = 0; tokens[i]; i++)
+		printf("%s\n", tokens[i]);
 	lexical_table = lex_luthor(tokens);
 	root = parse_tree(lexical_table);
 	return (root);
