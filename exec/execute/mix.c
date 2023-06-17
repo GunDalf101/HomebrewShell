@@ -112,14 +112,14 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	while (node && g_run != 130)
 	{
 		if (node->type == ast_redirect_out)
-			node = create_red_files(node, &fd);
+			node = create_red_files(node, &fd,*env);
 		else if (node->type == ast_redirect_in)
-			node = getting_infile_fd(node, &fd);
+			node = getting_infile_fd(node, &fd,*env);
 		else if (node->type == ast_heredoc)
 		{
 			node->u_data.heredoc.tmp = "/tmp/.minishell_heredoc";
 			open_tmp_file(node, &fd);
-			node = heredoc_handler(node, &fd);
+			node = heredoc_handler(node, &fd,env);
 			if (!node || node->type != ast_heredoc)
 				continue ;
 			node = node->u_data.heredoc.next;

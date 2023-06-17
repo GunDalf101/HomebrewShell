@@ -22,28 +22,6 @@ size_t	strtablen(char **tokens)
 	return (cnt);
 }
 
-// this functions checks the quotes in cmd
-
-char	*quotes_busters(char *str) {
-    int len = strlen(str);
-    int i;
-	int j;
-    int inside_single = FALSE;
-	int	inside_double = FALSE;
-
-    for (i = j = 0; i < len; i++) {
-        if (str[i] == '\'' && !inside_double) {
-            inside_single = !inside_single;
-        } else if (str[i] == '"' && !inside_single) {
-            inside_double = !inside_double;
-        } else {
-            str[j++] = str[i];
-        }
-    }
-
-    str[j] = '\0';
-	return (str);
-}
 
 // this is where the output commands are ordered
 

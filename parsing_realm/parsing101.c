@@ -19,8 +19,6 @@ t_ast	*parsinginit(char	*input)
 	char	**tokens;
 
 	tokens = tokenizer(input);
-	for (int i = 0; tokens[i]; i++)
-		printf("%s\n", tokens[i]);
 	lexical_table = lex_luthor(tokens);
 	root = parse_tree(lexical_table);
 	return (root);

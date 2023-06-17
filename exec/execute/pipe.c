@@ -58,7 +58,6 @@ int    create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         close(pipefd[1]);
         if (check_to_dup_stdin(node->u_data.operation.right))
         {
-            printf("test\n ");
             dup2(pipefd[0], STDIN_FILENO);
         }
         status = execute_commands(node->u_data.operation.right, env);

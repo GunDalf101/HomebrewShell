@@ -96,6 +96,7 @@ int	execute_commands(t_ast *node, t_env **env)
 {
 	if (!node)
 		return (0);
+	expand(node, env);
 	set_imp_commands(node);
 	if (node->type == ast_exit)
 		exit(node->u_data.exit.status);

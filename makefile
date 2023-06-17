@@ -21,6 +21,7 @@ SOURCES = exec/env/env.c		\
 		exec/execute/checker.c \
 		exec/execute/mix.c \
 		exec/execute/rand_tmp.c\
+		exec/execute/expand.c \
 		exec/commands/cd.c \
 		exec/commands/echo.c \
 		exec/commands/env.c \
