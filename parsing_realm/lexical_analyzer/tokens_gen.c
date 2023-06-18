@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 09:54:22 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:45:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 // this functions gets you free tokens or maybe does it FREE the tokens (guess we'll never know)
 
-void free_tokens(char **s)
+void	free_tokens(char **s , int j)
 {
 	int	i;
 
 	i = 0;
-	while (i >= 0 && s[i] != NULL)
+	while (i <= j)
 	{
 		free(s[i]);
 		s[i] = NULL;
-		i--;
+		i++;
 	}
 	free(s);
 	s = NULL;
@@ -276,12 +276,14 @@ char	**tokenizer(char *input)
 	char	**tokens = NULL;
 
 	exp_input = space_expand(input);
+	free(input);
 	if (input_syntax_checker(exp_input) == FAILURE)
-		return (NULL);
+		return (free(exp_input),NULL);
 	tokens = split_with_a_twist(exp_input, ' ');
+	free(exp_input);
 	if (tokens == NULL)
 		return (NULL);
 	if (syntax_checker(tokens) == FAILURE)
-		return(free_tokens(tokens), NULL);
+		return(free_tokens(tokens, strtablen(tokens)), NULL);
 	return (tokens);
 }

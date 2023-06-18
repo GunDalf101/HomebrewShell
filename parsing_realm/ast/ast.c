@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/18 09:57:35 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:44:54 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	node->type = type;
 	node->u_data.cmd.cmd = ft_strdup(cmd);
+	free(cmd);
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!node->u_data.cmd.args)
 	{
@@ -35,8 +36,10 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 	while (i < arg_count && args[i])
 	{
 		node->u_data.cmd.args[i] = ft_strdup(args[i]);
+		free(args[i]);
 		i++;
 	}
+	free(args);
 	node->u_data.cmd.args[arg_count] = NULL;
 	node->u_data.cmd.arg_count = arg_count;
 	return (node);
@@ -113,13 +116,14 @@ t_ast	*add_new_heredoc(char *delimiter, t_ast *child)
 t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 {
 	t_ast	*subshell;
+	char	*tmp;
 	t_ast	*head;
 	int		i;
 
-	subshell = ft_calloc(sizeof(t_ast), 1);
 	subshell = lexical_table[counter];
-	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "( )");
-	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
+	tmp = subshell->u_data.subshell.reparsethis;
+	subshell->u_data.subshell.reparsethis = ft_strtrim(tmp, "( )");
+	free(tmp);
 	if (subshell->u_data.subshell.reparsethis[0] == '\0')
 		return (NULL);
 	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);
@@ -129,7 +133,6 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 	{
 		if (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in)
 		{
-			head = ft_calloc(sizeof(t_ast), 1);
 			head = setting_redirection(lexical_table, counter);
 			if(head->type == ast_heredoc)
 				head->u_data.heredoc.cmd = subshell;
@@ -209,7 +212,6 @@ t_ast	*setting_command_redir(t_ast **lexical_table, int counter)
 	{
 		if (lexical_table[counter]->type == ast_heredoc || lexical_table[counter]->type == ast_redirect_out || lexical_table[counter]->type == ast_redirect_in)
 		{
-			head = ft_calloc(sizeof(t_ast), 1);
 			head = setting_redirection(lexical_table, counter);
 			i++;
 			break ;
@@ -219,7 +221,6 @@ t_ast	*setting_command_redir(t_ast **lexical_table, int counter)
 	if (i == 0)
 	{
 		counter--;
-		head = ft_calloc(sizeof(t_ast), 1);
 		head = lexical_table[counter];
 	}
 	return (head);
@@ -248,7 +249,6 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 	{
 		if (lexical_table[counter]->type == ast_pipe || lexical_table[counter]->type == ast_and || lexical_table[counter]->type == ast_or)
 		{
-			root = ft_calloc(sizeof(t_ast), 1);
 			root = lexical_table[counter];
 			root->u_data.operation.right = setting_east_side(lexical_table, counter);
 			root->u_data.operation.left = setting_west_side(lexical_table, counter - 1);
@@ -257,10 +257,7 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 		counter--;
 	}
 	if (counter == -1)
-	{
-		root = ft_calloc(sizeof(t_ast), 1);
 		root = setting_east_side(lexical_table, counter);
-	}
 	return (root);
 }
 
@@ -278,7 +275,6 @@ t_ast	*getting_the_root(t_ast **lexical_table, int type, int counter)
 	{
 		if (lexical_table[counter]->type == ast_pipe || lexical_table[counter]->type == ast_and || lexical_table[counter]->type == ast_or)
 		{
-			root = ft_calloc(sizeof(t_ast), 1);
 			root = lexical_table[counter];
 			root->u_data.operation.right = setting_east_side(lexical_table, counter);
 			root->u_data.operation.left = setting_west_side(lexical_table, counter - 1);
@@ -287,10 +283,7 @@ t_ast	*getting_the_root(t_ast **lexical_table, int type, int counter)
 		counter--;
 	}
 	if (counter == -1)
-	{
-		root = ft_calloc(sizeof(t_ast), 1);
 		root = setting_east_side(lexical_table, counter);
-	}
 	return (root);
 }
 
@@ -302,5 +295,6 @@ t_ast	*parse_tree(t_ast **lexical_table)
 	if (!lexical_table)
 		return (NULL);
 	root = getting_the_root(lexical_table, 0, 0);
+	free(lexical_table);
 	return (root);
 }

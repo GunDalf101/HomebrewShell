@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 05:16:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:03:46 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char *argv[],char *env[])
 		printf("exec dzpp\n");
 		if (root)
 			g_run = execute_commands(root, &envlst);
+		free_ast_node(root);
 	}
 	return (0);
 }

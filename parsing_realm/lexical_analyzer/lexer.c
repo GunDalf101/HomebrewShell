@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 09:56:33 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:30:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 	tempi = *i;
 	if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
 		return (NULL);
-	cmd = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
-	cmd = tokens[*i];
+	cmd = ft_strdup(tokens[*i]);
 	while (tokens[tempi] && tokens[tempi][0] != '|' && tokens[tempi][0] != '(' && tokens[tempi][0] != '&' && tokens[tempi][0] != ')')
 	{
 		if ((tokens[tempi] && (tokens[tempi][0] == '>' || tokens[tempi][0] == '<')) || (tokens[tempi] && tempi > 0 && (tokens[tempi - 1][0] == '>' || tokens[tempi - 1][0] == '<')))
@@ -57,12 +56,10 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 			*i = *i + 1;
 		if (!tokens[*i])
 			break;
-		args[argcnt] = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
-		args[argcnt] = tokens[*i];
+		args[argcnt] = ft_strdup(tokens[*i]);
 		*i = *i + 1;
 		argcnt++;
 	}
-	args[argcnt + 1] = NULL;
 	return (add_new_cmd(cmd, args, arg_count, ast_cmd));
 }
 
@@ -80,7 +77,7 @@ t_ast	*order_redirectout(t_ast *cmd,char **tokens, t_ast **astable, int *i, int 
 	else if (strcmp(tokens[*i], ">>") == 0)
 		tag = 2;
 	*i = *i + 1;
-	outfile = tokens[*i];
+	outfile = ft_strdup(tokens[*i]);
 	*i = *i + 1;
 	return (add_new_redirect_out(outfile, cmd, tag));
 }
@@ -94,8 +91,7 @@ t_ast	*order_redirectin(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *
 	(void)astable;
 	(void)ascnt;
 	*i = *i + 1;
-	infile = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
-	infile = tokens[*i];
+	infile = ft_strdup(tokens[*i]);
 	*i = *i + 1;
 	return (add_new_redirect_in(infile, cmd));
 }
@@ -109,8 +105,7 @@ t_ast	*order_heredoc(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *asc
 	(void)astable;
 	(void)ascnt;
 	*i = *i + 1;
-	delimiter = ft_calloc(ft_strlen(tokens[*i]) + 1, 1);
-	delimiter = tokens[*i];
+	delimiter = ft_strdup(tokens[*i]);
 	*i = *i + 1;
 	return (add_new_heredoc(delimiter, cmd));
 }
@@ -150,8 +145,6 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 		if (!astable[*ascnt])
 			*ascnt = *ascnt - 1;
 	}
-	// if (*i == com_researcher)
-	// 	*ascnt = *ascnt - 1;
 	return (NULL);
 }
 
@@ -179,12 +172,8 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 		astable[*ascnt] = add_new_subshell(NULL, tokens[*i]);
 		*i = *i + 1;
 	}
-	else if (1 == 1)
-	{
+	else
 		parse_com_red(tokens, astable, i, ascnt);
-	}
-	else 
-		*i = *i + 1;
 	return (NULL);
 }
 
@@ -193,7 +182,6 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 t_ast	**lex_luthor(char **tokens)
 {
 	t_ast **astable = NULL;
-	(void) tokens;
 	int i;
 	int ascnt;
 
@@ -202,10 +190,10 @@ t_ast	**lex_luthor(char **tokens)
 	astable = ft_calloc(strtablen(tokens), sizeof(t_ast *));
 	while (i < (int)strtablen(tokens))
 	{
-		astable[ascnt] = ft_calloc(1, sizeof(t_ast));
 		cre_node(tokens, astable, &i, &ascnt);
 		ascnt++;
 	}
 	astable[ascnt] = NULL;
+	free_tokens(tokens , (int)strtablen(tokens));
 	return (astable);
 }

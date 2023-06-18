@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:09 by mbennani          #+#    #+#             */
-/*   Updated: 2022/10/21 05:11:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 15:39:17 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	ftrimlen(int len, const char *s, const char *set)
 	return (len);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	int		i;
 	int		j;
