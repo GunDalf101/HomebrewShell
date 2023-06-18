@@ -14,34 +14,40 @@
 
 extern int	g_run;
 
-int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
-		int outfile_fd)
+int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 {
-	int		status;
-	pid_t	pid;
+    int status;
+    pid_t pid;
 
-	if (node == NULL)
-		return (0);
-	status = check_cmd(node, *env);
-	if (status)
-		return (status);
-	g_run = 1;
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(1);
-	}
-	else if (pid == 0)
-		execute_command_fd(node, env, infile_fd, outfile_fd);
-	else
-	{
-		waitpid(pid, &status, 0);
-		g_run = 0;
-		return (status);
-	}
-	return (1);
+    if (node == NULL)
+        return 0;
+
+    status = check_cmd(node, *env);
+    if (status)
+        return status;
+
+    g_run = 1;
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("fork");
+        exit(1);
+    }
+    else if (pid == 0)        
+        execute_command_fd(node, env, infile_fd, outfile_fd);
+    else
+    {
+        waitpid(pid, &status, 0);
+		if(infile_fd != STDIN_FILENO)
+			close(infile_fd);
+		if(outfile_fd != STDOUT_FILENO)
+			close(outfile_fd);
+        g_run = 0;
+        return status;
+    }
+    return 1;
 }
+
 
 int	execute_simple_command(t_ast *node, t_env **env)
 {

@@ -21,32 +21,34 @@ void	fd_init(t_fd *fd)
 	fd->outfile_fd = 1;
 }
 
-void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
-		int outfile_fd)
+void execute_command_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 {
-	signal(SIGINT, command_sig);
-	if (infile_fd != STDIN_FILENO)
-	{
-		if (dup2(infile_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-		close(infile_fd);
-	}
-	if (outfile_fd != STDOUT_FILENO)
-	{
-		if (dup2(outfile_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-		close(outfile_fd);
-	}
-	execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
-	perror(node->u_data.cmd.cmd);
-	exit(1);
+    signal(SIGINT, command_sig);
+
+    if (infile_fd != STDIN_FILENO)
+    {
+        if (dup2(infile_fd, STDIN_FILENO) == -1)
+        {
+            perror("dup2");
+            exit(1);
+        }
+        close(infile_fd);
+    }
+
+    if (outfile_fd != STDOUT_FILENO)
+    {
+        if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+        {
+            perror("dup2");
+            exit(1);
+        }
+        close(outfile_fd);
+    }
+    execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
+    perror(node->u_data.cmd.cmd);
+    exit(1);
 }
+
 
 t_ast	*get_cmd_node(t_ast *node)
 {
@@ -65,40 +67,45 @@ t_ast	*get_cmd_node(t_ast *node)
 }
 
 int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
-
 {
-	int		pid;
-	int		subshell_status;
+    int pid;
+    int subshell_status;
 
-	pid = fork();
-	if (pid == -1)
-		exit(EXIT_FAILURE);
-	if (pid == 0)
-	{
-		signal(SIGINT, command_sig);
-	if (infile_fd != STDIN_FILENO)
-	{
-		if (dup2(infile_fd, STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-		close(infile_fd);
-	}
-	if (outfile_fd != STDOUT_FILENO)
-	{
-		if (dup2(outfile_fd, STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(1);
-		}
-		close(outfile_fd);
-	}
-		subshell_status = execute_commands(node->u_data.subshell.child, env);
-		exit(subshell_status);
-	}
-	return (get_subshell_exit_status(node, pid));
+    pid = fork();
+    if (pid == -1)
+        exit(EXIT_FAILURE);
+    if (pid == 0)
+    {
+        signal(SIGINT, command_sig);
+
+        if (infile_fd != STDIN_FILENO)
+        {
+            if (dup2(infile_fd, STDIN_FILENO) == -1)
+            {
+                perror("dup2");
+                exit(1);
+            }
+            close(infile_fd);
+        }
+
+        if (outfile_fd != STDOUT_FILENO)
+        {
+            if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+            {
+                perror("dup2");
+                exit(1);
+            }
+            close(outfile_fd);
+        }
+
+        subshell_status = execute_commands(node->u_data.subshell.child, env);
+        exit(subshell_status);
+    }
+    close(infile_fd);
+    close(outfile_fd);
+    return get_subshell_exit_status(node, pid);
 }
+
 
 int	execute_redirect_heredoc(t_ast *node, t_env **env)
 {

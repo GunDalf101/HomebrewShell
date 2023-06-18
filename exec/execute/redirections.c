@@ -37,6 +37,8 @@ t_ast	*create_red_files(t_ast *node, t_fd *fd,t_env *env)
 	int	open_flags;
 	int	file_flags;
 
+	if(fd->outfile_fd != 1)
+		close(fd->outfile_fd);
 	node->u_data.redirect_out.outfile = quotes_busters(node->u_data.redirect_out.outfile,env);
 	if (node->u_data.redirect_out.tag == 1)
 		open_flags = O_CREAT | O_WRONLY | O_TRUNC;

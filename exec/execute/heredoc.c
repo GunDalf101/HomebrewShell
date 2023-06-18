@@ -122,7 +122,11 @@ t_ast	*heredoc_handler(t_ast *node, t_fd *fd,t_env **env)
 	if (g_run != 130)
 		write_in_heredoc_file(totalbuffer, tmp, fd);
 	else 
+	{
+		fd->error = 1;
 		free(totalbuffer);
+		close(fd->infile_fd);
+	}
 	signal(SIGINT, signal_hand);
 	return (node);
 }
