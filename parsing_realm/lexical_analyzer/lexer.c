@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/17 22:52:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 09:56:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,5 @@ t_ast	**lex_luthor(char **tokens)
 		ascnt++;
 	}
 	astable[ascnt] = NULL;
-	// printf("nigga AST is gay\n");
 	return (astable);
 }

@@ -10,7 +10,8 @@ char    *heredoc_expansion(char *str,t_env *env)
         if(str[i] == '$')
             {
                 start = i;
-                while (str[i] && str[i] != ' ' && str[i] != '\0' && str[i] != '\"' && str[i] != '\'')
+                i++;
+                while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
                     i++;
                 end = i;
                 if (end - start > 1)
@@ -85,7 +86,8 @@ char	*quotes_busters(char *str,t_env *env) {
           if(str[i] == '$')
             {
                 start = i;
-                while (str[i] && str[i] != ' ' && str[i] != '\0' && str[i] != '\"' && str[i] != '\'')
+                i++;
+                while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
                     i++;
                 end = i;
                 if (end - start > 1)

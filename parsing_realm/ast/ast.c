@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/16 02:33:52 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/18 09:57:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 
 	subshell = ft_calloc(sizeof(t_ast), 1);
 	subshell = lexical_table[counter];
-	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "()");
+	subshell->u_data.subshell.reparsethis = ft_strtrim(subshell->u_data.subshell.reparsethis, "( )");
+	printf("subshell->u_data.subshell.reparsethis = %s\n", subshell->u_data.subshell.reparsethis);
+	if (subshell->u_data.subshell.reparsethis[0] == '\0')
+		return (NULL);
 	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);
 	counter++;
 	i = 0;
