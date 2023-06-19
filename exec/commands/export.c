@@ -18,14 +18,24 @@ int	exportcmd(t_env *head)
 	int		size;
 	char	**env;
 	int		i;
+	char	**splited;
 
 	size = lstsize(head);
 	env = lst_to_env(head);
 	sort_env(env, size);
 	i = 0;
-	while (i < size)
+	while (env[i])
 	{
-		ft_putendl_fd(env[i], 1);
+		ft_putstr_fd("declare -x ", 1);
+		splited = ft_split(env[i], '=');
+		ft_putstr_fd(splited[0], 1);
+		if(get_env(head, splited[0])->value)
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(get_env(head, splited[0])->value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+		ft_putstr_fd("\n", 1);
 		i++;
 	}
 	free_env(env, size);
@@ -58,8 +68,11 @@ void	add_to_env(t_env **head, t_env *new)
 	else if (new->append == 0)
 	{
 		tmpvalue = tmp->value;
-		tmp->value = new->value;
-		free(tmpvalue);
+		if (new->value)
+		{	
+			tmp->value = new->value;
+			free(tmpvalue);
+		}
 		free(new->key);
 		free(new);
 	}
@@ -78,14 +91,12 @@ int	exportadd(t_env **head, t_ast *node)
 {
 	int		k;
 	t_env	*new;
-	// t_env	*newhead;
 	t_env	*prenext;
 
 	k = 0;
 	if (!node->u_data.cmd.args[1])
 		return (exportcmd(*head));
 	new = key_value_to_list(node->u_data.cmd.args + 1);
-	// newhead = new;
 	while (new)
 	{
 		prenext = new->next;

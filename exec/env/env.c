@@ -22,21 +22,22 @@ t_env	*key_value_to_list(char **env)
 
 	head = NULL;
 	k = 0;
-	while (*env != NULL)
+	int i = 0;
+	while (env[i] != NULL)
 	{
 		k = 0;
-		keyvalue = ft_split(*env, '=');
+		keyvalue = ft_split(env[i], '=');
 		d = ft_strlen(keyvalue[0]) - 1;
 		if (keyvalue[0][d] == '+')
-		{
 			keyvalue[0] = append_env_mode(keyvalue[0], &k);
-		}
-		if (!keyvalue[1])
+		if (!keyvalue[1] && env[i][ft_strlen(env[i]) - 1] == '=')
 			envadd_back(&head, envnew(keyvalue[0], ft_strdup(""), k),0);
+		else if (!keyvalue[1])
+			envadd_back(&head, envnew(keyvalue[0], NULL, k),0);
 		else
 			envadd_back(&head, envnew(keyvalue[0], keyvalue[1], k),0);
 		free(keyvalue);
-		env++;
+		i++;
 	}
 	return (head);
 }
@@ -102,7 +103,7 @@ t_env	*load_env(char **env)
 	}
 	return (head);
 }
-#include <stdio.h>
+
 t_env	*get_env(t_env *head, char *env)
 {
 	t_env	*tmp;

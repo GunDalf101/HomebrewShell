@@ -56,11 +56,20 @@ char	**lst_to_env(t_env *head)
 	i = 0;
 	while (head != NULL)
 	{
-		tmp = ft_strjoin(head->key, "=");
-		env = ft_strjoin(tmp, head->value);
-		free(tmp);
-		envs[i] = env;
-		i++;
+		if(head->hidden == 0)
+		{
+			tmp = ft_strdup(head->key);
+			if(head->value != NULL)
+			{
+				tmp = ft_strjoin(head->key, "=");
+				env = ft_strjoin(tmp, head->value);
+			}
+			else
+				env = ft_strdup(tmp);
+			free(tmp);
+			envs[i] = env;
+			i++;
+		}
 		head = head->next;
 	}
 	envs[i] = NULL;
@@ -76,7 +85,8 @@ int	lstsize(t_env *head)
 	tmp = head;
 	while (tmp)
 	{
-		i++;
+		if(tmp->hidden == 0)
+			i++;
 		tmp = tmp->next;
 	}
 	return (i);

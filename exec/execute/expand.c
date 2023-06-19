@@ -1,4 +1,6 @@
 #include "execute.h"
+extern t_global g_global;
+
 char    *heredoc_expansion(char *str,t_env *env)
 {
     int i = 0;
@@ -14,11 +16,15 @@ char    *heredoc_expansion(char *str,t_env *env)
                 i++;
                 while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
                     i++;
+                if (str[i] == '?')
+                    i++;
                 end = i;
                 if (end - start > 1)
                 {
                     char *var = ft_substr(str, start + 1, end - start - 1);
                     char *value = NULL;
+                    if(var[0] == '?')
+                        value = ft_itoa(g_global.exit_status);
                     if (get_env(env, var))
                         value = ft_strdup(get_env(env, var)->value);
                     else
@@ -94,12 +100,16 @@ char	*quotes_busters(char *str,t_env *env) {
                 i++;
                 while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
                     i++;
+                if (str[i] == '?')
+                    i++;
                 end = i;
                 if (end - start > 1)
                 {
                     char *var = ft_substr(str, start + 1, end - start - 1);
                     char *value = NULL;
-                    if (get_env(env, var))
+                    if(var[0] == '?')
+                        value = ft_itoa(g_global.exit_status);
+                    else if(get_env(env, var))
                         value = ft_strdup(get_env(env, var)->value);
                     else
                         value = ft_strdup("");

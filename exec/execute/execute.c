@@ -6,13 +6,13 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/19 17:38:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:57:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-extern int	g_run;
+extern t_global	g_global;
 
 int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 {
@@ -21,12 +21,11 @@ int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfi
 
     if (node == NULL)
         return 0;
-
     status = check_cmd(node, *env);
     if (status)
         return status;
 
-    g_run = 1;
+    g_global.run = 1;
     pid = fork();
     if (pid == -1)
     {
@@ -42,7 +41,7 @@ int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfi
 			close(infile_fd);
 		if(outfile_fd != STDOUT_FILENO)
 			close(outfile_fd);
-        g_run = 0;
+        g_global.run = 0;
         return status;
     }
     return 1;
@@ -57,7 +56,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
-	g_run = 1;
+	g_global.run = 1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -69,7 +68,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	else
 	{
 		waitpid(pid, &status, 0);
-		g_run = 0;
+		g_global.run = 0;
 		return (status);
 	}
 	return (1);
@@ -91,10 +90,10 @@ int	execute_and(t_ast *node, t_env **env)
 
 int	execute_or(t_ast *node, t_env **env)
 {
-	// int	left_status;
-	printf("or\n");
-	g_run = execute_commands(node->u_data.operation.left, env);
-	if (g_run != 0)
+	int	left_status;
+
+	left_status = execute_commands(node->u_data.operation.left, env);
+	if (left_status != 0 && left_status != 130)
 		return (execute_commands(node->u_data.operation.right, env));
 	return (25);
 }
@@ -105,9 +104,7 @@ int	execute_commands(t_ast *node, t_env **env)
 		return (0);
 	expand(node, env);
 	set_imp_commands(node);
-	if (node->type == ast_exit)
-		exit(node->u_data.exit.status);
-	else if (node->type == ast_imp)
+	if (node->type == ast_imp)
 		return (execute_imp_commands(node, env));
 	else if (node->type == ast_cmd)
 		return (execute_simple_command(node, env));
@@ -123,4 +120,37 @@ int	execute_commands(t_ast *node, t_env **env)
 	else if (node->type == ast_or)
 		return (execute_or(node, env));
 	return (-1);
+}
+
+int	execute_all_heredocs(t_ast *node, t_env **env)
+{
+	if (!node)
+		return (0);
+	else if (node->type == ast_pipe)
+	{
+		execute_all_heredocs(node->u_data.operation.left, env);
+		execute_all_heredocs(node->u_data.operation.right, env);
+		return (1);
+	}
+	else if (node->type == ast_redirect_in || node->type == ast_redirect_out
+		|| node->type == ast_heredoc)
+		return (execute_heredocs(node, env));
+	else if (node->type == ast_subshell)
+	{
+		execute_all_heredocs(node->u_data.subshell.child, env);
+		return (1);
+	}
+	else if (node->type == ast_and)
+	{
+		execute_all_heredocs(node->u_data.operation.left, env);
+		execute_all_heredocs(node->u_data.operation.right, env);
+		return (1);
+	}
+	else if (node->type == ast_or)
+	{
+		execute_all_heredocs(node->u_data.operation.left, env);
+		execute_all_heredocs(node->u_data.operation.right, env);
+		return (1);
+	}
+	return (1);
 }
