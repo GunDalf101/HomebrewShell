@@ -13,7 +13,7 @@
 #include "../minishellexec.h"
 #include "execute.h"
 
-extern int	g_run;
+extern t_global	g_global;
 
 int	check_last_heredoc(t_ast *node)
 {
@@ -37,7 +37,7 @@ void	write_heredoc_file(char *buffer, t_ast *node)
 		perror(node->u_data.heredoc.tmp);
 		return ;
 	}
-	g_run = infile_fd;
+	g_global.run = infile_fd;
 	if (write(infile_fd, buffer, strlen(buffer)) == -1)
 	{
 		perror("write");
@@ -50,7 +50,7 @@ void	write_heredoc_file(char *buffer, t_ast *node)
 void	heredoc_sig(int sig)
 {
 	(void)sig;
-	g_run = 130;
+	g_global.run = 130;
 	close(0);
 }
 

@@ -31,7 +31,6 @@ enum							e_ast_type
 	ast_or,
 	ast_subshell,
 	ast_subshell_end,
-	ast_exit,
 };
 
 enum				e_bool

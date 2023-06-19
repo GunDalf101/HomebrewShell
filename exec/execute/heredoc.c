@@ -13,8 +13,7 @@
 #include "../minishellexec.h"
 #include "execute.h"
 
-extern int	g_run;
-extern int	g_fd[2];
+extern t_global	g_global;
 
 int	handle_dupstdin_and_sig(void)
 {
@@ -43,9 +42,9 @@ void	write_in_heredoc_file(char *totalbuffer, t_ast *tmp, t_fd *fd)
 
 void	redup_stdin(t_fd *fd)
 {
-	if (g_run == 130)
+	if (g_global.run == 130)
 	{
-		if (dup2(g_fd[0], 0) == -1)
+		if (dup2(fd->dupstdin, 0) == -1)
 		{
 			perror("dup2");
 			fd->error = 1;
@@ -60,7 +59,6 @@ t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer,t_env **
 	int		expand;
 	int i = 0;
 	int s = 0;
-	
 	while (node && node->type == ast_heredoc)
 	{
 		if (s == 0)
@@ -77,8 +75,7 @@ t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer,t_env **
 		}
 		buffer = NULL;
 		*end = check_last_heredoc(node);
-		dup2(g_fd[0], 0);
-		dup2(g_fd[1], 1);
+		
 		buffer = readline("> ");
 		if (!buffer)
 		{
@@ -106,6 +103,7 @@ t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer,t_env **
 			free(tmp);
 		}
 	}
+	close(fd->dupstdin);
 	return (node);
 }
 
@@ -119,10 +117,10 @@ t_ast	*heredoc_handler(t_ast *node, t_fd *fd,t_env **env)
 	fd->dupstdin = handle_dupstdin_and_sig();
 	tmp = node;
 	end = 0;
-	g_run = 1;
+	g_global.run = 1;
 	totalbuffer = ft_strdup("");
 	node = read_heredoc(node, fd, &end, &totalbuffer,env);
-	if (g_run != 130)
+	if (g_global.run != 130)
 		write_in_heredoc_file(totalbuffer, tmp, fd);
 	else 
 	{

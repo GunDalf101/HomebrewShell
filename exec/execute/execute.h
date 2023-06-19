@@ -32,8 +32,14 @@ typedef struct s_fd
 	int	dupstdin;
 }		t_fd;
 
+typedef struct s_global
+{
+	int exit_status;
+	int run;
+}	t_global;
+
 void	command_sig(int sig);
-int		create_pipe(t_ast *node, t_env **env);
+int create_pipe(t_ast *node, t_env **env);
 int		execute_subshell(t_ast *node, t_env **env);
 int		execute_imp_commands(t_ast *node, t_env **env);
 int		execute_commands(t_ast *node, t_env **env);
@@ -60,4 +66,7 @@ void expand(t_ast *node,t_env **env);
 char	*quotes_remover(char *str);
 char    *heredoc_expansion(char *str,t_env *env);
 char	*quotes_busters(char *str,t_env *env);
+int	execute_all_heredocs(t_ast *node, t_env **env);
+int	execute_heredocs(t_ast *node, t_env **env);
+int exitcmd(t_ast *node);
 #endif

@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"__node_handle": "c",
-		"history.h": "c",
-		"stdlib.h": "c",
-		"keymaps.h": "c"
-	}
-}

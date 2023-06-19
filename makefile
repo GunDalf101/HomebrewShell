@@ -22,6 +22,7 @@ SOURCES = exec/env/env.c		\
 		exec/execute/mix.c \
 		exec/execute/rand_tmp.c\
 		exec/execute/expand.c \
+		exec/execute/exit.c \
 		exec/commands/cd.c \
 		exec/commands/echo.c \
 		exec/commands/env.c \
@@ -29,7 +30,7 @@ SOURCES = exec/env/env.c		\
 		exec/commands/pwd.c \
 		exec/commands/unset.c \
 		exec/commands/sort_env.c \
-		minishell.c \
+		minishell.c 
 
 
 OBJECTS = $(SOURCES:.c=.o)

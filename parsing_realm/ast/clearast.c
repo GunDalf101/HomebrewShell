@@ -48,6 +48,7 @@ void	free_heredoc_node(t_ast *node)
 	free(node->u_data.heredoc.delim);
 	free_ast_node(node->u_data.heredoc.cmd);
 	free_ast_node(node->u_data.heredoc.next);
+	unlink(node->u_data.heredoc.tmp);
 	free(node->u_data.heredoc.tmp);
 	free(node);
 }

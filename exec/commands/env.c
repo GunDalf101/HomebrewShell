@@ -16,7 +16,7 @@ void	print_env(t_env *tmp)
 {
 	ft_putstr_fd("declare -x ", 1);
 	ft_putstr_fd(tmp->key, 1);
-	if (tmp->value[0] != 0)
+	if (tmp->value != NULL)
 	{
 		ft_putstr_fd("=\"", 1);
 		ft_putstr_fd(tmp->value, 1);
@@ -45,10 +45,13 @@ int	envcmd(t_env *head)
 {
 	while (head)
 	{
-		ft_putstr_fd(head->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(head->value, 1);
-		ft_putstr_fd("\n", 1);
+		if(head->hidden == 0 && head->value)
+		{
+			ft_putstr_fd(head->key, 1);
+			ft_putstr_fd("=", 1);
+			ft_putstr_fd(head->value, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		head = head->next;
 	}
 	return (0);
