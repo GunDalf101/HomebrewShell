@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/19 13:39:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:55:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 	node->u_data.cmd.cmd = ft_strdup(cmd);
 	free(cmd);
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
-	if (!node->u_data.cmd.args)
-	{
-		free(node->u_data.cmd.cmd);
-		free(node);
-		return (NULL);
-	}
 	i = 0;
 	while (i < arg_count && args[i])
 	{

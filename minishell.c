@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 17:27:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:48:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,11 @@ int	main(int argc, char *argv[],char *env[])
 			continue ;
 		add_history(input);
 		root = parsinginit(input);
+		printf("gol moussoulini\n");
 		if (root)
 		{
-			g_run = execute_commands(root, &envlst);
-			// free_ast_node(root);
+			// g_run = execute_commands(root, &envlst);
+			free_ast_node(root);
 		}
 		// system("leaks minishell"); 
 	}

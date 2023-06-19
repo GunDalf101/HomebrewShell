@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:51:57 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 14:21:52 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 21:17:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,22 @@
 
 # include "../../minishell.h"
 
+int		syntax_checker(char **tokens);
 char	**tokenizer(char *input);
 t_ast	**lex_luthor(char **tokens);
 char	**split_with_a_twist(char const *s, char c);
 void	super_quote_hander(int *dubquo, int *sinquo, char c);
-void	parenthesis_life_time(int *life_counter, char c, int *paren, int sinquo, int dubquo);
-void	free_tokens(char **s , int j);
+void	parenthesis_life_time(int *life_counter, char c, int *paren, int sinquo,
+			int dubquo);
+void	free_tokens(char **s, int j);
 size_t	strtablen(char **tokens);
+int		syntax_checker_extended(char **tokens, int i, int dubquo, int sinquo);
+int		pipe_check_extended(char **tokens, int i);
+int		redirection_check_extended(char **tokens, int i);
+int		rediretion_check(char **tokens, int i);
+int		pipe_check(char **tokens, int i);
+int		and_check(char **tokens, int i);
+int		parenthesis_check_zo(char **tokens, int i);
+int		input_syntax_checker(char *input);
 
 #endif

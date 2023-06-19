@@ -3,6 +3,7 @@
 		"__node_handle": "c",
 		"history.h": "c",
 		"stdlib.h": "c",
-		"keymaps.h": "c"
+		"keymaps.h": "c",
+		"lexing_lexer.h": "c"
 	}
 }

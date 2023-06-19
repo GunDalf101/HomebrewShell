@@ -9,6 +9,7 @@ char    *heredoc_expansion(char *str,t_env *env)
     {
         if(str[i] == '$')
             {
+            
                 start = i;
                 i++;
                 while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
