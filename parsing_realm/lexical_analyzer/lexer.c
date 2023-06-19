@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 15:30:33 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:06:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ size_t	strtablen(char **tokens)
 
 // this is where the output commands are ordered
 
-t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
+t_ast	*order_command(char **tokens, int *i)
 {
 	char	*cmd;
 	char	**args;
 	int		arg_count = 0;
 	int		argcnt;
 	int		tempi;
-	(void)ascnt;
 
-
-	(void)astable;
 	arg_count = 0;
 	argcnt = 0;
 	tempi = *i;
@@ -65,13 +62,11 @@ t_ast	*order_command(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 // this is where output redirections are ordered
 
-t_ast	*order_redirectout(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+t_ast	*order_redirectout(t_ast *cmd,char **tokens, int *i, int *head_red)
 {
 	char	*outfile;
 	int		tag = 0;
 
-	(void)astable;
-	(void)ascnt;
 	if (strcmp(tokens[*i], ">") == 0)
 		tag = 1;
 	else if (strcmp(tokens[*i], ">>") == 0)
@@ -79,47 +74,64 @@ t_ast	*order_redirectout(t_ast *cmd,char **tokens, t_ast **astable, int *i, int 
 	*i = *i + 1;
 	outfile = ft_strdup(tokens[*i]);
 	*i = *i + 1;
-	return (add_new_redirect_out(outfile, cmd, tag));
+	if (*head_red == FALSE)
+	{
+		*head_red = TRUE;	
+		return (add_new_redirect_out(outfile, cmd, tag));
+	}
+	else
+		return (add_new_redirect_out(outfile, NULL, tag));
+	return (NULL);
 }
 
 // this is where input redirections are ordered
 
-t_ast	*order_redirectin(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+t_ast	*order_redirectin(t_ast *cmd,char **tokens, int *i, int *head_red)
 {
 	char	*infile;
 
-	(void)astable;
-	(void)ascnt;
 	*i = *i + 1;
 	infile = ft_strdup(tokens[*i]);
 	*i = *i + 1;
-	return (add_new_redirect_in(infile, cmd));
+	if (*head_red == FALSE)
+	{
+		*head_red = TRUE;
+		return (add_new_redirect_in(infile, cmd));
+	}
+	else
+		return (add_new_redirect_in(infile, NULL));
+	return (NULL);
 }
 
 // this is where heredocs are ordered
 
-t_ast	*order_heredoc(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+t_ast	*order_heredoc(t_ast *cmd,char **tokens, int *i, int *head_red)
 {
 	char	*delimiter;
 
-	(void)astable;
-	(void)ascnt;
 	*i = *i + 1;
 	delimiter = ft_strdup(tokens[*i]);
 	*i = *i + 1;
-	return (add_new_heredoc(delimiter, cmd));
+	if (*head_red == FALSE)
+	{
+		*head_red = TRUE;
+		return (add_new_heredoc(delimiter, cmd));
+	}
+	else
+		return (add_new_heredoc(delimiter, NULL));
+	return (NULL);
 }
 
 // 0rder all kinds of redirections
 
-t_ast	*order_redirection(t_ast *cmd,char **tokens, t_ast **astable, int *i, int *ascnt)
+t_ast	*order_redirection(t_ast *cmd,char **tokens, int *i, int *head_red)
 {
 	if (tokens[*i + 1] && tokens[*i][0] == '>')
-		return (order_redirectout(cmd, tokens, astable, i, ascnt));
+		return (order_redirectout(cmd, tokens, i, head_red));
 	else if (strcmp(tokens[*i], "<") == 0)
-		return (order_redirectin(cmd, tokens, astable, i, ascnt));
+		return (order_redirectin(cmd, tokens, i, head_red));
 	else if (strcmp(tokens[*i], "<<") == 0)
-		return (order_heredoc(cmd, tokens, astable, i, ascnt));
+		return (order_heredoc(cmd, tokens, i, head_red));
 	else
 		*i = *i + 1;
 	return (NULL);
@@ -131,17 +143,19 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
 	int		com_researcher;
 	t_ast	*cmd;
+	int 	head_red;
 
 	com_researcher = *i;
+	head_red = FALSE;
 	while ((tokens[com_researcher + 1] && (tokens[com_researcher][0] == '>' || tokens[com_researcher][0] == '<')) || (com_researcher > 0 && tokens[com_researcher + 1] && (tokens[com_researcher - 1][0] == '>' || tokens[com_researcher - 1][0] == '<')))
 		com_researcher++;
-	astable[*ascnt] = order_command(tokens, astable, &com_researcher, ascnt);
+	astable[*ascnt] = order_command(tokens, &com_researcher);
 	cmd = astable[*ascnt];
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
 		if (astable[*ascnt])
 			*ascnt = *ascnt + 1;
-		astable[*ascnt] = order_redirection(cmd, tokens, astable, i, ascnt);
+		astable[*ascnt] = order_redirection(cmd, tokens, i,  &head_red);
 		if (!astable[*ascnt])
 			*ascnt = *ascnt - 1;
 	}

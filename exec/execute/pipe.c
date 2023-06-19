@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:20:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/16 22:09:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 14:08:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,8 @@ int check_to_dup_stdin(t_ast *node)
         {
             while(tmp)
             {   
-                if(tmp->type == ast_heredoc)
-                {
+                if(tmp->type == ast_heredoc || tmp->type == ast_redirect_in)
                     return (0);
-                }
-                else if (tmp->type == ast_redirect_in)
-                    tmp = tmp->u_data.redirect_in.next;
                 else if (tmp->type == ast_redirect_out)
                     tmp = tmp->u_data.redirect_out.next;
             }
@@ -64,9 +60,7 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         close(pipefd[1]);
         if (check_to_dup_stdin(node->u_data.operation.right))
         {
-            printf("dup2\n");
             dup2(pipefd[0], STDIN_FILENO);
-            close(pipefd[0]);
         }
         close(pipefd[0]);
         status = execute_commands(node->u_data.operation.right, env);

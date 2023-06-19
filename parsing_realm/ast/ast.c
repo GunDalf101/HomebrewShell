@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/18 15:44:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:39:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ t_ast	*add_new_redirect_out(char *outfile, t_ast *cmd, int tag)
 	node->u_data.redirect_out.outfile = outfile;
 	node->u_data.redirect_out.cmd = cmd;
 	node->u_data.redirect_out.tag = tag;
+	node->u_data.redirect_out.next = NULL;
 	return (node);
 }
 
@@ -95,6 +96,7 @@ t_ast	*add_new_redirect_in(char *infile, t_ast *cmd)
 	node->type = ast_redirect_in;
 	node->u_data.redirect_in.infile = infile;
 	node->u_data.redirect_in.cmd = cmd;
+	node->u_data.redirect_in.next = NULL;
 	return (node);
 }
 

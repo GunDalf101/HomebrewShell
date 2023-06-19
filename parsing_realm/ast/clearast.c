@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:45:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/18 15:03:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:43:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_cmd_node(t_ast *node)
 
 	i = 0;
 	free(node->u_data.cmd.cmd);
-	while (i < node->u_data.cmd.arg_count)
+	while (node->u_data.cmd.args[i] && i < node->u_data.cmd.arg_count)
 	{
 		free(node->u_data.cmd.args[i]);
 		i++;
