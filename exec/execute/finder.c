@@ -19,6 +19,8 @@ void	command_sig(int sig)
 	(void) sig;
 	write(1, "\n", 1);
 	g_run = 130;
+	close(0);
+	close(1);
 	exit(130);
 }
 

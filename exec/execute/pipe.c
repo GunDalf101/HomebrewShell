@@ -18,11 +18,7 @@ int check_to_dup_stdin(t_ast *node)
 
     tmp = node;
     if (!tmp)
-    {
-        printf("tmp is null\n");
         return (1);
-
-    }
     while (tmp)
     {
         if (tmp->type == ast_subshell)
@@ -59,9 +55,7 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
     {
         close(pipefd[1]);
         if (check_to_dup_stdin(node->u_data.operation.right))
-        {
             dup2(pipefd[0], STDIN_FILENO);
-        }
         close(pipefd[0]);
         status = execute_commands(node->u_data.operation.right, env);
         exit(status);
@@ -90,9 +84,9 @@ int create_pipe(t_ast *node, t_env **env)
         exit(1);
     else if (left_pid == 0)
     {
-        close(pipefd[0]);  // Close the read end of the pipe
+        close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
-        close(pipefd[1]);  // Close the write end of the pipe
+        close(pipefd[1]);
         status = execute_commands(node->u_data.operation.left, env);
         exit(status);
     }

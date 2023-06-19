@@ -133,8 +133,8 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 		}
 	}
 	if (!fd.error && g_run != 130 && cmd && cmd->type == ast_cmd)
-		execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
+		return (execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
 	else if (!fd.error && g_run != 130 && cmd && cmd->type == ast_subshell)
-		execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd);
+		return(execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
 	return (g_run);
 }

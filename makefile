@@ -29,7 +29,8 @@ SOURCES = exec/env/env.c		\
 		exec/commands/pwd.c \
 		exec/commands/unset.c \
 		exec/commands/sort_env.c \
-		minishell.c
+		minishell.c \
+
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -39,13 +40,15 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 LIBFT = libft/libft.a
 
-all: libft $(NAME)
+all: libft $(NAME) 
 	@if [ $$? -eq 0 ]; then \
 		echo "\033[3m\033[1m\033[42m\033[31m~~Nothing to be done for 'all' anymore~~\033[0m"; \
 	fi
 
-$(NAME):$(OBJECTS)
-	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
+
+
+$(NAME):$(OBJECTS) $(GNLOBJ) 
+	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME) 
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h

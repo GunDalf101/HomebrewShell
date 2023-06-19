@@ -17,6 +17,7 @@
 
 int		g_run;
 char	*input;
+int		g_fd[2];
 
 void	signal_hand(int signum)
 {
@@ -26,7 +27,6 @@ void	signal_hand(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_run = 130;
 	}
 	if (signum == SIGINT && g_run == 1)
 	{
@@ -47,6 +47,8 @@ int	main(int argc, char *argv[],char *env[])
 	root = NULL;
 
 	rl_catch_signals = 0;
+	g_fd[0] = dup(STDIN_FILENO);
+	g_fd[1] = dup(STDOUT_FILENO);
 
 	t_env *envlst = load_env(env);
 	(void)envlst;
@@ -70,9 +72,8 @@ int	main(int argc, char *argv[],char *env[])
 		if (root)
 		{
 			g_run = execute_commands(root, &envlst);
-			free_ast_node(root);
+			// free_ast_node(root);
 		}
-		system("leaks minishell");
 	}
 	return (0);
 }
