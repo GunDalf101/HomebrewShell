@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 15:16:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:27:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 int		g_run;
 char	*input;
+int		g_fd[2];
 
 void	signal_hand(int signum)
 {
@@ -26,7 +27,6 @@ void	signal_hand(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_run = 130;
 	}
 	if (signum == SIGINT && g_run == 1)
 	{
@@ -47,7 +47,8 @@ int	main(int argc, char *argv[],char *env[])
 	root = NULL;
 
 	rl_catch_signals = 0;
-	rl_bind_key('\t', rl_insert);
+	g_fd[0] = dup(STDIN_FILENO);
+	g_fd[1] = dup(STDOUT_FILENO);
 
 	t_env *envlst = load_env(env);
 	(void)envlst;
@@ -69,7 +70,7 @@ int	main(int argc, char *argv[],char *env[])
 		if (root)
 		{
 			g_run = execute_commands(root, &envlst);
-			free_ast_node(root);
+			// free_ast_node(root);
 		}
 		// system("leaks minishell"); 
 	}

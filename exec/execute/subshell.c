@@ -13,6 +13,7 @@
 #include "execute.h"
 
 extern int	g_run;
+extern int	g_fd[2];
 
 int	get_subshell_exit_status(t_ast *node, int pid)
 {

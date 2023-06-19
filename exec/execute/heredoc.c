@@ -14,6 +14,7 @@
 #include "execute.h"
 
 extern int	g_run;
+extern int	g_fd[2];
 
 int	handle_dupstdin_and_sig(void)
 {
@@ -44,7 +45,7 @@ void	redup_stdin(t_fd *fd)
 {
 	if (g_run == 130)
 	{
-		if (dup2(fd->dupstdin, 0) == -1)
+		if (dup2(g_fd[0], 0) == -1)
 		{
 			perror("dup2");
 			fd->error = 1;
@@ -76,7 +77,9 @@ t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer,t_env **
 		}
 		buffer = NULL;
 		*end = check_last_heredoc(node);
-		buffer = readline("heredoc> ");
+		dup2(g_fd[0], 0);
+		dup2(g_fd[1], 1);
+		buffer = readline("> ");
 		if (!buffer)
 		{
 			s = 0;

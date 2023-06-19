@@ -48,7 +48,11 @@ char	*quotes_remover(char *str) {
 	int j;
     int inside_single = FALSE;
 	int	inside_double = FALSE;
-
+     int s = 0;
+    while(str[s] && str[s] != '\'' && str[s] == '\"')
+        s++;
+    if (!str[s])
+        return (str);
     for (i = j = 0; i < len; i++) {
         if (str[i] == '\'' && !inside_double) {
             inside_single = !inside_single;
