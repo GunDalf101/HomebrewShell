@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 14:06:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 16:32:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,14 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 	com_researcher = *i;
 	head_red = FALSE;
+	cmd = NULL;
 	while ((tokens[com_researcher + 1] && (tokens[com_researcher][0] == '>' || tokens[com_researcher][0] == '<')) || (com_researcher > 0 && tokens[com_researcher + 1] && (tokens[com_researcher - 1][0] == '>' || tokens[com_researcher - 1][0] == '<')))
 		com_researcher++;
-	astable[*ascnt] = order_command(tokens, &com_researcher);
-	cmd = astable[*ascnt];
+	if (tokens[com_researcher] && tokens[com_researcher][0] != '|' && tokens[com_researcher][0] != '(' && tokens[com_researcher][0] != '&' && tokens[com_researcher][0] != ')')
+	{
+		astable[*ascnt] = order_command(tokens, &com_researcher);
+		cmd = astable[*ascnt];
+	}
 	while (tokens[*i] && tokens[*i][0] != '|' && tokens[*i][0] != '(' && tokens[*i][0] != '&' && tokens[*i][0] != ')')
 	{
 		if (astable[*ascnt])

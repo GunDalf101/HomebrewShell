@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/16 01:14:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:14:12 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = getting_infile_fd(node, &fd,*env);
 		else if (node->type == ast_heredoc)
 		{
-			node->u_data.heredoc.tmp = "/tmp/.minishell_heredoc";
+			char *tmp = ft_itoa(generate_rand());
+            node->u_data.heredoc.tmp = ft_strjoin("/tmp/", tmp);
+            free(tmp);
 			open_tmp_file(node, &fd);
 			node = heredoc_handler(node, &fd,env);
 			if (!node || node->type != ast_heredoc)

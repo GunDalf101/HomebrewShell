@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 14:17:58 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:16:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ int	main(int argc, char *argv[],char *env[])
 	root = NULL;
 
 	rl_catch_signals = 0;
+	rl_bind_key('\t', rl_insert);
 
 	t_env *envlst = load_env(env);
 	(void)envlst;
 	while (1)
-	{
-		
-
+	{ 
 		g_run = 0;
 		input = NULL;
 		root = NULL;
@@ -72,7 +71,7 @@ int	main(int argc, char *argv[],char *env[])
 			g_run = execute_commands(root, &envlst);
 			free_ast_node(root);
 		}
-		system("leaks minishell");
+		// system("leaks minishell"); 
 	}
 	return (0);
 }
