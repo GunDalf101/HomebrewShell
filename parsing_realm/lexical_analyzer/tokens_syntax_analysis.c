@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 06:23:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 07:52:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,27 +89,32 @@ int	and_check(char **tokens, int i)
 int	parenthesis_check_zo(char **tokens, int i)
 {
 	int	j;
+	int	sinquo;
+	int	dubquo;
 
 	j = 1;
+	sinquo = FALSE;
+	dubquo = FALSE;
 	while (tokens[i][j] && j++)
 	{
+		super_quote_hander(&dubquo, &sinquo, tokens[i][j]);
 		if (tokens[i][j] == 0)
 			return (printf("Error: syntax error near unexpected token `\\n'\n"), \
 				FAILURE);
-		else if (tokens[i][j] == ')')
+		else if (tokens[i][j] == ')' && sinquo == FALSE && dubquo == FALSE)
 			return (printf("Error: syntax error near unexpected token `)'\n"), \
 					FAILURE);
-		else if (tokens[i][j] == '>')
+		else if (tokens[i][j] == '>' && sinquo == FALSE && dubquo == FALSE)
 			return (rediretion_check(tokens, i + 1));
-		else if (tokens[i][j] == '<')
+		else if (tokens[i][j] == '<' && sinquo == FALSE && dubquo == FALSE)
 			return (rediretion_check(tokens, i + 1));
-		else if (tokens[i][j] == '|')
+		else if (tokens[i][j] == '|' && sinquo == FALSE && dubquo == FALSE)
 			return (printf("Error: syntax error near unexpected token `|'\n"), \
 					FAILURE);
-		else if (tokens[i][j] == '&')
+		else if (tokens[i][j] == '&' && sinquo == FALSE && dubquo == FALSE)
 			return (printf("Error: syntax error near unexpected token `&'\n"), \
 					FAILURE);
-		else if (tokens[i][j] != ' ')
+		else if (tokens[i][j] != ' ' && sinquo == FALSE && dubquo == FALSE)
 			return (SUCCESS);
 	}
 	return (SUCCESS);
@@ -120,17 +125,11 @@ int	parenthesis_check_zo(char **tokens, int i)
 int	syntax_checker(char **tokens)
 {
 	int	i;
-	int	dubquo;
-	int	sinquo;
 
 	i = 0;
-	dubquo = FALSE;
-	sinquo = FALSE;
 	while (tokens[i])
 	{
-		super_quote_hander(&dubquo, &sinquo, tokens[i][0]);
-		printf("sinquo = %d\n", sinquo);
-		if (syntax_checker_extended(tokens, i, dubquo, sinquo) == FAILURE)
+		if (syntax_checker_extended(tokens, i) == FAILURE)
 			return (FAILURE);
 		i++;
 	}

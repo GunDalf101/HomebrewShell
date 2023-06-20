@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 06:22:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:56:44 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	**tokenizer(char *input)
 	tokens = NULL;
 	sinquo = FALSE;
 	dubquo = FALSE;
+	// return (NULL);
 	exp_input = space_expand(input, dubquo, sinquo);
 	free(input);
 	if (input_syntax_checker(exp_input) == FAILURE)

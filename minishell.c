@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 05:23:28 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:02:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ int	main(int argc, char *argv[],char *env[])
 		g_global.run = 0;
 		input = NULL;
 		root = NULL;
+		printf("gol moussoulini\n");
 		input = readline("minishell>");
-		printf("input = %s\n", input);
+		printf("input = %p\n", input);
 		if (!input)
 		{
 			if (k == 1)
@@ -75,6 +76,7 @@ int	main(int argc, char *argv[],char *env[])
 				write(1, "exit\n", 6);
 			break ;
 		}
+		// continue;
 		if (input[0] == '\n' || input[0] == '\0')
 		{
 			free(input);
@@ -89,6 +91,7 @@ int	main(int argc, char *argv[],char *env[])
 			// g_global.exit_status = execute_commands(root, &envlst);
 			free_ast_node(root);
 		}
+		// sleep(1);
 	}
 	return (0);
 }
