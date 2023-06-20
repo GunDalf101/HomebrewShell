@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 18:55:14 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 05:54:22 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_ast	*parsinginit(char *input)
 {
-	t_ast	*root;
+	t_ast	*root = NULL;
 	t_ast	**lexical_table;
 	char	**tokens;
 

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 08:55:56 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/21 19:08:24 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 05:47:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strdup(char *src)
 	if (!src)
 		return (NULL);
 	len = ft_strlen(src);
-	dest = (char *)malloc((len + 1) * sizeof(char));
+	dest = (char *)ft_calloc((len + 1) , sizeof(char));
 	if (!dest)
 		return (0);
 	while (src[i] != '\0')

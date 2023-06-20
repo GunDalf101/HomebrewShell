@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:33:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/20 00:55:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 06:17:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		return (NULL);
 	node->type = type;
 	node->u_data.cmd.cmd = ft_strdup(cmd);
-	free(cmd);
+	if (cmd)
+		free(cmd);
 	node->u_data.cmd.args = malloc(sizeof(char *) * (arg_count + 1));
 	i = 0;
 	while (i < arg_count && args[i])
@@ -34,7 +35,7 @@ t_ast	*add_new_cmd(char *cmd, char **args, int arg_count,
 		i++;
 	}
 	free(args);
-	node->u_data.cmd.args[arg_count] = NULL;
+	node->u_data.cmd.args[i] = NULL;
 	node->u_data.cmd.arg_count = arg_count;
 	return (node);
 }
@@ -119,7 +120,8 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 	subshell = lexical_table[counter];
 	tmp = subshell->u_data.subshell.reparsethis;
 	subshell->u_data.subshell.reparsethis = ft_strtrim(tmp, "( )");
-	free(tmp);
+	if (tmp)
+		free(tmp);
 	if (subshell->u_data.subshell.reparsethis[0] == '\0')
 		return (NULL);
 	subshell->u_data.subshell.child = parsinginit(subshell->u_data.subshell.reparsethis);

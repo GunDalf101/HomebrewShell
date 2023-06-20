@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/19 17:36:34 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 04:54:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 		cmd = get_cmd_node(node);
 	while (node && g_global.run != 130)
 	{
-        g_run = 0;
 		if (node->type == ast_redirect_out)
 			node = create_red_files(node, &fd,*env);
 		else if (node->type == ast_redirect_in)

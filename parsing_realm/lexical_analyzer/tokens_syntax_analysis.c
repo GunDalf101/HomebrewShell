@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 21:13:37 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 06:23:27 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int	syntax_checker(char **tokens)
 	while (tokens[i])
 	{
 		super_quote_hander(&dubquo, &sinquo, tokens[i][0]);
+		printf("sinquo = %d\n", sinquo);
 		if (syntax_checker_extended(tokens, i, dubquo, sinquo) == FAILURE)
 			return (FAILURE);
 		i++;

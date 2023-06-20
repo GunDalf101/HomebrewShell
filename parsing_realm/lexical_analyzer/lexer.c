@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 16:32:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/20 06:19:59 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_ast	*order_command(char **tokens, int *i)
 	{
 		while ((tokens[*i] && (tokens[*i][0] == '>' || tokens[*i][0] == '<')) || (tokens[*i] && *i > 0 && (tokens[*i - 1][0] == '>' || tokens[*i - 1][0] == '<')))
 			*i = *i + 1;
-		if (!tokens[*i])
+		if (!tokens[*i] || tokens[*i][0] == '|' || tokens[*i][0] == '(' || tokens[*i][0] == '&' || tokens[*i][0] == ')')
 			break;
 		args[argcnt] = ft_strdup(tokens[*i]);
 		*i = *i + 1;
