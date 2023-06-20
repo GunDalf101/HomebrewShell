@@ -147,14 +147,14 @@ int	parenthesis_check(char *input)
 	{
 		super_quote_hander(&dubquo, &sinquo, input[i]);
 		parenthesis_life_time(&life_counter, input[i], &paren, sinquo, dubquo);
+		if (life_counter < 0)
+		{
+			printf("Error: syntax error near unexpected token `)'\n");
+			return (FAILURE);
+		}
 		i++;
 	}
-	if (life_counter < 0)
-	{
-		printf("Error: syntax error near unexpected token `)'\n");
-		return (FAILURE);
-	}
-	if (life_counter != 0 || paren == TRUE)
+	if (life_counter > 0)
 	{
 		printf("Error: parenthesis unclosed\n");
 		return (FAILURE);

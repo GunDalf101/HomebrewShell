@@ -12,7 +12,7 @@
 
 #include "commands.h"
 
-int	to_relative_dir(char *dir, char *path,t_env **env)
+int	to_relative_dir(char *dir, char *path, t_env **env)
 {
 	char	*tmp;
 
@@ -47,7 +47,7 @@ int	to_home_dir(t_env **env, char *dir)
 			return (0);
 		}
 	}
-	else if (!to_relative_dir(dir, path,env))
+	else if (!to_relative_dir(dir, path, env))
 		return (0);
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putendl_fd("Home not set", 2);
@@ -70,6 +70,7 @@ int	to_prev_dir(t_env **env)
 	if (chdir(path) == 0)
 	{
 		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
+		printf("%s\n", return_pwd());
 		return (0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);
@@ -82,18 +83,18 @@ int	to_dir(t_ast *node, t_env **env)
 {
 	char	*path;
 
+	path = NULL;
 	if (get_env(*env, "OLDPWD"))
-		path = get_env(*env, "OLDPWD")->value;
+		exportadd_for_cd(env, envnew("OLDPWD",
+				ft_strdup(get_env(*env, "PWD")->value), 0));
 	if (chdir(node->u_data.cmd.args[1]) == 0)
 	{
-		exportadd_for_cd(env, envnew("OLDPWD", path, 0));
 		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
 		return (0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(node->u_data.cmd.args[1], 2);
-	ft_putstr_fd(": ", 2);
-	perror("");
+	ft_putstr_fd(": No such file or directory\n", 2);
 	return (1);
 }
 

@@ -27,7 +27,7 @@ char    *heredoc_expansion(char *str,t_env *env)
                     if (get_env(env, var))
                         value = ft_strdup(get_env(env, var)->value);
                     else
-                        value = ft_strdup("");
+                        value = NULL;
                     if (value)
                     {
                         char *firstpart = ft_substr(str, 0, start);
@@ -36,8 +36,8 @@ char    *heredoc_expansion(char *str,t_env *env)
                         new_str = ft_strjoin(new_str, secondpart);
                         free(str);
                         str = new_str;
-                        len = strlen(str);
-                        i = start + strlen(value);
+                        len = ft_strlen(str);
+                        i = start + ft_strlen(value);
                     }
                     free(var);
                     free(value);
@@ -48,13 +48,14 @@ char    *heredoc_expansion(char *str,t_env *env)
     return (str);
 }
 
-char	*quotes_remover(char *str) {
+char	*quotes_remover(char *str) 
+{
     int len = strlen(str);
     int i;
 	int j;
     int inside_single = FALSE;
 	int	inside_double = FALSE;
-     int s = 0;
+    int s = 0;
     while(str[s] && str[s] != '\'' && str[s] == '\"')
         s++;
     if (!str[s])
@@ -68,7 +69,6 @@ char	*quotes_remover(char *str) {
             str[j++] = str[i];
         }
     }
-
     str[j] = '\0';
 	return (str);
 }
@@ -76,7 +76,7 @@ char	*quotes_remover(char *str) {
 
 
 char	*quotes_busters(char *str,t_env *env) {
-    int len = strlen(str);
+    int len = ft_strlen(str);
     int i;
 	int j;
     int start = 0;
@@ -111,17 +111,19 @@ char	*quotes_busters(char *str,t_env *env) {
                     else if(get_env(env, var))
                         value = ft_strdup(get_env(env, var)->value);
                     else
-                        value = ft_strdup("");
+                        value = NULL;
                     if (value)
                     {
                         char *firstpart = ft_substr(str, 0, start);
                         char *secondpart = ft_substr(str, end, len - end);
                         char *new_str = ft_strjoin(firstpart, value);
-                        new_str = ft_strjoin(new_str, secondpart);
+                        free(firstpart);
                         free(str);
-                        str = new_str;
-                        len = strlen(str);
-                        i = start + strlen(value);
+                        str = ft_strjoin(new_str, secondpart);
+                        free(secondpart);
+                        free(new_str);
+                        len = ft_strlen(str);
+                        i = start + ft_strlen(value);
                         j = i;
                     }
                     free(var);
@@ -132,13 +134,25 @@ char	*quotes_busters(char *str,t_env *env) {
         if(str[i] && (str[i] != '\'' || inside_double || str[i] != '"' || inside_single))
             str[j++] = str[i];
     }
-
+    if (j == 0)
+    {
+        free(str);
+        return (NULL);
+    }
     str[j] = '\0';
 	return (quotes_remover(str));
 }
 
+void shift_args(t_ast *node,int i)
+{
+    while(node->u_data.cmd.args[i])
+    {
+        node->u_data.cmd.args[i] = node->u_data.cmd.args[i+1];
+        i++;
+    }
+}
 
-void expand(t_ast *node,t_env **env)
+t_ast *expand(t_ast *node,t_env **env)
 {
     (void)env;
     if(node->type == ast_cmd)
@@ -148,7 +162,18 @@ void expand(t_ast *node,t_env **env)
         while(node->u_data.cmd.args[i])
         {
             node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],*env);
+            if(node->u_data.cmd.args[i] == NULL)
+            {
+                node->u_data.cmd.arg_count--;
+                node->u_data.cmd.args[i] = NULL;
+                shift_args(node,i);
+                i = 0;
+            }
             i++;
         }
+        node->u_data.cmd.cmd = node->u_data.cmd.args[0];
     }
+    if(node->u_data.cmd.arg_count == 0)
+        return(NULL);
+    return(node);
 }

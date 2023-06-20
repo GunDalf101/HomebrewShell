@@ -59,7 +59,7 @@ char	**lst_to_env(t_env *head)
 		if(head->hidden == 0)
 		{
 			tmp = ft_strdup(head->key);
-			if(head->value != NULL)
+			if (head->value != NULL)
 			{
 				tmp = ft_strjoin(head->key, "=");
 				env = ft_strjoin(tmp, head->value);
@@ -85,7 +85,7 @@ int	lstsize(t_env *head)
 	tmp = head;
 	while (tmp)
 	{
-		if(tmp->hidden == 0)
+		if (tmp->hidden == 0)
 			i++;
 		tmp = tmp->next;
 	}

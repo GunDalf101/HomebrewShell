@@ -12,19 +12,6 @@
 
 #include "commands.h"
 
-void	print_env(t_env *tmp)
-{
-	ft_putstr_fd("declare -x ", 1);
-	ft_putstr_fd(tmp->key, 1);
-	if (tmp->value != NULL)
-	{
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(tmp->value, 1);
-		ft_putstr_fd("\"", 1);
-	}
-	ft_putstr_fd("\n", 1);
-}
-
 int	check_key(char *key)
 {
 	int	i;
@@ -45,7 +32,7 @@ int	envcmd(t_env *head)
 {
 	while (head)
 	{
-		if(head->hidden == 0 && head->value)
+		if (head->hidden == 0 && head->value)
 		{
 			ft_putstr_fd(head->key, 1);
 			ft_putstr_fd("=", 1);

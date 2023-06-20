@@ -62,7 +62,7 @@ void	write_heredoc_file(char *buffer, t_ast *node);
 int		check_last_heredoc(t_ast *node);
 void set_imp_commands(t_ast *node);
 int	get_subshell_exit_status(t_ast *node, int pid);
-void expand(t_ast *node,t_env **env);
+t_ast 	*expand(t_ast *node,t_env **env);
 char	*quotes_remover(char *str);
 char    *heredoc_expansion(char *str,t_env *env);
 char	*quotes_busters(char *str,t_env *env);
