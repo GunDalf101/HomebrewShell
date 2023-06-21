@@ -85,8 +85,7 @@ int	main(int argc, char *argv[],char *env[])
 		{
 			execute_all_heredocs(root, &envlst);
 			g_global.exit_status = execute_commands(root, &envlst);
-			printf("exit status: %d\n", g_global.exit_status);
-			// free_ast_node(root);
+			free_ast_node(root);
 		}
 	}
 	return (0);

@@ -36,6 +36,10 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         close(pipefd[1]); 
         waitpid(left_pid, &status, 0);
         waitpid(right_pid, &status, 0);
+        if (WIFEXITED(status))
+            status = WEXITSTATUS(status);
+        else if (WIFSIGNALED(status))
+            status = 130;
         g_global.exit_status = status;
         return status;
     }

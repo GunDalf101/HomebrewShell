@@ -37,6 +37,10 @@ int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfi
     else
     {
         waitpid(pid, &status, 0);
+		if(WIFSIGNALED(status))
+			status = 130;
+		else if(WIFEXITED(status))
+			status = WEXITSTATUS(status);
 		if(infile_fd != STDIN_FILENO)
 			close(infile_fd);
 		if(outfile_fd != STDOUT_FILENO)
@@ -68,6 +72,10 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if(WIFSIGNALED(status))
+			status = 130;
+		else if(WIFEXITED(status))
+			status = WEXITSTATUS(status);
 		g_global.run = 0;
 		return (status);
 	}

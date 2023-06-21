@@ -34,7 +34,7 @@ void expand_start(t_expand *expand,t_env *env)
         else if(get_env(env, expand->var))
             expand->value = ft_strdup(get_env(env, expand->var)->value);
         else
-            expand->value = NULL;
+            expand->value = ft_strdup("");
         if (expand->value)
             replace_env(expand);
         free(expand->var);
@@ -48,7 +48,6 @@ char	*quotes_busters(char *str,t_env *env) {
     expand_intialize(&expand, str);
     while(expand.i < expand.len)
     {
-       
         if (expand.str[expand.i] == '\'' && !expand.inside_double)
             expand.inside_single = !expand.inside_single;
         else if (expand.str[expand.i] == '"' && !expand.inside_single)
@@ -63,8 +62,11 @@ char	*quotes_busters(char *str,t_env *env) {
     expand.len = ft_strlen(expand.str);
     expand.str = quotes_remover(expand.str);
     if (expand.len == 0)
+    {
+        free(expand.str);
         return (NULL);
-    str[expand.j] = '\0';
+    }
+    expand.str[expand.j] = '\0';
 	return (expand.str);
 }
 
@@ -75,11 +77,11 @@ void shift_args(t_ast *node,int i)
         node->u_data.cmd.args[i] = node->u_data.cmd.args[i+1];
         i++;
     }
+    node->u_data.cmd.args[i] = NULL;
 }
 
 t_ast *expand(t_ast *node,t_env **env)
 {
-    (void)env;
     if(node->type == ast_cmd || node->type == ast_imp)
     {
         int i = 0;
@@ -94,9 +96,8 @@ t_ast *expand(t_ast *node,t_env **env)
             }
             i++;
         }
-        node->u_data.cmd.cmd = node->u_data.cmd.args[0];
+        if(node->u_data.cmd.cmd == NULL)
+            node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
     }
-    if(node->u_data.cmd.arg_count == 0)
-        return(NULL);
     return(node);
 }
