@@ -65,9 +65,7 @@ int	main(int argc, char *argv[],char *env[])
 		g_global.run = 0;
 		input = NULL;
 		root = NULL;
-		printf("gol moussoulini\n");
 		input = readline("minishell>");
-		printf("input = %p\n", input);
 		if (!input)
 		{
 			if (k == 1)
@@ -76,7 +74,6 @@ int	main(int argc, char *argv[],char *env[])
 				write(1, "exit\n", 6);
 			break ;
 		}
-		// continue;
 		if (input[0] == '\n' || input[0] == '\0')
 		{
 			free(input);
@@ -84,14 +81,13 @@ int	main(int argc, char *argv[],char *env[])
 		}
 		add_history(input);
 		root = parsinginit(input);
-		printf("gol moussoulini\n");
 		if (root)
 		{
-			// execute_all_heredocs(root, &envlst);
-			// g_global.exit_status = execute_commands(root, &envlst);
-			free_ast_node(root);
+			execute_all_heredocs(root, &envlst);
+			g_global.exit_status = execute_commands(root, &envlst);
+			printf("exit status: %d\n", g_global.exit_status);
+			// free_ast_node(root);
 		}
-		// sleep(1);
 	}
 	return (0);
 }

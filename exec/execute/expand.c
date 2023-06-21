@@ -83,12 +83,11 @@ t_ast *expand(t_ast *node,t_env **env)
     if(node->type == ast_cmd || node->type == ast_imp)
     {
         int i = 0;
-        node->u_data.cmd.arg_count = 0;
         node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd,*env);
         while(node->u_data.cmd.args[i])
         {
             node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],*env);
-            if(node->u_data.cmd.args[i] == NULL)
+            if(node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i+1])
             {
                 shift_args(node,i);
                 i = 0;
@@ -97,14 +96,6 @@ t_ast *expand(t_ast *node,t_env **env)
         }
         node->u_data.cmd.cmd = node->u_data.cmd.args[0];
     }
-    int i = 0;
-    node->u_data.cmd.arg_count = 0;
-    while(node->u_data.cmd.args[i])
-    {
-        node->u_data.cmd.arg_count++;
-        i++;
-    }
-    printf("arg count = %d\n",node->u_data.cmd.arg_count);
     if(node->u_data.cmd.arg_count == 0)
         return(NULL);
     return(node);

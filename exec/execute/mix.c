@@ -130,10 +130,10 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 			node = node->u_data.heredoc.next;
 		}
 	}
-	if (!fd.error && g_global.run != 130 && cmd && cmd->type == ast_cmd)
+	if (cmd && !fd.error && g_global.run != 130 && cmd && cmd->type == ast_cmd)
 		return (execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
 	else if (!fd.error && g_global.run != 130 && cmd && cmd->type == ast_subshell)
-		return(execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
+		return(cmd && execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
     else
     {
         if(fd.infile_fd != STDIN_FILENO)
@@ -142,7 +142,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
             close(fd.outfile_fd);
     }
     if(g_global.run == 130)
-        return 130;
+        return (130);
 	return (0);
 }
 
