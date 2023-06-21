@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 15:36:41 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/20 00:57:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	execute_and(t_ast *node, t_env **env)
 	int	left_status;
 
 	left_status = execute_commands(node->u_data.operation.left, env);
+	printf("left status: %d\n", left_status);
 	if (left_status == 0)
 		status = execute_commands(node->u_data.operation.right, env);
 	else

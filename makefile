@@ -8,6 +8,9 @@ SOURCES = exec/env/env.c		\
 		parsing_realm/lexical_analyzer/lexer.c \
 		parsing_realm/lexical_analyzer/tokens_gen.c \
 		parsing_realm/lexical_analyzer/split_with_a_twist.c \
+		parsing_realm/lexical_analyzer/input_syntax_analysis.c \
+		parsing_realm/lexical_analyzer/tokens_syntax_analysis.c \
+		parsing_realm/lexical_analyzer/tokens_syntax_analysis_extended.c \
 		parsing_realm/error_checker.c\
 		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \
@@ -39,7 +42,7 @@ OBJECTS = $(SOURCES:.c=.o)
 INCLUDES = minishell.h
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
 
 all: libft $(NAME) 
@@ -50,7 +53,7 @@ all: libft $(NAME)
 
 
 $(NAME):$(OBJECTS) $(GNLOBJ) 
-	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME) 
+	@cc  $(OBJECTS) $(LIBFT) -L$(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 	@echo "\033[47m\033[30m\033[1m           \`$@ linked\`           \033[0m"
 
 %.o: %.c minishell.h
