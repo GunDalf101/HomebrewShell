@@ -16,7 +16,6 @@ void expand_intialize(t_expand *expand,char *str)
     expand->var = NULL;
 }
 
-
 void expand_start(t_expand *expand,t_env *env)
 {
     expand->start = expand->i;
