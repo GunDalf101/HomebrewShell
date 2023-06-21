@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 09:56:44 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:16:02 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	free_tokens(char **s, int j)
 	int	i;
 
 	i = 0;
-	while (i <= j)
+	(void)j;
+	while (s[i] && i < j)
 	{
 		free(s[i]);
 		s[i] = NULL;
@@ -37,39 +38,38 @@ char	*space_expand(char *input, int dubquo, int sinquo)
 {
 	int		i;
 	int		j;
-	int		it;
 	int		counter;
 	char	*expansion;
 
 	i = 0;
 	j = 1;
-	it = 0;
 	counter = 1;
 	dubquo = FALSE;
 	sinquo = FALSE;
-	while (input[it])
-	{
-		super_quote_hander(&dubquo, &sinquo, input[it]);
-		if ((input[it + 1] == '(' || input[it + 1] == ')' || (input[it \
-					+ 1] == '|' && input[it] != '|') || (input[it + 1] == '&' \
-					&& input[it] != '&') || (input[it + 1] == '>' \
-					&& input[it] != '>') || (input[it + 1] == '<' \
-					&& input[it] != '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-			counter++;
-		if ((input[it] == '(' || input[it] == ')' || (input[it + 1] != '|' \
-					&& input[it] == '|') || (input[it + 1] != '&' \
-					&& input[it] == '&') || (input[it + 1] != '>' \
-					&& input[it] == '>') || (input[it + 1] != '<' \
-					&& input[it] == '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-			counter++;
-		it++;
-	}
-	counter += it;
-	expansion = ft_calloc(counter, 1);
-	expansion[0] = ' ';
 	while (input[i])
+	{
+		super_quote_hander(&dubquo, &sinquo, input[i]);
+		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' \
+					&& input[i] != '|') || (input[i + 1] == '&' \
+					&& input[i] != '&') || (input[i + 1] == '>' \
+					&& input[i] != '>') || (input[i + 1] == '<' \
+					&& input[i] != '<')) && (dubquo == FALSE \
+				&& sinquo == FALSE))
+			counter++;
+		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' \
+					&& input[i] == '|') || (input[i + 1] != '&' \
+					&& input[i] == '&') || (input[i + 1] != '>' \
+					&& input[i] == '>') || (input[i + 1] != '<' \
+					&& input[i] == '<')) && (dubquo == FALSE \
+				&& sinquo == FALSE))
+			counter++;
+		counter++;
+		i++;
+	}
+	i = 0;
+	expansion = ft_calloc(counter + 1, 1);
+	expansion[0] = ' ';
+	while (input[i] && j < counter)
 	{
 		super_quote_hander(&dubquo, &sinquo, input[i]);
 		expansion[j] = input[i];
@@ -111,7 +111,6 @@ char	**tokenizer(char *input)
 	tokens = NULL;
 	sinquo = FALSE;
 	dubquo = FALSE;
-	// return (NULL);
 	exp_input = space_expand(input, dubquo, sinquo);
 	free(input);
 	if (input_syntax_checker(exp_input) == FAILURE)

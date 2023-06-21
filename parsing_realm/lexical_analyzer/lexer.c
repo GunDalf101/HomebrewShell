@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 06:19:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:32:20 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,28 @@ t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 	return (NULL);
 }
 
+// the exact lengthof astable
+
+size_t	size_lol(char **tokens)
+{
+	size_t i;
+	size_t cnt;
+
+	i = 0;
+	cnt = 1;
+	while (tokens[i])
+	{
+		if (tokens[i][0] == '>' || tokens[i][0] == '<')
+			cnt++;
+		if (tokens[i][0] == '|' || tokens[i][0] == '&')
+			cnt+=2;
+		if (tokens[i][0] == '(')
+			cnt++;
+		i++;
+	}
+	return (cnt + 1);
+}
+
 // this function is supposed to make up the nodes
 
 t_ast	**lex_luthor(char **tokens)
@@ -205,8 +227,8 @@ t_ast	**lex_luthor(char **tokens)
 
 	i = 0;
 	ascnt = 0;
-	astable = ft_calloc(strtablen(tokens), sizeof(t_ast *));
-	while (i < (int)strtablen(tokens))
+	astable = ft_calloc(size_lol(tokens), sizeof(t_ast *));
+	while (tokens[i] && ascnt < (int)size_lol(tokens))
 	{
 		cre_node(tokens, astable, &i, &ascnt);
 		ascnt++;
