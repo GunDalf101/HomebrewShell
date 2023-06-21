@@ -19,7 +19,7 @@ static int	isoverflow(long long int prev, long long int curr)
 	return (1);
 }
 
-static int	itisspace(const char *str, int *pi)
+static int	itisspace( char *str, int *pi)
 {
 	int	count;
 	int	i;
@@ -39,7 +39,7 @@ static int	itisspace(const char *str, int *pi)
 	return (count);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi( char *str)
 {
 	int				sign;
 	long long int	res;

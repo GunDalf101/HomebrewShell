@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static size_t	wordcounter(const char *str, char c)
+static size_t	wordcounter( char *str, char c)
 {
 	size_t	i;
 	size_t	num;
@@ -33,7 +33,7 @@ static size_t	wordcounter(const char *str, char c)
 	return (i);
 }
 
-static char	*wordput(const char *str, size_t start, size_t finish)
+static char	*wordput( char *str, size_t start, size_t finish)
 {
 	char		*word;
 	size_t		i;
@@ -68,7 +68,7 @@ static void	valinit(size_t *i, size_t *j, int *id)
 	*id = -1;
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char  *s, char c)
 {
 	size_t	i;
 	size_t	j;

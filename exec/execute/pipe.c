@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #include "execute.h"
-extern int g_fd[2];
-
+extern t_global    g_global;
 
 int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 {
@@ -37,6 +36,7 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         close(pipefd[1]); 
         waitpid(left_pid, &status, 0);
         waitpid(right_pid, &status, 0);
+        g_global.exit_status = status;
         return status;
     }
 }

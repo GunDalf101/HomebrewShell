@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	isset(char c, const char *set)
+static int	isset(char c,  char *set)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	isset(char c, const char *set)
 	return (0);
 }
 
-static int	ftrimlen(int len, const char *s, const char *set)
+static int	ftrimlen(int len,  char *s,  char *set)
 {
 	int	i;
 	int	j;
