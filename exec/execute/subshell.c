@@ -37,7 +37,7 @@ int execute_subshell(t_ast *node, t_env **env) {
 	else if (pid == 0) 
 	{
 		signal(SIGINT, command_sig);
-        int result = execute_commands(node->u_data.subshell.child, env);
+        int result = execute_commands(node->u_data.subshell.child, env, 1);
         return(result);
     } 
 	else 

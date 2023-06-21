@@ -47,8 +47,11 @@ void	display_export_error(t_env *new, int *k)
 	ft_putstr_fd("bash: export: ", 1);
 	ft_putstr_fd("\'", 1);
 	ft_putstr_fd(new->key, 1);
-	ft_putstr_fd("=", 1);
-	ft_putstr_fd(new->value, 1);
+	if (ft_strlen(new->value))
+	{
+		ft_putstr_fd("=", 1);
+		ft_putstr_fd(new->value, 1);
+	}
 	ft_putstr_fd("\'", 1);
 	ft_putendl_fd(": not a valid identifier", 1);
 	free(new->key);

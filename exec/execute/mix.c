@@ -96,7 +96,7 @@ int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
             }
             close(outfile_fd);
         }
-        subshell_status = execute_commands(node->u_data.subshell.child, env);
+        subshell_status = execute_commands(node->u_data.subshell.child, env, 1);
         exit(subshell_status);
     }
     if(infile_fd != STDIN_FILENO)
@@ -167,7 +167,7 @@ int	execute_heredocs(t_ast *node, t_env **env)
 		else if (node->type == ast_heredoc)
 		{
 			char *tmp = ft_itoa(generate_rand());
-            node->u_data.heredoc.tmp = ft_strjoin("/tmp/", tmp);
+            node->u_data.heredoc.tmp = ft_strjoin("/tmp/.heredoc", tmp);
             free(tmp);
 			open_tmp_file(node, &fd);
 			node = heredoc_handler(node, &fd,env);

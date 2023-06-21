@@ -56,8 +56,8 @@ typedef struct s_expand
 void	command_sig(int sig);
 int		create_pipe(t_ast *node, t_env **env);
 int		execute_subshell(t_ast *node, t_env **env);
-int		execute_imp_commands(t_ast *node, t_env **env);
-int		execute_commands(t_ast *node, t_env **env);
+int		execute_imp_commands(t_ast *node, t_env **env, int k);
+int		execute_commands(t_ast *node, t_env **env,int k);
 int		execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
 			int outfile_fd);
 int		check_cmd(t_ast *node, t_env *env);
@@ -83,7 +83,7 @@ char    *heredoc_expansion(char *str,t_env *env);
 char	*quotes_busters(char *str,t_env *env);
 int		execute_all_heredocs(t_ast *node, t_env **env);
 int		execute_heredocs(t_ast *node, t_env **env);
-int		exitcmd(t_ast *node);
+int		exitcmd(t_ast *node,int k);
 void	expand_intialize(t_expand *expand,char *str);
 void	replace_env(t_expand *expand);
 void	expand_start(t_expand *expand,t_env *env);

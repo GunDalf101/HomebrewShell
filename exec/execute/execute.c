@@ -82,31 +82,31 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	return (1);
 }
 
-int	execute_and(t_ast *node, t_env **env)
+int	execute_and(t_ast *node, t_env **env,int k)
 {
 	int	status;
 	int	left_status;
 
-	left_status = execute_commands(node->u_data.operation.left, env);
+	left_status = execute_commands(node->u_data.operation.left, env, k);
 	printf("left status: %d\n", left_status);
 	if (left_status == 0)
-		status = execute_commands(node->u_data.operation.right, env);
+		status = execute_commands(node->u_data.operation.right, env, k);
 	else
 		status = left_status;
 	return (status);
 }
 
-int	execute_or(t_ast *node, t_env **env)
+int	execute_or(t_ast *node, t_env **env,int k)
 {
 	int	left_status;
 
-	left_status = execute_commands(node->u_data.operation.left, env);
+	left_status = execute_commands(node->u_data.operation.left, env, k);
 	if (left_status != 0 && left_status != 130)
-		return (execute_commands(node->u_data.operation.right, env));
+		return (execute_commands(node->u_data.operation.right, env, k));
 	return (25);
 }
 
-int	execute_commands(t_ast *node, t_env **env)
+int	execute_commands(t_ast *node, t_env **env,int k)
 {
 	if (!node)
 		return (0);
@@ -115,7 +115,7 @@ int	execute_commands(t_ast *node, t_env **env)
 	if (!node)
 		return (0);
 	else if (node->type == ast_imp)
-		return (execute_imp_commands(node, env));
+		return (execute_imp_commands(node, env, k));
 	else if (node->type == ast_cmd)
 		return (execute_simple_command(node, env));
 	else if (node->type == ast_pipe)
@@ -124,11 +124,11 @@ int	execute_commands(t_ast *node, t_env **env)
 		|| node->type == ast_heredoc)
 		return (execute_redirect_heredoc(node, env));
 	else if (node->type == ast_subshell)
-		return (execute_subshell(node, env));
+		return (execute_subshell(node, env, k));
 	else if (node->type == ast_and)
-		return (execute_and(node, env));
+		return (execute_and(node, env,k));
 	else if (node->type == ast_or)
-		return (execute_or(node, env));
+		return (execute_or(node, env,k));
 	return (-1);
 }
 

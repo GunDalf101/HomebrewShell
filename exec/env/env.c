@@ -26,7 +26,16 @@ t_env	*key_value_to_list(char **env)
 	while (env[i] != NULL)
 	{
 		k = 0;
-		keyvalue = ft_split(env[i], '=');
+		keyvalue = NULL;
+		if(env[i][0] != '=' || !env[i][0])
+			keyvalue = ft_split(env[i], '=');
+		else
+		{
+			keyvalue = malloc(sizeof(char *) * 2);
+			keyvalue[0] = ft_strdup(env[i]);
+			keyvalue[1] = ft_strdup("");
+			printf("keyvalue[0] :%s\n", keyvalue[0]);
+		}
 		d = ft_strlen(keyvalue[0]) - 1;
 		if (keyvalue[0][d] == '+')
 			keyvalue[0] = append_env_mode(keyvalue[0], &k);
