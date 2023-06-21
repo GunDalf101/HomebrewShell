@@ -153,6 +153,9 @@ int	execute_heredocs(t_ast *node, t_env **env)
 	t_ast	*cmd;
 
 	cmd = NULL;
+    cmd = get_cmd_node(node);
+    if(cmd && cmd->type == ast_subshell)
+        execute_all_heredocs(node->u_data.subshell.child, env);
     fd_init(&fd);
 	while (node && g_global.run != 130)
 	{

@@ -18,7 +18,7 @@
 int		syntax_checker(char **tokens);
 char	**tokenizer(char *input);
 t_ast	**lex_luthor(char **tokens);
-char	**split_with_a_twist(char const *s, char c);
+char	**split_with_a_twist(char  *s, char c);
 void	super_quote_hander(int *dubquo, int *sinquo, char c);
 void	parenthesis_life_time(int *life_counter, char c, int *paren, int sinquo,
 			int dubquo);

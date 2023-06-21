@@ -29,12 +29,12 @@ int	exportcmd(t_env *head)
 		ft_putstr_fd("declare -x ", 1);
 		splited = ft_split(env[i], '=');
 		ft_putstr_fd(splited[0], 1);
-		if(get_env(head, splited[0])->value)
-			{
-				ft_putstr_fd("=\"", 1);
-				ft_putstr_fd(get_env(head, splited[0])->value, 1);
-				ft_putstr_fd("\"", 1);
-			}
+		if (get_env(head, splited[0])->value)
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(get_env(head, splited[0])->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
@@ -64,7 +64,7 @@ void	add_to_env(t_env **head, t_env *new)
 
 	tmp = get_env(*head, new->key);
 	if (!tmp)
-		envadd_back(head, new,0);
+		envadd_back(head, new, 0);
 	else if (new->append == 0)
 	{
 		tmpvalue = tmp->value;
@@ -121,7 +121,7 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 		{
 			tmp = get_env(*head, new->key);
 			if (!tmp)
-				envadd_back(head, new,0);
+				envadd_back(head, new, 0);
 			else
 				tmp->value = new->value;
 		}

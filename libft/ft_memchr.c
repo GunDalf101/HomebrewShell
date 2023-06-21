@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	*ft_memchr( void *s, int c, size_t n)
 {
 	size_t				i;
 	char				ch;
-	const char			*str;
+	 char			*str;
 
 	ch = c;
 	str = s;

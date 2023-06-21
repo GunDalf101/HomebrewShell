@@ -102,9 +102,11 @@ int	execute_commands(t_ast *node, t_env **env)
 {
 	if (!node)
 		return (0);
-	expand(node, env);
+	node = expand(node, env);
 	set_imp_commands(node);
-	if (node->type == ast_imp)
+	if (!node)
+		return (0);
+	else if (node->type == ast_imp)
 		return (execute_imp_commands(node, env));
 	else if (node->type == ast_cmd)
 		return (execute_simple_command(node, env));

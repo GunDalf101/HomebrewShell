@@ -61,7 +61,7 @@ int exitcmd(t_ast *node)
         }
         res = calcul_res(node->u_data.cmd.args[1], i);
         printf("exit\n");
-        exit(res);
+        exit((unsigned char)res);
     }
     printf("exit\n");
     exit(0);

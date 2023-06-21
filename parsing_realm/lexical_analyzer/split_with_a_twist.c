@@ -42,7 +42,7 @@ void	parenthesis_life_time(int *life_counter, char c, int *paren, int sinquo, in
 		*paren = FALSE;
 }
 
-static size_t	ft_countwords(char const *str, char c)
+static size_t	ft_countwords(char  *str, char c)
 {
 	int	i;
 	int	count;
@@ -82,7 +82,7 @@ static size_t	ft_countwords(char const *str, char c)
 	return (count);
 }
 
-static size_t	ft_wordlen(char const *str, char c)
+static size_t	ft_wordlen(char  *str, char c)
 {
 	size_t	count;
 	int	dubquo;
@@ -115,7 +115,7 @@ static void	ft_freeall(char **ptr, size_t i)
 	free(ptr);
 }
 
-char	**split_with_a_twist(char const *s, char c)
+char	**split_with_a_twist(char  *s, char c)
 {
 	char **res;
 	size_t i;
