@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 16:27:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:51:09 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ t_env	*key_value_to_list(char **env)
 	char	**keyvalue;
 	int		d;
 	int		k;
-
+	int		i;
+	
+	i = 0;
 	head = NULL;
 	k = 0;
-	int i = 0;
 	while (env[i] != NULL)
 	{
 		k = 0;
@@ -34,7 +35,6 @@ t_env	*key_value_to_list(char **env)
 			keyvalue = malloc(sizeof(char *) * 2);
 			keyvalue[0] = ft_strdup(env[i]);
 			keyvalue[1] = ft_strdup("");
-			printf("keyvalue[0] :%s\n", keyvalue[0]);
 		}
 		d = ft_strlen(keyvalue[0]) - 1;
 		if (keyvalue[0][d] == '+')
@@ -106,7 +106,7 @@ t_env	*load_env(char **env)
 		if (tmp[i] == '=')
 			value = &tmp[i + 1];
 		tmp[i] = '\0';
-		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0),0);
+		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0), 0);
 		free(tmp);
 		env++;
 	}
@@ -120,7 +120,6 @@ t_env	*get_env(t_env *head, char *env)
 	tmp = head;
 	if (!env)
 		return (0);
-	
 	while (tmp)
 	{
 		if (!strcmp(tmp->key, env))

@@ -124,7 +124,7 @@ int	execute_commands(t_ast *node, t_env **env,int k)
 		|| node->type == ast_heredoc)
 		return (execute_redirect_heredoc(node, env));
 	else if (node->type == ast_subshell)
-		return (execute_subshell(node, env, k));
+		return (execute_subshell(node, env));
 	else if (node->type == ast_and)
 		return (execute_and(node, env,k));
 	else if (node->type == ast_or)

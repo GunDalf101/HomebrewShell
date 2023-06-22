@@ -1,6 +1,18 @@
-#include "execute.h"
-extern t_global g_global;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/06/21 23:01:43 by mlektaib         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "execute.h"
+
+extern t_global g_global;
 
 void expand_intialize(t_expand *expand,char *str)
 {

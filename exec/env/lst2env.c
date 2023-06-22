@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/04/10 01:42:02 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:48:09 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,35 +45,31 @@ void	free_env_lst(t_env *head)
 
 char	**lst_to_env(t_env *head)
 {
-	size_t	size;
-	char	**envs;
-	int		i;
-	char	*env;
-	char	*tmp;
+	t_lstenv	var;
 
-	size = lstsize(head);
-	envs = malloc(size * sizeof(char *) + 1);
-	i = 0;
+	var.size = lstsize(head);
+	var.envs = malloc(var.size * sizeof(char *) + 1);
+	var.i = 0;
 	while (head != NULL)
 	{
-		if(head->hidden == 0)
+		if (head->hidden == 0)
 		{
-			tmp = ft_strdup(head->key);
+			var.tmp = ft_strdup(head->key);
 			if (head->value != NULL)
 			{
-				tmp = ft_strjoin(head->key, "=");
-				env = ft_strjoin(tmp, head->value);
+				var.tmp = ft_strjoin(head->key, "=");
+				var.env = ft_strjoin(var.tmp, head->value);
 			}
 			else
-				env = ft_strdup(tmp);
-			free(tmp);
-			envs[i] = env;
-			i++;
+				var.env = ft_strdup(var.tmp);
+			free(var.tmp);
+			var.envs[var.i] = var.env;
+			var.i++;
 		}
 		head = head->next;
 	}
-	envs[i] = NULL;
-	return (envs);
+	var.envs[var.i] = NULL;
+	return (var.envs);
 }
 
 int	lstsize(t_env *head)
