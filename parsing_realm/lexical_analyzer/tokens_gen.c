@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/21 19:16:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 01:48:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,92 +34,39 @@ void	free_tokens(char **s, int j)
 // function to to expand the input with a space next to the operators
 // maybe i should skip later what's between spaces too???
 
-char	*space_expand(char *input, int dubquo, int sinquo)
+char	*space_expand(char *input, t_quote_parenthesis *quotes)
 {
-	int		i;
-	int		j;
 	int		counter;
 	char	*expansion;
 
-	i = 0;
-	j = 1;
 	counter = 1;
-	dubquo = FALSE;
-	sinquo = FALSE;
-	while (input[i])
-	{
-		super_quote_hander(&dubquo, &sinquo, input[i]);
-		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' \
-					&& input[i] != '|') || (input[i + 1] == '&' \
-					&& input[i] != '&') || (input[i + 1] == '>' \
-					&& input[i] != '>') || (input[i + 1] == '<' \
-					&& input[i] != '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-			counter++;
-		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' \
-					&& input[i] == '|') || (input[i + 1] != '&' \
-					&& input[i] == '&') || (input[i + 1] != '>' \
-					&& input[i] == '>') || (input[i + 1] != '<' \
-					&& input[i] == '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-			counter++;
-		counter++;
-		i++;
-	}
-	i = 0;
+	quotes->dubquo = FALSE;
+	quotes->sinquo = FALSE;
+	input_space_counter(input, quotes, &counter);
 	expansion = ft_calloc(counter + 1, 1);
 	expansion[0] = ' ';
-	while (input[i] && j < counter)
-	{
-		super_quote_hander(&dubquo, &sinquo, input[i]);
-		expansion[j] = input[i];
-		if ((input[i + 1] == '(' || input[i + 1] == ')' || (input[i + 1] == '|' \
-					&& input[i] != '|') || (input[i + 1] == '&' \
-					&& input[i] != '&') || (input[i + 1] == '>' \
-					&& input[i] != '>') || (input[i + 1] == '<' \
-					&& input[i] != '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-		{
-			j++;
-			expansion[j] = ' ';
-		}
-		if ((input[i] == '(' || input[i] == ')' || (input[i + 1] != '|' \
-					&& input[i] == '|') || (input[i + 1] != '&' \
-					&& input[i] == '&') || (input[i + 1] != '>' \
-					&& input[i] == '>') || (input[i + 1] != '<' \
-					&& input[i] == '<')) && (dubquo == FALSE \
-				&& sinquo == FALSE))
-		{
-			expansion[j + 1] = ' ';
-			j++;
-		}
-		j++;
-		i++;
-	}
-	expansion[j] = '\0';
+	input_spacer(input, quotes, expansion, counter);
 	return (expansion);
 }
 
-char	**tokenizer(char *input)
+char	**tokenizer(char *input, t_quote_parenthesis *quotes)
 {
 	char	*exp_input;
 	char	**tokens;
-	int		dubquo;
-	int		sinquo;
 
 	exp_input = NULL;
 	tokens = NULL;
-	sinquo = FALSE;
-	dubquo = FALSE;
-	exp_input = space_expand(input, dubquo, sinquo);
+	quotes->sinquo = FALSE;
+	quotes->dubquo = FALSE;
+	exp_input = space_expand(input, quotes);
 	free(input);
-	if (input_syntax_checker(exp_input) == FAILURE)
+	if (input_syntax_checker(exp_input, quotes) == FAILURE)
 		return (free(exp_input), NULL);
-	tokens = split_with_a_twist(exp_input, ' ');
+	tokens = split_with_a_twist(exp_input, ' ', quotes);
 	free(exp_input);
 	if (tokens == NULL)
 		return (NULL);
-	if (syntax_checker(tokens) == FAILURE)
+	if (syntax_checker(tokens, quotes) == FAILURE)
 		return (free_tokens(tokens, strtablen(tokens)), NULL);
 	return (tokens);
 }

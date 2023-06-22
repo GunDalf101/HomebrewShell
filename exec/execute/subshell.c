@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/14 21:06:15 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:41:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int execute_subshell(t_ast *node, t_env **env) {
 	{
 		signal(SIGINT, command_sig);
         int result = execute_commands(node->u_data.subshell.child, env);
-        return(result);
+        exit (result);
     } 
 	else 
 	{

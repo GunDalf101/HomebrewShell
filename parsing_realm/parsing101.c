@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/21 19:32:29 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 04:46:01 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 t_ast	*parsinginit(char *input)
 {
-	t_ast	*root = NULL;
-	t_ast	**lexical_table;
-	char	**tokens;
+	t_ast				*root;
+	t_ast				**lexical_table;
+	char				**tokens;
+	t_quote_parenthesis	quotes;
 
-	tokens = tokenizer(input);
+	root = NULL;
+	tokens = tokenizer(input, &quotes);
 	if (!tokens)
 		return (NULL);
 	lexical_table = lex_luthor(tokens);

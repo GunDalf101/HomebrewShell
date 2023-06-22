@@ -1,17 +1,25 @@
 NAME = minishell
 
-SOURCES = exec/env/env.c		\
+SOURCES = exec/env/env.c \
 		exec/env/lst2env.c	\
 		exec/env/clearenv.c \
 		parsing_realm/ast/ast.c \
+		parsing_realm/ast/astV2.c \
 		parsing_realm/ast/clearast.c\
+		parsing_realm/ast/mini_tree.c \
+		parsing_realm/ast/red_lister.c \
 		parsing_realm/lexical_analyzer/lexer.c \
 		parsing_realm/lexical_analyzer/tokens_gen.c \
 		parsing_realm/lexical_analyzer/split_with_a_twist.c \
 		parsing_realm/lexical_analyzer/input_syntax_analysis.c \
 		parsing_realm/lexical_analyzer/tokens_syntax_analysis.c \
 		parsing_realm/lexical_analyzer/tokens_syntax_analysis_extended.c \
-		parsing_realm/error_checker.c\
+		parsing_realm/lexical_analyzer/paren_quotes.c \
+		parsing_realm/lexical_analyzer/space_expansion.c \
+		parsing_realm/lexical_analyzer/redir_parser.c\
+		parsing_realm/lexical_analyzer/command_parser.c \
+		parsing_realm/lexical_analyzer/len_counter.c \
+		parsing_realm/ast/ast_maker.c \
 		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \
 		exec/execute/pipe.c \
@@ -34,7 +42,7 @@ SOURCES = exec/env/env.c		\
 		exec/commands/pwd.c \
 		exec/commands/unset.c \
 		exec/commands/sort_env.c \
-		minishell.c 
+		minishell.c \
 
 
 OBJECTS = $(SOURCES:.c=.o)

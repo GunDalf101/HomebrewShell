@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 09:04:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 05:30:11 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,25 @@ int	pipe_check_extended(char **tokens, int i)
 	return (SUCCESS);
 }
 
-int	syntax_checker_extended(char **tokens, int i)
+int	parenthesis_check_zo_extended(char c, int sinquo, int dubquo)
+{
+	if (c == '(')
+		return (-1);
+	else if (c == 41 && sinquo == FALSE && dubquo == FALSE)
+		return (printf("Error: syntax error near unexpected token `)'\n"), \
+				FAILURE);
+	else if (c == '|' && sinquo == FALSE && dubquo == FALSE)
+		return (printf("Error: syntax error near unexpected token `|'\n"), \
+				FAILURE);
+	else if (c == '&' && sinquo == FALSE && dubquo == FALSE)
+		return (printf("Error: syntax error near unexpected token `&'\n"), \
+				FAILURE);
+	else if (c != ' ' && sinquo == FALSE && dubquo == FALSE)
+		return (SUCCESS);
+	return (-1);
+}
+
+int	syntax_checker_extended(char **tokens, int i, t_quote_parenthesis *quotes)
 {
 	if (!tokens[i])
 		return (SUCCESS);
@@ -74,7 +92,7 @@ int	syntax_checker_extended(char **tokens, int i)
 	}
 	else if (tokens[i][0] == '(')
 	{
-		if (parenthesis_check_zo(tokens, i) == FAILURE)
+		if (parenthesis_check_zo(tokens, i, quotes) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
