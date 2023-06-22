@@ -10,6 +10,10 @@
         "string_view": "c",
         "unordered_map": "c",
         "utility": "c",
-        "vector": "c"
+        "vector": "c",
+        "string.h": "c",
+        "__node_handle": "c",
+        "__bit_reference": "c",
+        "ios": "c"
     }
 }

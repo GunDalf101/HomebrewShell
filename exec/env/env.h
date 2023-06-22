@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 15:49:18 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:28:46 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,15 @@ typedef struct s_lstenv
 	char	*tmp;
 } t_lstenv;
 
+typedef struct s_argtoenv 
+{
+	t_env	*head;
+	char	**keyvalue;
+	int		d;
+	int		k;
+	int		i;
+}	t_argtoenv;
+
 void	envadd_back(t_env **head, t_env *node,int hidden);
 t_env	*envnew(char *key, char *value, int append);
 t_env	*load_env(char **env);
@@ -43,5 +52,7 @@ int		lstsize(t_env *head);
 void	free_env_lst(t_env *head);
 char	*append_env_mode(char *key, int *k);
 void	clearenv(t_env **head);
+void	key_value_helper(t_argtoenv *var,char **env);
+void	argtoenv_init(t_argtoenv *var);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/18 15:57:48 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:56:43 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,74 +52,16 @@ void	redup_stdin(t_fd *fd)
 	}
 }
 
-t_ast	*read_heredoc(t_ast *node, t_fd *fd, int *end, char **totalbuffer,t_env **env)
-{
-	char	*buffer;
-	char	*tmp;
-	int		expand;
-	int i = 0;
-	int s = 0;
-	while (node && node->type == ast_heredoc)
-	{
-		if (s == 0)
-		{
-			expand = 0;
-			i = 0;
-			while(node->u_data.heredoc.delim[i])
-			{
-				if (node->u_data.heredoc.delim[i] == '\'' || node->u_data.heredoc.delim[i] == '\"')
-					expand = 1;
-				i++;
-			}
-			s = 1;
-		}
-		buffer = NULL;
-		*end = check_last_heredoc(node);
-		
-		buffer = readline("> ");
-		if (!buffer)
-		{
-			s = 0;
-			redup_stdin(fd);
-			break ;
-		}
-		else if (strcmp(buffer, quotes_remover(node->u_data.heredoc.delim)) == 0)
-		{
-			node = node->u_data.heredoc.next;
-			s = 0;
-			free(buffer);
-			if (!node || node->type != ast_heredoc)
-				continue ;
-		}
-		else if (*end)
-		{
-			if (expand==0)
-				buffer = heredoc_expansion(buffer,*env);
-			tmp = buffer;
-			buffer = ft_strjoin(buffer, "\n");
-			free(tmp);
-			tmp = *totalbuffer;
-			*totalbuffer = ft_strjoin(*totalbuffer, buffer);
-			free(tmp);
-		}
-	}
-	close(fd->dupstdin);
-	return (node);
-}
-
-
 t_ast	*heredoc_handler(t_ast *node, t_fd *fd,t_env **env)
 {
-	int		end;
 	char	*totalbuffer;
 	t_ast	*tmp;
 
 	fd->dupstdin = handle_dupstdin_and_sig();
 	tmp = node;
-	end = 0;
 	g_global.run = 1;
 	totalbuffer = ft_strdup("");
-	node = read_heredoc(node, fd, &end, &totalbuffer,env);
+	node = read_heredoc(node, fd, &totalbuffer,env);
 	if (g_global.run != 130)
 		write_in_heredoc_file(totalbuffer, tmp, fd);
 	else 

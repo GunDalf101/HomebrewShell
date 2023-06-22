@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/16 01:15:12 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:33:22 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,20 @@ typedef struct s_expand
 	int	inside_double;
 	char *var;
 	char *value;
+	int	s;
 
 } t_expand;
 
-void	command_sig(int sig);
+typedef struct s_herevars
+{
+	char	*buffer;
+	char	*tmp;
+	int		expand;
+	int		end;
+	int		i;
+	int		s;
+} t_herevars;
+
 int		create_pipe(t_ast *node, t_env **env);
 int		execute_subshell(t_ast *node, t_env **env);
 int		execute_imp_commands(t_ast *node, t_env **env, int k);
@@ -84,7 +94,16 @@ char	*quotes_busters(char *str,t_env *env);
 int		execute_all_heredocs(t_ast *node, t_env **env);
 int		execute_heredocs(t_ast *node, t_env **env);
 int		exitcmd(t_ast *node,int k);
-void	expand_intialize(t_expand *expand,char *str);
 void	replace_env(t_expand *expand);
 void	expand_start(t_expand *expand,t_env *env);
+int		commnad_fd_es(int pid,int infile_fd, int outfile_fd);
+int		simple_command_es(int pid);
+void	expand_intialize(t_expand *expand,char *str);
+t_ast	*read_heredoc(t_ast *node, t_fd *fd, char **totalbuffer,t_env **env);
+t_ast	*open_heredoc_tmp(t_fd *fd,t_ast *node);
+void	fd_init(t_fd *fd);
+void	dupping_fds(int infile_fd, int outfile_fd);
+void	close_fds(t_fd *fd);
+t_ast	*get_cmd_node(t_ast *node);
+void	redup_stdin(t_fd *fd);
 #endif

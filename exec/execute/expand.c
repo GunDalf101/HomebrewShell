@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/21 23:01:43 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:52:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void expand_intialize(t_expand *expand,char *str)
     expand->end = 0;
     expand->value = NULL;
     expand->var = NULL;
+    expand->s = 0;
 }
 
 void expand_start(t_expand *expand,t_env *env)

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/21 23:02:20 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:54:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,26 @@ char    *heredoc_expansion(char *str,t_env *env)
 
 char	*quotes_remover(char *str) 
 {
-    int len = strlen(str);
-    int i;
-	int j;
-    int inside_single = FALSE;
-	int	inside_double = FALSE;
-    int s = 0;
-    while(str[s] && str[s] != '\'' && str[s] == '\"')
-        s++;
-    if (!str[s])
-        return (str);
-    for (i = j = 0; i < len; i++) {
-        if (str[i] == '\'' && !inside_double) {
-            inside_single = !inside_single;
-        } else if (str[i] == '"' && !inside_single) {
-            inside_double = !inside_double;
-        } else {
-            str[j++] = str[i];
-        }
+    t_expand var;
+
+    expand_intialize(&var,str);
+    var.s = 0;
+    while(var.str[var.s] && var.str[var.s] != '\'' && var.str[var.s] == '\"')
+        var.s++;
+    if (!var.str[var.s])
+        return (var.str);
+    while(var.i<var.len)
+    {
+        if (var.str[var.i] == '\'' && !var.inside_double)
+            var.inside_single = !var.inside_single;
+        else if (var.str[var.i] == '"' && !var.inside_single) 
+            var.inside_double = !var.inside_double;
+        else 
+            var.str[var.j++] = var.str[var.i];
+        var.i++;
     }
-    str[j] = '\0';
-	return (str);
+    var.str[var.j] = '\0';
+	return (var.str);
 }
 
 

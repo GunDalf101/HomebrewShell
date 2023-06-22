@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/20 00:57:50 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:30:09 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,7 @@ int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfi
     else if (pid == 0)        
         execute_command_fd(node, env, infile_fd, outfile_fd);
     else
-    {
-        waitpid(pid, &status, 0);
-		if(WIFSIGNALED(status))
-			status = 130;
-		else if(WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		if(infile_fd != STDIN_FILENO)
-			close(infile_fd);
-		if(outfile_fd != STDOUT_FILENO)
-			close(outfile_fd);
-        g_global.run = 0;
-        return status;
-    }
+		return (commnad_fd_es(pid,infile_fd,outfile_fd));
     return 1;
 }
 
@@ -70,15 +58,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	else if (pid == 0)
 		exec_cmd(node, env);
 	else
-	{
-		waitpid(pid, &status, 0);
-		if(WIFSIGNALED(status))
-			status = 130;
-		else if(WIFEXITED(status))
-			status = WEXITSTATUS(status);
-		g_global.run = 0;
-		return (status);
-	}
+		return (simple_command_es(pid));
 	return (1);
 }
 
@@ -130,37 +110,4 @@ int	execute_commands(t_ast *node, t_env **env,int k)
 	else if (node->type == ast_or)
 		return (execute_or(node, env,k));
 	return (-1);
-}
-
-int	execute_all_heredocs(t_ast *node, t_env **env)
-{
-	if (!node)
-		return (0);
-	else if (node->type == ast_pipe)
-	{
-		execute_all_heredocs(node->u_data.operation.left, env);
-		execute_all_heredocs(node->u_data.operation.right, env);
-		return (1);
-	}
-	else if (node->type == ast_redirect_in || node->type == ast_redirect_out
-		|| node->type == ast_heredoc)
-		return (execute_heredocs(node, env));
-	else if (node->type == ast_subshell)
-	{
-		execute_all_heredocs(node->u_data.subshell.child, env);
-		return (1);
-	}
-	else if (node->type == ast_and)
-	{
-		execute_all_heredocs(node->u_data.operation.left, env);
-		execute_all_heredocs(node->u_data.operation.right, env);
-		return (1);
-	}
-	else if (node->type == ast_or)
-	{
-		execute_all_heredocs(node->u_data.operation.left, env);
-		execute_all_heredocs(node->u_data.operation.right, env);
-		return (1);
-	}
-	return (1);
 }

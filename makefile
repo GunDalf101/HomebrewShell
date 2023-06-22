@@ -35,6 +35,10 @@ SOURCES = exec/env/env.c \
 		exec/execute/expand.c \
 		exec/execute/exit.c \
 		exec/execute/heredoc_expansion.c \
+		exec/execute/heredoc_first.c \
+		exec/execute/heredoc_read.c \
+		exec/execute/waiting_status.c \
+		exec/execute/fds_dupping.c \
 		exec/commands/cd.c \
 		exec/commands/echo.c \
 		exec/commands/env.c \

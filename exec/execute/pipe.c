@@ -6,12 +6,29 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:20:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/21 23:02:31 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 17:30:41 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 extern t_global    g_global;
+
+int waiting_exit_status(int pipefd[2],int left_pid,int right_pid)
+{
+    int status;
+
+    status = 0;
+    close(pipefd[0]);
+    close(pipefd[1]); 
+    waitpid(left_pid, &status, 0);
+    waitpid(right_pid, &status, 0);
+    if (WIFEXITED(status))
+        status = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
+        status = 130;
+    g_global.exit_status = status;
+    return status;
+}
 
 int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 {
@@ -31,18 +48,7 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         exit(status);
     }
     else
-    {
-        close(pipefd[0]);
-        close(pipefd[1]); 
-        waitpid(left_pid, &status, 0);
-        waitpid(right_pid, &status, 0);
-        if (WIFEXITED(status))
-            status = WEXITSTATUS(status);
-        else if (WIFSIGNALED(status))
-            status = 130;
-        g_global.exit_status = status;
-        return status;
-    }
+       return(waiting_exit_status(pipefd, left_pid, right_pid));
 }
 
 int create_pipe(t_ast *node, t_env **env)

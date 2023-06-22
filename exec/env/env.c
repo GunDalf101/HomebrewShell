@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 15:51:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:15:34 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,40 +15,18 @@
 
 t_env	*key_value_to_list(char **env)
 {
-	t_env	*head;
-	char	**keyvalue;
-	int		d;
-	int		k;
-	int		i;
+	t_argtoenv var;
 	
-	i = 0;
-	head = NULL;
-	k = 0;
-	while (env[i] != NULL)
+	argtoenv_init(&var);
+	while (env[var.i] != NULL)
 	{
-		k = 0;
-		keyvalue = NULL;
-		if(env[i][0] != '=' || !env[i][0])
-			keyvalue = ft_split(env[i], '=');
-		else
-		{
-			keyvalue = malloc(sizeof(char *) * 2);
-			keyvalue[0] = ft_strdup(env[i]);
-			keyvalue[1] = ft_strdup("");
-		}
-		d = ft_strlen(keyvalue[0]) - 1;
-		if (keyvalue[0][d] == '+')
-			keyvalue[0] = append_env_mode(keyvalue[0], &k);
-		if (!keyvalue[1] && env[i][ft_strlen(env[i]) - 1] == '=')
-			envadd_back(&head, envnew(keyvalue[0], ft_strdup(""), k),0);
-		else if (!keyvalue[1])
-			envadd_back(&head, envnew(keyvalue[0], NULL, k),0);
-		else
-			envadd_back(&head, envnew(keyvalue[0], keyvalue[1], k),0);
-		free(keyvalue);
-		i++;
+		var.k = 0;
+		var.keyvalue = NULL;
+		key_value_helper(&var,env);
+		free(var.keyvalue);
+		var.i++;
 	}
-	return (head);
+	return (var.head);
 }
 
 t_env	*envnew(char *key, char *value, int append)
