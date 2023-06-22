@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/21 20:41:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 06:10:39 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int execute_subshell(t_ast *node, t_env **env) {
 	else if (pid == 0) 
 	{
 		signal(SIGINT, command_sig);
-        int result = execute_commands(node->u_data.subshell.child, env);
+        int result = execute_commands(node->u_data.subshell.child, env, 1);
         exit (result);
     } 
 	else 

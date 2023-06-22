@@ -38,7 +38,7 @@ static  int calcul_res(char *str,int i)
         return (res);
 }
 
-int exitcmd(t_ast *node)
+int exitcmd(t_ast *node,int k)
 {
     int				sign;
 	long long int	res;
@@ -48,9 +48,13 @@ int exitcmd(t_ast *node)
     sign = 1;
     if (node->u_data.cmd.arg_count > 2)
     {
+        if(k == 0)
+        {
+
         printf("exit\n");
         printf("minishell: exit: too many arguments\n");
         exit(1);
+        }
     }
     if (node->u_data.cmd.arg_count == 2)
     {
@@ -60,9 +64,11 @@ int exitcmd(t_ast *node)
             i++;
         }
         res = calcul_res(node->u_data.cmd.args[1], i);
-        printf("exit\n");
+        if(k == 0)
+            printf("exit\n");
         exit((unsigned char)res);
     }
-    printf("exit\n");
+    if(k == 0)
+        printf("exit\n");
     exit(0);
 }

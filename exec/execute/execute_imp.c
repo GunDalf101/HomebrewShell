@@ -12,7 +12,7 @@
 
 #include "execute.h"
 
-int	execute_imp_commands(t_ast *node, t_env **env)
+int	execute_imp_commands(t_ast *node, t_env **env,int k)
 {
 	if(!node)
 		return (0);
@@ -29,7 +29,7 @@ int	execute_imp_commands(t_ast *node, t_env **env)
 	if (!strcmp(node->u_data.cmd.cmd, "unset"))
 		return (unsetcmd(env, node));
 	if (!strcmp(node->u_data.cmd.cmd, "exit"))
-		return (exitcmd(node));
+		return (exitcmd(node, k));
 	return (0);
 }
 

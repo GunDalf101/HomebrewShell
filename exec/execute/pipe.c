@@ -27,7 +27,7 @@ int create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
         close(pipefd[1]);
         dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
-        status = execute_commands(node->u_data.operation.right, env);
+        status = execute_commands(node->u_data.operation.right, env, 1);
         exit(status);
     }
     else
@@ -62,7 +62,7 @@ int create_pipe(t_ast *node, t_env **env)
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
-        status = execute_commands(node->u_data.operation.left, env);
+        status = execute_commands(node->u_data.operation.left, env, 1);
         exit(status);
     }
     else
