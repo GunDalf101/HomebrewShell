@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/20 07:52:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 05:07:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,50 +86,39 @@ int	and_check(char **tokens, int i)
 	return (SUCCESS);
 }
 
-int	parenthesis_check_zo(char **tokens, int i)
+int	parenthesis_check_zo(char **tokens, int i, t_quote_parenthesis *quotes)
 {
 	int	j;
-	int	sinquo;
-	int	dubquo;
+	int	paren_status;
 
-	j = 1;
-	sinquo = FALSE;
-	dubquo = FALSE;
-	while (tokens[i][j] && j++)
+	j = 0;
+	quotes->sinquo = FALSE;
+	quotes->dubquo = FALSE;
+	paren_status = FAILURE;
+	while (tokens[i][j])
 	{
-		super_quote_hander(&dubquo, &sinquo, tokens[i][j]);
-		if (tokens[i][j] == 0)
-			return (printf("Error: syntax error near unexpected token `\\n'\n"), \
-				FAILURE);
-		else if (tokens[i][j] == ')' && sinquo == FALSE && dubquo == FALSE)
-			return (printf("Error: syntax error near unexpected token `)'\n"), \
-					FAILURE);
-		else if (tokens[i][j] == '>' && sinquo == FALSE && dubquo == FALSE)
-			return (rediretion_check(tokens, i + 1));
-		else if (tokens[i][j] == '<' && sinquo == FALSE && dubquo == FALSE)
-			return (rediretion_check(tokens, i + 1));
-		else if (tokens[i][j] == '|' && sinquo == FALSE && dubquo == FALSE)
-			return (printf("Error: syntax error near unexpected token `|'\n"), \
-					FAILURE);
-		else if (tokens[i][j] == '&' && sinquo == FALSE && dubquo == FALSE)
-			return (printf("Error: syntax error near unexpected token `&'\n"), \
-					FAILURE);
-		else if (tokens[i][j] != ' ' && sinquo == FALSE && dubquo == FALSE)
+		super_quote_hander(quotes, tokens[i][j]);
+		paren_status = parenthesis_check_zo_extended (tokens[i][j], \
+		quotes->sinquo, quotes->dubquo);
+		if (paren_status == FAILURE)
+			return (FAILURE);
+		else if (paren_status == SUCCESS)
 			return (SUCCESS);
+		j++;
 	}
 	return (SUCCESS);
 }
 
 //  this function checks every possible syntax error
 
-int	syntax_checker(char **tokens)
+int	syntax_checker(char **tokens, t_quote_parenthesis *quotes)
 {
 	int	i;
 
 	i = 0;
 	while (tokens[i])
 	{
-		if (syntax_checker_extended(tokens, i) == FAILURE)
+		if (syntax_checker_extended(tokens, i, quotes) == FAILURE)
 			return (FAILURE);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:45:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/20 11:57:23 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 02:33:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,15 @@ void	free_redirect_in_node(t_ast *node)
 	free(node);
 }
 
-// void	free_heredoc_node(t_ast *node)
-// {
-// 	free(node->u_data.heredoc.delim);
-// 	free_ast_node(node->u_data.heredoc.cmd);
-// 	free_ast_node(node->u_data.heredoc.next);
-// 	unlink(node->u_data.heredoc.tmp);
-// 	free(node->u_data.heredoc.tmp);
-// 	free(node);
-// }
-
-void free_heredoc_node(t_ast *node)
+void	free_heredoc_node(t_ast *node)
 {
-    if (node->u_data.heredoc.delim != NULL)
+	if (node->u_data.heredoc.delim != NULL)
 		free(node->u_data.heredoc.delim);
 	free_ast_node(node->u_data.heredoc.cmd);
-    free_ast_node(node->u_data.heredoc.next);
-
-    if (node->u_data.heredoc.tmp != NULL)
+	free_ast_node(node->u_data.heredoc.next);
+	if (node->u_data.heredoc.tmp != NULL)
 		unlink(node->u_data.heredoc.tmp);
-
-    free(node);
+	free(node);
 }
 
 void	free_ast_node(t_ast *node)

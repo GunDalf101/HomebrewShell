@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/21 23:02:41 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:52:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int execute_subshell(t_ast *node, t_env **env) {
 	{
 		signal(SIGINT, command_sig);
         int result = execute_commands(node->u_data.subshell.child, env, 1);
-        return(result);
+        exit (result);
     } 
 	else 
 	{

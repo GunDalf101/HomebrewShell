@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:40 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/19 14:51:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 04:46:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "ast/ast.h"
 # include "lexical_analyzer/lexing_lexer.h"
 
-
 t_ast	*parsinginit(char	*input);
-void	error_thrower(int	code);
 
 #endif
