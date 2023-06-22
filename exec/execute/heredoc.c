@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 16:56:43 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:35 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	redup_stdin(t_fd *fd)
 	}
 }
 
-t_ast	*heredoc_handler(t_ast *node, t_fd *fd,t_env **env)
+t_ast	*heredoc_handler(t_ast *node, t_fd *fd, t_env **env)
 {
 	char	*totalbuffer;
 	t_ast	*tmp;
@@ -61,10 +61,10 @@ t_ast	*heredoc_handler(t_ast *node, t_fd *fd,t_env **env)
 	tmp = node;
 	g_global.run = 1;
 	totalbuffer = ft_strdup("");
-	node = read_heredoc(node, fd, &totalbuffer,env);
+	node = read_heredoc(node, fd, &totalbuffer, env);
 	if (g_global.run != 130)
 		write_in_heredoc_file(totalbuffer, tmp, fd);
-	else 
+	else
 	{
 		fd->error = 1;
 		free(totalbuffer);

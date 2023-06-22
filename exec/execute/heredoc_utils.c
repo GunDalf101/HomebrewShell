@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:50:11 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/09 12:05:50 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:37 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	write_heredoc_file(char *buffer, t_ast *node)
 	int	infile_fd;
 
 	infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_CREAT | O_APPEND,
-			0777);
+		0777);
 	if (infile_fd == -1)
 	{
 		perror(node->u_data.heredoc.tmp);
@@ -56,10 +56,10 @@ void	heredoc_sig(int sig)
 
 void	open_tmp_file(t_ast *node, t_fd *fd)
 {
-	if(fd->infile_fd != 0)
+	if (fd->infile_fd != 0)
 		close(fd->infile_fd);
 	fd->infile_fd = open(node->u_data.heredoc.tmp, O_WRONLY | O_CREAT | O_TRUNC,
-			0777);
+		0777);
 	if (fd->infile_fd == -1)
 	{
 		perror(node->u_data.heredoc.tmp);

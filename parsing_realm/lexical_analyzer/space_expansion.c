@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 01:47:40 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 01:53:18 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:36:18 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	input_spacer(char *input, t_quote_parenthesis *quotes, char *expansion, \
 			expansion[j + 1] = ' ';
 			j++;
 		}
+		if (input[i] == '\t')
+			expansion[j] = ' ';
 		j++;
 		i++;
 	}

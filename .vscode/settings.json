@@ -14,6 +14,10 @@
         "string.h": "c",
         "__node_handle": "c",
         "__bit_reference": "c",
-        "ios": "c"
+        "ios": "c",
+        "commands.h": "c",
+        "libft.h": "c",
+        "stdio.h": "c",
+        "sstream": "c"
     }
 }

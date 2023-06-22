@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 17:30:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:15:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 extern t_global	g_global;
 
-int execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
+int	execute_simple_command_fd(t_ast *node, t_env **env, int infile_fd,
+		int outfile_fd)
 {
-    int status;
-    pid_t pid;
+	int		status;
+	pid_t	pid;
 
-    if (node == NULL)
-        return 0;
-    status = check_cmd(node, *env);
-    if (status)
-        return status;
-
-    g_global.run = 1;
-    pid = fork();
-    if (pid == -1)
-    {
-        perror("fork");
-        exit(1);
-    }
-    else if (pid == 0)        
-        execute_command_fd(node, env, infile_fd, outfile_fd);
-    else
-		return (commnad_fd_es(pid,infile_fd,outfile_fd));
-    return 1;
+	if (node == NULL)
+		return (0);
+	status = check_cmd(node, *env);
+	if (status)
+		return (status);
+	g_global.run = 1;
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exit(1);
+	}
+	else if (pid == 0)
+		execute_command_fd(node, env, infile_fd, outfile_fd);
+	else
+		return (commnad_fd_es(pid, infile_fd, outfile_fd));
+	return (1);
 }
-
 
 int	execute_simple_command(t_ast *node, t_env **env)
 {
@@ -62,7 +61,7 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	return (1);
 }
 
-int	execute_and(t_ast *node, t_env **env,int k)
+int	execute_and(t_ast *node, t_env **env, int k)
 {
 	int	status;
 	int	left_status;
@@ -76,7 +75,7 @@ int	execute_and(t_ast *node, t_env **env,int k)
 	return (status);
 }
 
-int	execute_or(t_ast *node, t_env **env,int k)
+int	execute_or(t_ast *node, t_env **env, int k)
 {
 	int	left_status;
 
@@ -86,7 +85,7 @@ int	execute_or(t_ast *node, t_env **env,int k)
 	return (25);
 }
 
-int	execute_commands(t_ast *node, t_env **env,int k)
+int	execute_commands(t_ast *node, t_env **env, int k)
 {
 	if (!node)
 		return (0);
@@ -106,8 +105,8 @@ int	execute_commands(t_ast *node, t_env **env,int k)
 	else if (node->type == ast_subshell)
 		return (execute_subshell(node, env));
 	else if (node->type == ast_and)
-		return (execute_and(node, env,k));
+		return (execute_and(node, env, k));
 	else if (node->type == ast_or)
-		return (execute_or(node, env,k));
+		return (execute_or(node, env, k));
 	return (-1);
 }

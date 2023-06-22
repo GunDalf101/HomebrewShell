@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/08 16:28:05 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:19:04 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_to_env(t_env **head, t_env *new)
 	{
 		tmpvalue = tmp->value;
 		if (new->value)
-		{	
+		{
 			tmp->value = new->value;
 			free(tmpvalue);
 		}

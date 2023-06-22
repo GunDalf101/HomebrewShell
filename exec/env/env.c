@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 16:15:34 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:16:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 t_env	*key_value_to_list(char **env)
 {
-	t_argtoenv var;
-	
+	t_argtoenv	var;
+
 	argtoenv_init(&var);
 	while (env[var.i] != NULL)
 	{
 		var.k = 0;
 		var.keyvalue = NULL;
-		key_value_helper(&var,env);
+		key_value_helper(&var, env);
 		free(var.keyvalue);
 		var.i++;
 	}
@@ -43,7 +43,7 @@ t_env	*envnew(char *key, char *value, int append)
 	return (new);
 }
 
-void	envadd_back(t_env **head, t_env *node,int hidden)
+void	envadd_back(t_env **head, t_env *node, int hidden)
 {
 	t_env	*tmp;
 

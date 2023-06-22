@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/16 00:04:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern t_global	g_global;
 
 void	command_sig(int sig)
 {
-	(void) sig;
+	(void)sig;
 	write(1, "\n", 1);
 	g_global.run = 130;
 	g_global.exit_status = 130;

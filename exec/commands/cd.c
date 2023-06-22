@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/05/21 01:22:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:18:57 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ int	to_dir(t_ast *node, t_env **env)
 
 	path = NULL;
 	if (get_env(*env, "OLDPWD"))
-		exportadd_for_cd(env, envnew("OLDPWD",
-				ft_strdup(get_env(*env, "PWD")->value), 0));
+		exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
+						"PWD")->value), 0));
 	if (chdir(node->u_data.cmd.args[1]) == 0)
 	{
 		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
@@ -110,6 +110,6 @@ int	cd(t_ast *node, t_env **env)
 			return (to_prev_dir(env));
 		else
 			return (to_dir(node, env));
-	}	
+	}
 	return (1);
 }

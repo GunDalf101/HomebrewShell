@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:56:55 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 17:13:22 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:39 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-void heredoc_vars_init(t_herevars *vars)
+void	heredoc_vars_init(t_herevars *vars)
 {
-    vars->buffer = NULL;
+	vars->buffer = NULL;
 	vars->tmp = NULL;
 	vars->expand = 0;
 	vars->end = 0;
@@ -22,23 +22,24 @@ void heredoc_vars_init(t_herevars *vars)
 	vars->s = 0;
 }
 
-void heredoc_expand_checker(t_herevars *vars,t_ast *node)
+void	heredoc_expand_checker(t_herevars *vars, t_ast *node)
 {
-    vars->expand = 0;
+	vars->expand = 0;
 	vars->i = 0;
-	while(node->u_data.heredoc.delim[vars->i])
+	while (node->u_data.heredoc.delim[vars->i])
 	{
-		if (node->u_data.heredoc.delim[vars->i] == '\'' || node->u_data.heredoc.delim[vars->i] == '\"')
+		if (node->u_data.heredoc.delim[vars->i] == '\''
+			|| node->u_data.heredoc.delim[vars->i] == '\"')
 			vars->expand = 1;
 		vars->i++;
 	}
 	vars->s = 1;
 }
 
-void write_in_tmp(t_herevars *vars,char **totalbuffer,t_env **env)
+void	write_in_tmp(t_herevars *vars, char **totalbuffer, t_env **env)
 {
-	if (vars->expand==0)
-		vars->buffer = heredoc_expansion(vars->buffer,*env);
+	if (vars->expand == 0)
+		vars->buffer = heredoc_expansion(vars->buffer, *env);
 	vars->tmp = vars->buffer;
 	vars->buffer = ft_strjoin(vars->buffer, "\n");
 	free(vars->tmp);
@@ -47,19 +48,19 @@ void write_in_tmp(t_herevars *vars,char **totalbuffer,t_env **env)
 	free(vars->tmp);
 }
 
-t_ast *jump_to_next(t_herevars *vars,t_ast *node)
+t_ast	*jump_to_next(t_herevars *vars, t_ast *node)
 {
-    node = node->u_data.heredoc.next;
+	node = node->u_data.heredoc.next;
 	vars->s = 0;
 	free(vars->buffer);
-    return(node);
+	return (node);
 }
 
-t_ast	*read_heredoc(t_ast *node, t_fd *fd, char **totalbuffer,t_env **env)
+t_ast	*read_heredoc(t_ast *node, t_fd *fd, char **totalbuffer, t_env **env)
 {
 	t_herevars vars;
-    
-    heredoc_vars_init(&vars);
+
+	heredoc_vars_init(&vars);
 	while (node && node->type == ast_heredoc)
 	{
 		if (vars.s == 0)
@@ -73,10 +74,11 @@ t_ast	*read_heredoc(t_ast *node, t_fd *fd, char **totalbuffer,t_env **env)
 			redup_stdin(fd);
 			break ;
 		}
-		else if (strcmp(vars.buffer, quotes_remover(node->u_data.heredoc.delim)) == 0)
+		else if (strcmp(vars.buffer,
+				quotes_remover(node->u_data.heredoc.delim)) == 0)
 			node = jump_to_next(&vars, node);
 		else if (vars.end)
-            write_in_tmp(&vars, totalbuffer, env);
+			write_in_tmp(&vars, totalbuffer, env);
 	}
 	close(fd->dupstdin);
 	return (node);

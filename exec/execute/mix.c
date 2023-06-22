@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 17:31:24 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:14:33 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,32 @@
 
 extern t_global	g_global;
 
-void execute_command_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
+void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
+		int outfile_fd)
 {
-    signal(SIGINT, command_sig);
-
-    if (infile_fd != STDIN_FILENO)
-    {
-        if (dup2(infile_fd, STDIN_FILENO) == -1)
-        {
-            perror("dup2");
-            exit(1);
-        }
-        close(infile_fd);
-    }
-    if (outfile_fd != STDOUT_FILENO)
-    {
-        if (dup2(outfile_fd, STDOUT_FILENO) == -1)
-        {
-            perror("dup2");
-            exit(1);
-        }
-        close(outfile_fd);
-    }
-    execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
-    perror(node->u_data.cmd.cmd);
-    exit(1);
+	signal(SIGINT, command_sig);
+	if (infile_fd != STDIN_FILENO)
+	{
+		if (dup2(infile_fd, STDIN_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(infile_fd);
+	}
+	if (outfile_fd != STDOUT_FILENO)
+	{
+		if (dup2(outfile_fd, STDOUT_FILENO) == -1)
+		{
+			perror("dup2");
+			exit(1);
+		}
+		close(outfile_fd);
+	}
+	execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
+	perror(node->u_data.cmd.cmd);
+	exit(1);
 }
-
 
 t_ast	*get_cmd_node(t_ast *node)
 {
@@ -58,29 +57,26 @@ t_ast	*get_cmd_node(t_ast *node)
 	return (cmd);
 }
 
-
-
-int execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
+int	execute_subshell_fd(t_ast *node, t_env **env, int infile_fd, int outfile_fd)
 {
-    int pid;
-    int subshell_status;
+	int	pid;
+	int	subshell_status;
 
-    pid = fork();
-    if (pid == -1)
-        exit(EXIT_FAILURE);
-    if (pid == 0)
-    {
-        dupping_fds(infile_fd, outfile_fd);
-        subshell_status = execute_commands(node->u_data.subshell.child, env, 1);
-        exit(subshell_status);
-    }
-    if(infile_fd != STDIN_FILENO)
-        close(infile_fd);
-    if(outfile_fd != STDOUT_FILENO)
-        close(outfile_fd);
-    return get_subshell_exit_status(node, pid);
+	pid = fork();
+	if (pid == -1)
+		exit(EXIT_FAILURE);
+	if (pid == 0)
+	{
+		dupping_fds(infile_fd, outfile_fd);
+		subshell_status = execute_commands(node->u_data.subshell.child, env, 1);
+		exit(subshell_status);
+	}
+	if (infile_fd != STDIN_FILENO)
+		close(infile_fd);
+	if (outfile_fd != STDOUT_FILENO)
+		close(outfile_fd);
+	return (get_subshell_exit_status(node, pid));
 }
-
 
 int	execute_redirect_heredoc(t_ast *node, t_env **env)
 {
@@ -94,19 +90,22 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	while (node && g_global.run != 130)
 	{
 		if (node->type == ast_redirect_out)
-			node = create_red_files(node, &fd,*env);
+			node = create_red_files(node, &fd, *env);
 		else if (node->type == ast_redirect_in)
-			node = getting_infile_fd(node, &fd,*env);
+			node = getting_infile_fd(node, &fd, *env);
 		else if (node->type == ast_heredoc)
-            node = open_heredoc_tmp(&fd, node);
+			node = open_heredoc_tmp(&fd, node);
 	}
 	if (cmd && !fd.error && g_global.run != 130 && cmd && cmd->type == ast_cmd)
-		return (execute_simple_command_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
-	else if (!fd.error && g_global.run != 130 && cmd && cmd->type == ast_subshell)
-		return(cmd && execute_subshell_fd(cmd, env, fd.infile_fd, fd.outfile_fd));
-    else
-        close_fds(&fd);
-    if(g_global.run == 130)
-        return (130);
+		return (execute_simple_command_fd(cmd, env, fd.infile_fd,
+				fd.outfile_fd));
+	else if (!fd.error && g_global.run != 130 && cmd
+		&& cmd->type == ast_subshell)
+		return (cmd && execute_subshell_fd(cmd, env, fd.infile_fd,
+				fd.outfile_fd));
+	else
+		close_fds(&fd);
+	if (g_global.run == 130)
+		return (130);
 	return (0);
 }
