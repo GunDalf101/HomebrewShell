@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:21:46 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 13:33:04 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:22:34 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_ast	*getting_infile_fd(t_ast *node, t_fd *fd, t_env *env)
 	if (fd->infile_fd != 0)
 		close(fd->infile_fd);
 	node->u_data.redirect_in.infile = quotes_busters(
-			node->u_data.redirect_in.infile, env);
+			node->u_data.redirect_in.infile, env, 1);
 	fd->infile_fd = open(node->u_data.redirect_in.infile, open_flags,
 			file_flags);
 	if (fd->infile_fd == -1)
@@ -41,7 +41,7 @@ t_ast	*create_red_files(t_ast *node, t_fd *fd, t_env *env)
 	if (fd->outfile_fd != 1)
 		close(fd->outfile_fd);
 	node->u_data.redirect_out.outfile = quotes_busters(
-			node->u_data.redirect_out.outfile, env);
+			node->u_data.redirect_out.outfile, env, 1);
 	if (node->u_data.redirect_out.tag == 1)
 		open_flags = O_CREAT | O_WRONLY | O_TRUNC;
 	else

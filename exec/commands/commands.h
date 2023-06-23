@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 19:18:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:46:17 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int		exportadd_for_cd(t_env **head, t_env *new);
 void	assign_ranks(t_env *head, int *size);
 void	sort_env(char **table, int size);
 void	free_env(char **env, int size);
-
+int		a_relative_path(char *str);
+char	*get_tmp_relative(t_ast *node, t_env **env);
 #endif

@@ -12,7 +12,7 @@
         "utility": "c",
         "vector": "c",
         "string.h": "c",
-        "__node_handle": "c",
+        "__(*node)_handle": "c",
         "__bit_reference": "c",
         "ios": "c",
         "commands.h": "c",
@@ -34,6 +34,7 @@
         "system_error": "c",
         "tuple": "c",
         "type_traits": "c",
-        "env.h": "c"
+        "env.h": "c",
+        "__node_handle": "c"
     }
 }

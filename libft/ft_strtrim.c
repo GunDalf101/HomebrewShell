@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 16:33:09 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/18 15:39:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:01:34 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	isset(char c,  char *set)
+static int	isset(char c, char *set)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static int	isset(char c,  char *set)
 	return (0);
 }
 
-static int	ftrimlen(int len,  char *s,  char *set)
+static int	ftrimlen(int len, char *s, char *set)
 {
 	int	i;
 	int	j;

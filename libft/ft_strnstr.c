@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 08:43:24 by mbennani          #+#    #+#             */
-/*   Updated: 2022/10/19 01:12:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:01:23 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr( char *str,  char *to_find, size_t len)
+char	*ft_strnstr(char *str, char *to_find, size_t len)
 {
 	size_t	i;
 	size_t	j;

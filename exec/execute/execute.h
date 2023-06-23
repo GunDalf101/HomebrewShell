@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 20:23:05 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:21:43 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,6 @@ t_ast	*get_cmd_node(t_ast *node);
 void	redup_stdin(t_fd *fd);
 t_ast	*getting_fds_for_red(t_fd *fd, t_ast *node, t_env **env);
 t_ast	*rebuild_node(t_ast *node);
+t_ast	*expander(t_ast *node, t_env **env, int f);
+void	shift_args(t_ast *node, int i);
 #endif

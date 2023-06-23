@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 19:19:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:42:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,17 @@ void	freeenvnode(t_env *tmp)
 
 int	delete_env(t_env *deleted, t_env *tmp, t_env *prev, t_env **head)
 {
-	if (strcmp(tmp->key, deleted->key) == 0)
+	if (strcmp("PWD", deleted->key) == 0 && get_env(*head, "PWD"))
+	{
+		get_env(*head, "PWD")->hidden = 1;
+		return (0);
+	}
+	else if (strcmp(tmp->key, deleted->key) == 0)
 	{
 		if (prev == NULL)
 			*head = tmp->next;
 		else
-		{
 			prev->next = tmp->next;
-		}
 		freeenvnode(tmp);
 		return (1);
 	}

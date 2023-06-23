@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 01:02:56 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/18 15:34:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:03:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	wordcounter( char *str, char c)
+static size_t	wordcounter(char *str, char c)
 {
 	size_t	i;
 	size_t	num;
@@ -68,7 +68,7 @@ static void	valinit(size_t *i, size_t *j, int *id)
 	*id = -1;
 }
 
-char	**ft_split(char  *s, char c)
+char	**ft_split(char *s, char c)
 {
 	size_t	i;
 	size_t	j;

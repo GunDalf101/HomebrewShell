@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 20:11:43 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:20:46 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 {
 	int		k;
 	t_env	*tmp;
+	char	*tmpval;
 
 	k = 0;
 	while (new)
@@ -132,7 +133,11 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 			if (!tmp)
 				envadd_back(head, new, 0);
 			else
+			{
+				tmpval = tmp->value;
 				tmp->value = new->value;
+				free(tmpval);
+			}
 		}
 		else
 			k = 1;

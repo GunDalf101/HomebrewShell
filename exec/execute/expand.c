@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 20:30:31 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:42:38 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	expand_start(t_expand *expand, t_env *env)
 	}
 }
 
-char	*quotes_busters(char *str, t_env *env,int flag)
+char	*quotes_busters(char *str, t_env *env, int flag)
 {
 	t_expand	expand;
 
@@ -78,7 +78,7 @@ char	*quotes_busters(char *str, t_env *env,int flag)
 		expand.i++;
 	}
 	expand.len = ft_strlen(expand.str);
-	if (flag==1)
+	if (flag == 1)
 		expand.str = quotes_remover(expand.str);
 	if (expand.len == 0)
 		return (free(expand.str), NULL);
@@ -86,48 +86,30 @@ char	*quotes_busters(char *str, t_env *env,int flag)
 	return (expand.str);
 }
 
-void	shift_args(t_ast *node, int i)
+t_ast	*expand(t_ast *node, t_env **env)
 {
-	while (node->u_data.cmd.args[i + 1])
-	{
-		node->u_data.cmd.args[i] = node->u_data.cmd.args[i + 1];
-		i++;
-	}
-	node->u_data.cmd.args[i+1] = NULL;
+	if (node)
+		node = expander(node, env, 0);
+	if (node)
+		node = rebuild_node(node);
+	if (node)
+		node = expander(node, env, 1);
+	return (node);
 }
 
-t_ast	*expand(t_ast *node, t_env **env)
+t_ast	*expander(t_ast *node, t_env **env, int f)
 {
 	int	i;
 
+	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
-		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env,0);
+		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-					*env,0);
-			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
-					+ 1])
-			{
-				shift_args(node, i);
-				i = 0;
-			}
-			i++;
-		}
-		if (node->u_data.cmd.cmd == NULL)
-			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
-	}
-	node = rebuild_node(node);
-	if (node->type == ast_cmd || node->type == ast_imp)
-	{
-		i = 0;
-		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env,1);
-		while (node->u_data.cmd.args[i])
-		{
-			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-					*env,1);
+					*env, f);
 			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
 					+ 1])
 			{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 23:20:37 by mbennani          #+#    #+#             */
-/*   Updated: 2022/10/16 06:50:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:02:03 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char  *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char *s, char (*f)(unsigned int, char))
 {
 	char		*str;
 	size_t		i;

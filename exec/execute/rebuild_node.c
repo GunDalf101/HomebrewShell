@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:38:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 20:29:38 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:25:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_ast *rebuild_node(t_ast *node)
     int len = 0;
     char *newinput;
     int  i = 0;
-    printf("cmd = %s, arg[0] === %s \n",node->u_data.cmd.cmd,node->u_data.cmd.args[0]);
     while(node->u_data.cmd.args[i])
     {
         len += ft_strlen(node->u_data.cmd.args[i]);
@@ -43,9 +42,7 @@ t_ast *rebuild_node(t_ast *node)
         l++;
         i++;
     }
-    printf("l == %d \n",l);
     newinput[l] = 0;
-    printf("newinput = %s \n",newinput);
     // free_cmd_node(node);
     return(parsinginit(newinput));
 }

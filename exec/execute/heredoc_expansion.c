@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 13:38:19 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:29:48 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,14 @@ void	replace_env(t_expand *expand)
 	expand->len = ft_strlen(expand->str);
 	expand->i = expand->start + ft_strlen(expand->value);
 	expand->j = expand->i;
+}
+
+void	shift_args(t_ast *node, int i)
+{
+	while (node->u_data.cmd.args[i + 1])
+	{
+		node->u_data.cmd.args[i] = node->u_data.cmd.args[i + 1];
+		i++;
+	}
+	node->u_data.cmd.args[i] = NULL;
 }

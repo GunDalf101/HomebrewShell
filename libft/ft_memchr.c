@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 06:08:55 by mbennani          #+#    #+#             */
-/*   Updated: 2022/10/21 02:12:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:05:23 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr( void *s, int c, size_t n)
+void	*ft_memchr(void *s, int c, size_t n)
 {
-	size_t				i;
-	char				ch;
-	 char			*str;
+	size_t			i;
+	char			ch;
+	char			*str;
 
 	ch = c;
 	str = s;

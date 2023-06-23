@@ -6,12 +6,11 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/23 20:10:25 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:21:24 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-
 
 void	free_env_lst(t_env *head)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 19:18:57 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:45:44 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,18 @@ int	to_dir(t_ast *node, t_env **env)
 	char	*path;
 
 	path = NULL;
+	if (a_relative_path(node->u_data.cmd.args[1]))
+		exportadd_for_cd(env, envnew("PWD", get_tmp_relative(node, env), 0));
 	if (get_env(*env, "OLDPWD"))
 		exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
 						"PWD")->value), 0));
-	if (chdir(node->u_data.cmd.args[1]) == 0)
+	if (chdir(node->u_data.cmd.args[1]) == 0 && return_pwd())
+		return (exportadd_for_cd(env, envnew("PWD", return_pwd(), 0)), 0);
+	if (a_relative_path(node->u_data.cmd.args[1]))
 	{
-		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
+		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
+		ft_putstr_fd("cannot access parent directories", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);

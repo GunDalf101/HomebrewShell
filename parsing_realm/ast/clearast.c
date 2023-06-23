@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clearast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:45:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 02:33:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 00:41:06 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,20 @@ void	free_cmd_node(t_ast *node)
 	int	i;
 
 	i = 0;
-	free(node->u_data.cmd.cmd);
-	while (node->u_data.cmd.args[i] && i < node->u_data.cmd.arg_count)
+	if (!node)
+		return ;
+	if (node->u_data.cmd.cmd)
+		free(node->u_data.cmd.cmd);
+	if (node->u_data.cmd.args)
 	{
-		free(node->u_data.cmd.args[i]);
-		i++;
+		while (node->u_data.cmd.args[i])
+		{
+			free(node->u_data.cmd.args[i]);
+			i++;
+		}
 	}
-	free(node->u_data.cmd.args);
+	if (node->u_data.cmd.args)
+		free(node->u_data.cmd.args);
 	free(node);
 }
 

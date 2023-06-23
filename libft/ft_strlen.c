@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 23:13:28 by mbennani          #+#    #+#             */
-/*   Updated: 2022/10/16 09:01:46 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:02:18 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ size_t	ft_strlen(char *str)
 {
 	size_t	counter;
 
-	if(!str)
+	if (!str)
 		return (0);
 	counter = 0;
 	while (str[counter])
