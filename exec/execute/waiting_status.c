@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waiting_status.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:44:30 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:29:51 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	simple_command_es(int pid)
 
 int	commnad_fd_es(int pid, int infile_fd, int outfile_fd)
 {
-	int status;
+	int	status;
 
 	status = 0;
 	waitpid(pid, &status, 0);

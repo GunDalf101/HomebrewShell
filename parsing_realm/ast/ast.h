@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 04:43:38 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:53:14 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,4 +148,5 @@ t_ast							*setting_subshell(t_ast **lexical_table, \
 									int counter);
 t_ast							*setting_redirection(t_ast **lexical_table, \
 									int counter);
+void							free_cmd_node(t_ast *node);
 #endif

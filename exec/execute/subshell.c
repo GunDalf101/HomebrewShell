@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:13 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:31:42 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	get_subshell_exit_status(t_ast *node, int pid)
 
 int	execute_subshell(t_ast *node, t_env **env)
 {
-	pid_t pid = fork();
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
 	g_global.run = 1;
 	if (pid == -1)
 	{
@@ -40,8 +43,8 @@ int	execute_subshell(t_ast *node, t_env **env)
 	else if (pid == 0)
 	{
 		signal(SIGINT, command_sig);
-		int result = execute_commands(node->u_data.subshell.child, env, 1);
-		exit(result);
+		status = execute_commands(node->u_data.subshell.child, env, 1);
+		exit(status);
 	}
 	else
 	{

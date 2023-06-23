@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_first.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:27:09 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:26:12 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ast	*init_heredoc(t_fd *fd, t_ast *node, t_env **env)
 t_ast	*get_next_node(t_ast *node)
 {
 	if (node->type == ast_redirect_out)
-		return (node->u_data.redirect_in.cmd);
+		return (node->u_data.redirect_out.next);
 	else if (node->type == ast_redirect_in)
 		return (node->u_data.redirect_in.next);
 	return (node);

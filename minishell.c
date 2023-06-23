@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 16:03:06 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:25:00 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char *argv[],char *env[])
 	(void)argv;
 	g_global.run = 0;
 	signal(SIGINT, signal_hand);
+	signal(SIGQUIT, signal_hand);
 	t_ast *root;
 	root = NULL;
 	char *input;

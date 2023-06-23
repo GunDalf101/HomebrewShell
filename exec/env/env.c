@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:16:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:00:31 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_env	*key_value_to_list(char **env)
 	{
 		var.k = 0;
 		var.keyvalue = NULL;
-		key_value_helper(&var, env);
+		key_value_helper(&var, env[var.i]);
 		free(var.keyvalue);
 		var.i++;
 	}

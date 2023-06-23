@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:33 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:37:02 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,7 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 	if (!fd.error)
 		cmd = get_cmd_node(node);
 	while (node && g_global.run != 130)
-	{
-		if (node->type == ast_redirect_out)
-			node = create_red_files(node, &fd, *env);
-		else if (node->type == ast_redirect_in)
-			node = getting_infile_fd(node, &fd, *env);
-		else if (node->type == ast_heredoc)
-			node = open_heredoc_tmp(&fd, node);
-	}
+		node = getting_fds_for_red(&fd, node, env);
 	if (cmd && !fd.error && g_global.run != 130 && cmd && cmd->type == ast_cmd)
 		return (execute_simple_command_fd(cmd, env, fd.infile_fd,
 				fd.outfile_fd));

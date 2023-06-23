@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:30:31 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	expand_start(t_expand *expand, t_env *env)
 	if (expand->end - expand->start > 1)
 	{
 		expand->var = ft_substr(expand->str, expand->start + 1, expand->end
-			- expand->start - 1);
+				- expand->start - 1);
 		expand->value = NULL;
 		if (expand->var[0] == '?')
 			expand->value = ft_itoa(g_global.exit_status);
@@ -57,7 +57,7 @@ void	expand_start(t_expand *expand, t_env *env)
 	}
 }
 
-char	*quotes_busters(char *str, t_env *env)
+char	*quotes_busters(char *str, t_env *env,int flag)
 {
 	t_expand	expand;
 
@@ -78,12 +78,10 @@ char	*quotes_busters(char *str, t_env *env)
 		expand.i++;
 	}
 	expand.len = ft_strlen(expand.str);
-	expand.str = quotes_remover(expand.str);
+	if (flag==1)
+		expand.str = quotes_remover(expand.str);
 	if (expand.len == 0)
-	{
-		free(expand.str);
-		return (NULL);
-	}
+		return (free(expand.str), NULL);
 	expand.str[expand.j] = '\0';
 	return (expand.str);
 }
@@ -95,21 +93,43 @@ void	shift_args(t_ast *node, int i)
 		node->u_data.cmd.args[i] = node->u_data.cmd.args[i + 1];
 		i++;
 	}
-	node->u_data.cmd.args[i] = NULL;
+	node->u_data.cmd.args[i+1] = NULL;
 }
 
 t_ast	*expand(t_ast *node, t_env **env)
 {
+	int	i;
+
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
-		int i = 0;
-		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env);
+		i = 0;
+		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env,0);
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-				*env);
+					*env,0);
 			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
-				+ 1])
+					+ 1])
+			{
+				shift_args(node, i);
+				i = 0;
+			}
+			i++;
+		}
+		if (node->u_data.cmd.cmd == NULL)
+			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
+	}
+	node = rebuild_node(node);
+	if (node->type == ast_cmd || node->type == ast_imp)
+	{
+		i = 0;
+		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env,1);
+		while (node->u_data.cmd.args[i])
+		{
+			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
+					*env,1);
+			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
+					+ 1])
 			{
 				shift_args(node, i);
 				i = 0;

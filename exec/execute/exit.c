@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:32 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:49:28 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,14 @@ static int	calcul_res(char *str, int i)
 
 int	exitcmd(t_ast *node, int k)
 {
-	int sign;
-	long long int res;
-	int i;
+	int				sign;
+	long long int	res;
+	int				i;
 
 	i = 0;
 	sign = 1;
-	if (node->u_data.cmd.arg_count > 2)
-	{
-		if (k == 0)
-		{
-			printf("exit\n");
-			printf("minishell: exit: too many arguments\n");
-			exit(1);
-		}
-	}
+	if (node->u_data.cmd.arg_count > 2 && k == 0)
+		printf("exit\nminishell: exit: too many arguments\n");
 	if (node->u_data.cmd.arg_count == 2)
 	{
 		if (node->u_data.cmd.args[1][0] == '-')

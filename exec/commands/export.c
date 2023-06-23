@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 19:19:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:11:43 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	exportcmd(t_env *head)
 	int		size;
 	char	**env;
 	int		i;
-	char	**splited;
+	char	*key = NULL;
+	char	*value= NULL;
 
 	size = lstsize(head);
 	env = lst_to_env(head);
@@ -27,12 +28,17 @@ int	exportcmd(t_env *head)
 	while (env[i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		splited = ft_split(env[i], '=');
-		ft_putstr_fd(splited[0], 1);
-		if (get_env(head, splited[0])->value)
+		int l = 0;
+		while(env[i][l] && env[i][l] != '=')
+			l++;
+		key = env[i];
+		env[i][l] = 0;
+		value = &env[i][l+1];
+		ft_putstr_fd(key, 1);
+		if (value[0] != '\0')
 		{
 			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(get_env(head, splited[0])->value, 1);
+			ft_putstr_fd(value, 1);
 			ft_putstr_fd("\"", 1);
 		}
 		ft_putstr_fd("\n", 1);

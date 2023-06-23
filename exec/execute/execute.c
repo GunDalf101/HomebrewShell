@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:15:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:31:53 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ int	execute_commands(t_ast *node, t_env **env, int k)
 {
 	if (!node)
 		return (0);
-	node = expand(node, env);
+	if(node->type == ast_cmd)
+		node = expand(node, env);
 	set_imp_commands(node);
 	if (!node)
 		return (0);

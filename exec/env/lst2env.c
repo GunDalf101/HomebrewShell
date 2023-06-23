@@ -3,28 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   lst2env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:16:55 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:10:25 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-char	*append_env_mode(char *key, int *k)
-{
-	char	*correctkey;
-	int		keylen;
-
-	keylen = ft_strlen(key);
-	correctkey = malloc(keylen - 1);
-	ft_memmove(correctkey, key, keylen);
-	correctkey[keylen - 1] = 0;
-	*k = 1;
-	free(key);
-	return (correctkey);
-}
 
 void	free_env_lst(t_env *head)
 {

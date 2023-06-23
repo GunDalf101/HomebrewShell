@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fds_dupping.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 17:20:22 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:51 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:13:17 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,15 @@ void	close_fds(t_fd *fd)
 		close(fd->infile_fd);
 	if (fd->outfile_fd != STDOUT_FILENO)
 		close(fd->outfile_fd);
+}
+
+t_ast	*getting_fds_for_red(t_fd *fd, t_ast *node, t_env **env)
+{
+	if (node->type == ast_redirect_out)
+	node = create_red_files(node, fd, *env);
+	else if (node->type == ast_redirect_in)
+	node = getting_infile_fd(node, fd, *env);
+	else if (node->type == ast_heredoc)
+	node = open_heredoc_tmp(fd, node);
+	return (node);
 }

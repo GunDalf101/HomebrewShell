@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:38:19 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ char	*quotes_remover(char *str)
 
 void	replace_env(t_expand *expand)
 {
-	char *firstpart;
-	char *secondpart;
-	char *new_str;
+	char	*firstpart;
+	char	*secondpart;
+	char	*new_str;
 
 	firstpart = ft_substr(expand->str, 0, expand->start);
 	secondpart = ft_substr(expand->str, expand->end, expand->len - expand->end);

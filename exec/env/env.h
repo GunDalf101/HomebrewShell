@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:16:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:10:05 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ t_env				*key_value_to_list(char **env);
 char				**lst_to_env(t_env *head);
 int					lstsize(t_env *head);
 void				free_env_lst(t_env *head);
-char				*append_env_mode(char *key, int *k);
 void				clearenv(t_env **head);
-void				key_value_helper(t_argtoenv *var, char **env);
+void				key_value_helper(t_argtoenv *var, char *env);
 void				argtoenv_init(t_argtoenv *var);
 
 #endif

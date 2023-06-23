@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:56:55 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:39 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:37:56 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_ast	*jump_to_next(t_herevars *vars, t_ast *node)
 
 t_ast	*read_heredoc(t_ast *node, t_fd *fd, char **totalbuffer, t_env **env)
 {
-	t_herevars vars;
+	t_herevars	vars;
 
 	heredoc_vars_init(&vars);
 	while (node && node->type == ast_heredoc)

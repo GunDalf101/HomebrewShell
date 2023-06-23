@@ -39,6 +39,7 @@ SOURCES = exec/env/env.c \
 		exec/execute/heredoc_read.c \
 		exec/execute/waiting_status.c \
 		exec/execute/fds_dupping.c \
+		exec/execute/rebuild_node.c \
 		exec/commands/cd.c \
 		exec/commands/echo.c \
 		exec/commands/env.c \

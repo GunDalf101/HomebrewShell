@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clearenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:16:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:22:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,36 @@ void	clearenv(t_env **head)
 	free(*head);
 }
 
-void	key_value_helper(t_argtoenv *var, char **env)
+void	key_value_helper(t_argtoenv *var, char *env)
 {
-	if (env[var->i][0] != '=' || !env[var->i][0])
-		var->keyvalue = ft_split(env[var->i], '=');
-	else
+	int i = 0;
+	char *key;
+	char *value;
+	int found;
+
+	key = env;
+	value = NULL;
+	found = 0;
+	while (key[i] != '=' && key[i] != '\0')
+			i++;
+	if (key[i] == '=')
 	{
-		var->keyvalue = malloc(sizeof(char *) * 2);
-		var->keyvalue[0] = ft_strdup(env[var->i]);
-		var->keyvalue[1] = ft_strdup("");
+		value = &key[i + 1];
+		found = 1;
 	}
-	var->d = ft_strlen(var->keyvalue[0]) - 1;
-	if (var->keyvalue[0][var->d] == '+')
-		var->keyvalue[0] = append_env_mode(var->keyvalue[0], &var->k);
-	if (!var->keyvalue[1] && env[var->i][ft_strlen(env[var->i]) - 1] == '=')
-		envadd_back(&var->head, envnew(var->keyvalue[0], ft_strdup(""), var->k),
+	key[i] = '\0';
+	if (key[ft_strlen(key) - 1] == '+')
+	{
+		key[ft_strlen(key) - 1] = 0;
+		var->k = 1;
+	}
+	if (!value && found)
+		envadd_back(&var->head, envnew(ft_strdup(key), ft_strdup(""), var->k),
 			0);
-	else if (!var->keyvalue[1])
-		envadd_back(&var->head, envnew(var->keyvalue[0], NULL, var->k), 0);
-	else
-		envadd_back(&var->head, envnew(var->keyvalue[0], var->keyvalue[1],
+	else if (!value)
+		envadd_back(&var->head, envnew(key, NULL, var->k), 0);
+	else if(found)
+		envadd_back(&var->head, envnew(ft_strdup(key), ft_strdup(value),
 				var->k), 0);
 }
 

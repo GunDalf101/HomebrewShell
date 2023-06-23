@@ -18,6 +18,22 @@
         "commands.h": "c",
         "libft.h": "c",
         "stdio.h": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "execute.h": "c",
+        "__functional_base": "c",
+        "algorithm": "c",
+        "atomic": "c",
+        "chrono": "c",
+        "__memory": "c",
+        "functional": "c",
+        "limits": "c",
+        "locale": "c",
+        "memory": "c",
+        "optional": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "env.h": "c"
     }
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:20:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:14:24 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:33:44 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	create_right_child(t_ast *node, int pipefd[2], int left_pid, t_env **env)
 
 int	create_pipe(t_ast *node, t_env **env)
 {
-	int pipefd[2];
-	int left_pid;
-	int status;
+	int	pipefd[2];
+	int	left_pid;
+	int	status;
 
 	status = 0;
 	if (pipe(pipefd) == -1)
