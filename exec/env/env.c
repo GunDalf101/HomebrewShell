@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:16:52 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:26:39 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_env	*load_env(char **env)
 	t_loadenv	var;
 
 	load_env_init(&var);
-	load_env_helper(&var, env);
+	load_helper(&var, env);
 	return (var.head);
 }
 

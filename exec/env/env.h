@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:18:08 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:26:21 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ void				clearenv(t_env **head);
 void				key_value_helper(t_argtoenv *var, char *env);
 void				argtoenv_init(t_argtoenv *var);
 void				load_env_init(t_loadenv *var);
-
+void				load_helper(t_loadenv *var, char **env);
 #endif

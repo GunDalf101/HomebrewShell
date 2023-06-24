@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 21:07:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:33:59 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,21 @@ int	main(int argc, char *argv[], char *env[])
 	envlst = load_env(env);
 	rl_catch_signals = 0;
 	k = 0;
+	if(envlst)
+	{
+		if(get_env(envlst,"SHLVL"))
+		{
+			char *shlvl = ft_itoa(ft_atoi(get_env(envlst,"SHLVL")->value) + 1);
+			add_to_env(&envlst, envnew(ft_strdup("SHLVL"), shlvl, 0));
+		}
+		else
+			envadd_back(&envlst, envnew("SHLVL", "1", 0), 0);
+	}
 	if (!envlst)
 	{
 		envadd_back(&envlst, envnew("PATH",
 				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0), 1);
+		envadd_back(&envlst, envnew("SHLVL", "1", 0), 0);
 		envadd_back(&envlst, envnew("PWD", return_pwd(), 0), 0);
 		k = 1;
 	}

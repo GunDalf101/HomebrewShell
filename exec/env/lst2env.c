@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:19:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:26:47 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	load_helper(t_loadenv *var, char **env)
 		var->key = NULL;
 		var->value = NULL;
 		var->i = 0;
-		var->tmp = strdup(*env);
+		var->tmp = ft_strdup(*env);
 		var->key = var->tmp;
 		while (var->tmp[var->i] != '=' && var->tmp[var->i] != '\0')
 			var->i++;
