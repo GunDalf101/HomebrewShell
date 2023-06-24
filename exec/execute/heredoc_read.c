@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:56:55 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:22:09 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:05:16 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	heredoc_expand_checker(t_herevars *vars, t_ast *node)
 
 void	write_in_tmp(t_herevars *vars, char **totalbuffer, t_env **env)
 {
+	(void)env;
 	if (vars->expand == 0)
 		vars->buffer = heredoc_expansion(vars->buffer, *env);
 	vars->tmp = vars->buffer;
@@ -45,6 +46,7 @@ void	write_in_tmp(t_herevars *vars, char **totalbuffer, t_env **env)
 	free(vars->tmp);
 	vars->tmp = *totalbuffer;
 	*totalbuffer = ft_strjoin(*totalbuffer, vars->buffer);
+	free(vars->buffer);
 	free(vars->tmp);
 }
 

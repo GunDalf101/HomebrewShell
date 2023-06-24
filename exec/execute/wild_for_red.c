@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard.c                                         :+:      :+:    :+:   */
+/*   wild_for_red.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/22 22:56:18 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/23 23:09:45 by mlektaib         ###   ########.fr       */
+/*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/06/24 20:57:59 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <dirent.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include "execute.h"
 
 int	match_pattern(const char *pattern, const char *text)
 {
@@ -30,26 +26,31 @@ int	match_pattern(const char *pattern, const char *text)
 	return (0);
 }
 
-void	wildcard_search(const char *pattern)
+char	*wild_redirection(char *pattern)
 {
-	char			current_directory[1024];
 	DIR				*dir;
 	struct dirent	*entry;
+	int				i;
+	char			*result;
+	
 
-	if (getcwd(current_directory, sizeof(current_directory)) == NULL)
-	{
-		fprintf(stderr, "Error: Failed to get current directory.\n");
-		return ;
-	}
-	dir = opendir(current_directory);
+	i = 0;
+
+	dir = opendir(".");
 	if (dir == NULL)
 	{
 		fprintf(stderr, "Error: Failed to open directory.\n");
-		return ;
+		return (NULL);
 	}
 	entry = readdir(dir);
 	while (entry)
 	{
+		if (i > 1)
+        {
+            free(result);
+            closedir(dir);
+			return (NULL);
+        }
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
@@ -58,16 +59,14 @@ void	wildcard_search(const char *pattern)
 		if (entry->d_name[0] == '.' && pattern[0] != '.')
 			continue ;
 		if (match_pattern(pattern, entry->d_name))
-			printf("%s\n", entry->d_name);
+		{   if(i == 1)
+                free(result);
+			result = ft_strdup(entry->d_name);
+			i++;
+		}
 	}
 	closedir(dir);
-}
-
-int	main(void)
-{
-	const char	*pattern;
-
-	pattern = "*";
-	wildcard_search(pattern);
-	return (0);
+    if (i == 0)
+        return (pattern);
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 18:15:14 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:44:16 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <dirent.h>
 
 typedef struct s_fd
 {
@@ -112,4 +113,5 @@ t_ast	*expander(t_ast *node, t_env **env, int f);
 void	shift_args(t_ast *node, int i);
 void	pointers_free(void);
 void	pointers_back(t_ast *new);
+char	*wild_redirection(char *pattern);
 #endif
