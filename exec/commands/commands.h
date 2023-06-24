@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 11:53:32 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:03:01 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_export
 }	t_export;
 
 int		exportcmd(t_env *head);
+void	add_to_env(t_env **head, t_env *new);
 void	print_env(t_env *tmp);
 int		exportadd(t_env **head, t_ast *node);
 int		envcmd(t_env *head);

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 12:02:32 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:03:20 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,28 +111,21 @@ int	exportadd(t_env **head, t_ast *node)
 
 int	exportadd_for_cd(t_env **head, t_env *new)
 {
-	int		k;
 	t_env	*tmp;
-	char	*tmpval;
+	char	*tmpvalue;
 
-	k = 0;
-	while (new)
+	tmp = get_env(*head, new->key);
+	if (!tmp)
+		envadd_back(head, new, 0);
+	else if (new->append == 0)
 	{
-		if (check_key(new->key))
+		tmpvalue = tmp->value;
+		if (new->value)
 		{
-			tmp = get_env(*head, new->key);
-			if (!tmp)
-				envadd_back(head, new, 0);
-			else
-			{
-				tmpval = tmp->value;
-				tmp->value = new->value;
-				free(tmpval);
-			}
+			tmp->value = new->value;
+			free(tmpvalue);
 		}
-		else
-			k = 1;
-		new = new->next;
+		free(new);
 	}
-	return (k);
+	return (0);
 }

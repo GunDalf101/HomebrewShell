@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 18:53:59 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:53:04 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*quotes_remover(char *str)
 
 	expand_intialize(&var, str);
 	var.s = 0;
-	while (var.str[var.s] && var.str[var.s] != '\'' && var.str[var.s] ! '\"')
+	while (var.str[var.s] && var.str[var.s] != '\'' && var.str[var.s] != '\"')
 		var.s++;
 	if (!var.str[var.s])
 		return (var.str);
