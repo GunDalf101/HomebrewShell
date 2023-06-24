@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:32 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:42:15 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ int	checking_current_dir(t_ast *node)
 
 int	check_cmd(t_ast *node, t_env *env)
 {
-	if (get_env(env, "PATH") && check_if_path(node->u_data.cmd.cmd) == 0)
+	if ((get_env(env, "PATH") && check_if_path(node->u_data.cmd.cmd) == 0)
+		|| !ft_strlen(node->u_data.cmd.cmd))
 	{
-		if (find_command_path(node, env) == 0)
+		if (find_command_path(node, env) == 0 && ft_strlen(
+				node->u_data.cmd.cmd) != 0)
 			return (0);
 		else
 		{

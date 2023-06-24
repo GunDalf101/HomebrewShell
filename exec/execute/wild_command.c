@@ -6,66 +6,67 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:44:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 22:23:08 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:07:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-static int	match_pattern(const char *pattern, const char *text)
+void	wildreplace(t_wild *wild, char **args, int *real, int *k)
 {
-	if (*pattern == '\0' && *text == '\0')
-		return (1);
-	if (*pattern == '*' && *(pattern + 1) != '\0' && *text == '\0')
-		return (0);
-	if (*pattern == *text)
-		return (match_pattern(pattern + 1, text + 1));
-	if (*pattern == '*')
-		return (match_pattern(pattern + 1, text) || match_pattern(pattern, text
-				+ 1));
-	return (0);
+	while (wild->entry)
+	{
+		wild->entry = readdir(wild->dir);
+		if (wild->entry == NULL)
+			break ;
+		if (wild->entry->d_type != DT_REG && wild->entry->d_type != DT_DIR)
+			continue ;
+		if (wild->entry->d_name[0] == '.' && wild->pattern[0] != '.')
+			continue ;
+		if (match_pattern(wild->pattern, wild->entry->d_name))
+		{
+			args[*k] = ft_strdup(wild->entry->d_name);
+			*k = *k + 1;
+			*real = 1;
+		}
+	}
 }
 
 void	wildsearch(char *pattern, char **args, int *k)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	int				real;
-	int				i;
+	t_wild	wild;
+	int		real;
 
+	wild_init(&wild, pattern);
 	real = 0;
-	i = *k;
-	dir = opendir(".");
-	if (dir == NULL)
+	wild.i = *k;
+	wild.dir = opendir(".");
+	if (wild.dir == NULL)
 	{
 		printf("Error: Failed to open directory.\n");
 		return ;
 	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		entry = readdir(dir);
-		if (entry == NULL)
-			break ;
-		if (entry->d_type != DT_REG && entry->d_type != DT_DIR)
-			continue ;
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue ;
-		if (match_pattern(pattern, entry->d_name))
-		{
-			args[*k] = ft_strdup(entry->d_name);
-			*k = *k + 1;
-			real = 1;
-		}
-	}
-	sort_env(args + i, *k - i);
+	wild.entry = readdir(wild.dir);
+	wildreplace(&wild, args, &real, k);
+	sort_env(args + wild.i, *k - wild.i);
 	if (real == 0)
 	{
 		args[*k] = ft_strdup(pattern);
 		*k = *k + 1;
 	}
 	free(pattern);
-	closedir(dir);
+	closedir(wild.dir);
+}
+
+void	finish_him(char **new_args, t_ast *node, int k)
+{
+	new_args[k] = NULL;
+	free(node->u_data.cmd.args);
+	node->u_data.cmd.args = new_args;
+	free(node->u_data.cmd.cmd);
+	node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
+	if (node->u_data.cmd.cmd == NULL)
+		node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
 }
 
 void	wildcard_dealer(t_ast *node)
@@ -93,12 +94,6 @@ void	wildcard_dealer(t_ast *node)
 			i++;
 			k++;
 		}
-		new_args[k] = NULL;
-		free(node->u_data.cmd.args);
-		node->u_data.cmd.args = new_args;
-		free(node->u_data.cmd.cmd);
-		node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
-		if (node->u_data.cmd.cmd == NULL)
-			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
+		finish_him(new_args, node, k);
 	}
 }
