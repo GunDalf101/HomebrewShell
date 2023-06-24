@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:24 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:58:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@ char	**lst_to_env(t_env *head)
 	{
 		if (head->hidden == 0)
 		{
-			var.tmp = ft_strdup(head->key);
 			if (head->value != NULL)
 			{
 				var.tmp = ft_strjoin(head->key, "=");
 				var.env = ft_strjoin(var.tmp, head->value);
 			}
 			else
-				var.env = ft_strdup(var.tmp);
+				var.env = ft_strdup(head->key);
 			free(var.tmp);
 			var.envs[var.i] = var.env;
 			var.i++;

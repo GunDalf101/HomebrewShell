@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 03:16:41 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 10:47:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:08:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ void	free_env(char **env, int size)
 {
 	int	i;
 
+	(void)size;
 	i = 0;
-	while (i < size)
+	while (env[i])
 	{
+		printf("here\n");
 		free(env[i]);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:29:48 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:53:04 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ char	*quotes_remover(char *str)
 
 	expand_intialize(&var, str);
 	var.s = 0;
-	while (var.str[var.s] && var.str[var.s] != '\'' && var.str[var.s] == '\"')
+	while (var.str[var.s] && var.str[var.s] != '\'' && var.str[var.s] != '\"')
 		var.s++;
 	if (!var.str[var.s])
 		return (var.str);
 	while (var.i < var.len)
 	{
-		if (var.str[var.i] == '\'' && !var.inside_double)
-			var.inside_single = !var.inside_single;
-		else if (var.str[var.i] == '"' && !var.inside_single)
+		if (var.str[var.i] == '\"' && !var.inside_single)
 			var.inside_double = !var.inside_double;
+		else if (var.str[var.i] == '\'' && !var.inside_double)
+			var.inside_single = !var.inside_single;
 		else
 			var.str[var.j++] = var.str[var.i];
 		var.i++;

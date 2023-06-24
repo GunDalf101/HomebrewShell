@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:02:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:08:59 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ t_ast	*expand(t_ast *node, t_env **env)
 {
 	if (node)
 		node = expander(node, env, 0);
-	if (node)
-		node = rebuild_node(node);
 	if (node)
 		wildcard_dealer(node);
 	if (node)

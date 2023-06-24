@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:07 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:22:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:56:32 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ typedef struct s_argtoenv
 	int				d;
 	int				k;
 	int				i;
+	int				i2;
+	char			*key;
+	char			*value;
+	int				found;
 }					t_argtoenv;
 
 void				envadd_back(t_env **head, t_env *node, int hidden);

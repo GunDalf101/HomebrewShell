@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:45:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:41:06 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:00:31 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	free_heredoc_node(t_ast *node)
 	free_ast_node(node->u_data.heredoc.next);
 	if (node->u_data.heredoc.tmp != NULL)
 		unlink(node->u_data.heredoc.tmp);
+	free(node->u_data.heredoc.tmp);
 	free(node);
 }
 

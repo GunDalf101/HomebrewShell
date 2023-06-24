@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:32 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:24:31 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:46:32 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	calcul_res(char *str, int i)
 		res = res * 10 + (str[i] - 48);
 		if (isoverflow(prv, res))
 		{
-			printf("prev == %lld | res  == %lld\n", prv, res);
 			printf("exit\n");
 			printf("minishell: exit: %s: numeric argument required\n", str);
 			exit(255);

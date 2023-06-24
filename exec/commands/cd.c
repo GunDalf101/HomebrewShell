@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 10:47:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:07:55 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ int	to_relative_dir(char *dir, char *path, t_env **env)
 			free(tmp);
 			return (0);
 		}
+		free(tmp);
 	}
+	free(path);
 	return (1);
 }
 
@@ -48,7 +50,7 @@ int	to_home_dir(t_env **env, char *dir)
 		}
 	}
 	else if (!to_relative_dir(dir, path, env))
-		return (0);
+		return (free(path), 0);
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putendl_fd("Home not set", 2);
 	return (1);
@@ -82,6 +84,7 @@ int	to_prev_dir(t_env **env)
 int	to_dir(t_ast *node, t_env **env)
 {
 	char	*path;
+	char	*pwd;
 
 	path = NULL;
 	if (a_relative_path(node->u_data.cmd.args[1]))
@@ -89,8 +92,9 @@ int	to_dir(t_ast *node, t_env **env)
 	if (get_env(*env, "OLDPWD"))
 		exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
 						"PWD")->value), 0));
-	if (chdir(node->u_data.cmd.args[1]) == 0 && return_pwd())
-		return (exportadd_for_cd(env, envnew("PWD", return_pwd(), 0)), 0);
+	pwd = return_pwd();
+	if (chdir(node->u_data.cmd.args[1]) == 0 && pwd)
+		return (exportadd_for_cd(env, envnew("PWD", pwd, 0)), 0);
 	if (a_relative_path(node->u_data.cmd.args[1]))
 	{
 		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
