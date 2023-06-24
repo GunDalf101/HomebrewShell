@@ -24,6 +24,7 @@ SOURCES = exec/env/env.c \
 		exec/execute/execute.c  \
 		exec/execute/pipe.c \
 		exec/execute/wild_command.c \
+		exec/execute/wild_counter.c \
 		exec/execute/redirections.c\
 		exec/execute/finder.c \
 		exec/execute/heredoc.c\
