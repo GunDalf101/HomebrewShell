@@ -6,25 +6,11 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:44:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 21:04:28 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:17:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-
-int	match_pattern(const char *pattern, const char *text)
-{
-	if (*pattern == '\0' && *text == '\0')
-		return (1);
-	if (*pattern == '*' && *(pattern + 1) != '\0' && *text == '\0')
-		return (0);
-	if (*pattern == *text)
-		return (match_pattern(pattern + 1, text + 1));
-	if (*pattern == '*')
-		return (match_pattern(pattern + 1, text) || match_pattern(pattern, text
-				+ 1));
-	return (0);
-}
 
 void	wildsearch(char *pattern, char **args, int *k)
 {
@@ -64,92 +50,23 @@ void	wildsearch(char *pattern, char **args, int *k)
 		args[*k] = ft_strdup(pattern);
 		*k = *k + 1;
 	}
+	free(pattern);
 	closedir(dir);
-}
-
-int	is_wild(char *str)
-{
-	int					i;
-	int					iswild;
-	char				*tmp;
-	t_quote_parenthesis	*quotes;
-
-	i = 0;
-	iswild = FALSE;
-	tmp = ft_strdup(str);
-	quotes_remover(tmp);
-	quotes = malloc(sizeof(t_quote_parenthesis));
-	quotes->dubquo = FALSE;
-	quotes->sinquo = FALSE;
-	while (str[i])
-	{
-		super_quote_hander(quotes, str[i]);
-		if (str[i] == '*' && quotes->sinquo == FALSE && quotes->dubquo == FALSE)
-			iswild = TRUE;
-		else if (str[i] == '*' && (quotes->sinquo == TRUE
-				|| quotes->dubquo == TRUE))
-			return (FALSE);
-		i++;
-	}
-	if (iswild == TRUE)
-		quotes_remover(str);
-	return (iswild);
-}
-
-int	wildcount(char **args, int arg_count)
-{
-	DIR				*dir;
-	struct dirent	*entry;
-	int				i;
-	int				j;
-	int				k;
-
-	i = arg_count;
-	j = 0;
-	k = 0;
-	while (j < arg_count)
-	{
-		if (is_wild(args[j]))
-		{
-			dir = opendir(".");
-			if (dir == NULL)
-			{
-				printf("Error: Failed to open directory.\n");
-				return (-1);
-			}
-			entry = readdir(dir);
-			while (entry)
-			{
-				entry = readdir(dir);
-				if (entry == NULL)
-					break ;
-				if (entry->d_type != DT_REG && entry->d_type != DT_DIR)
-					continue ;
-				if (entry->d_name[0] == '.' && args[j][0] != '.')
-					continue ;
-				if (match_pattern(args[j], entry->d_name))
-					i++;
-			}
-			closedir(dir);
-		}
-		j++;
-	}
-	return (i);
 }
 
 void	wildcard_dealer(t_ast *node)
 {
-	int i;
-	int k;
-	char **new_args;
+	int		i;
+	int		k;
+	char	**new_args;
 
 	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
 		k = 0;
-		new_args = malloc(sizeof(char *) * wildcount(node->u_data.cmd.args,
-				node->u_data.cmd.arg_count));
+		new_args = ft_calloc(wildcount(node->u_data.cmd.args, \
+				node->u_data.cmd.arg_count) + 1, sizeof(char *));
 		while (i < node->u_data.cmd.arg_count)
 		{
 			if (is_wild(node->u_data.cmd.args[i]))
@@ -163,7 +80,9 @@ void	wildcard_dealer(t_ast *node)
 			k++;
 		}
 		new_args[k] = NULL;
+		free(node->u_data.cmd.args);
 		node->u_data.cmd.args = new_args;
+		free(node->u_data.cmd.cmd);
 		node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
 		if (node->u_data.cmd.cmd == NULL)
 			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
