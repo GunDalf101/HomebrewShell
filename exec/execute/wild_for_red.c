@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:37:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:56:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*wild_redirection(char *pattern)
 	wild.dir = opendir(".");
 	if (wild.dir == NULL)
 	{
-		fprintf(stderr, "Error: Failed to open directory.\n");
+		printf("Error: Failed to open directory.\n");
 		return (NULL);
 	}
 	wild.entry = readdir(wild.dir);

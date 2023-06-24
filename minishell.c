@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:37:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:47:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,72 +17,49 @@
 
 t_global	g_global;
 
-void	signal_hand(int signum)
+void	initialize_shell(t_env **envlst, int *initial_env)
 {
-	if (signum == SIGINT && g_global.run == 0)
+	rl_catch_signals = 0;
+	if (!*envlst)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_global.exit_status = 1;
+		envadd_back(envlst, envnew("PATH",
+				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0), 1);
+		envadd_back(envlst, envnew("PWD", return_pwd(), 0), 0);
+		*initial_env = 1;
 	}
-	if (signum == SIGINT && g_global.run == 1)
+	g_global.run = 0;
+	g_global.exit_status = 0;
+}
+
+void	execute_input(t_ast *root, t_env **envlst)
+{
+	if (root)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_global.run = 130;
-		g_global.exit_status = 130;
+		execute_all_heredocs(root, envlst);
+		g_global.exit_status = execute_commands(root, envlst, 0);
+		free_ast_node(root);
 	}
 }
 
-int	main(int argc, char *argv[], char *env[])
+void	execute_command(t_env **envlst, char *input)
 {
 	t_ast	*root;
-	char	*input;
-	t_env	*envlst;
-	int		k;
 
-	(void)argc;
-	(void)argv;
-	g_global.run = 0;
-	signal(SIGINT, signal_hand);
-	signal(SIGQUIT, signal_hand);
-	root = NULL;
-	envlst = load_env(env);
-	rl_catch_signals = 0;
-	k = 0;
-	if(envlst)
-	{
-		if(get_env(envlst,"SHLVL"))
-		{
-			char *shlvl = ft_itoa(ft_atoi(get_env(envlst,"SHLVL")->value) + 1);
-			add_to_env(&envlst, envnew(ft_strdup("SHLVL"), shlvl, 0));
-		}
-		else
-			envadd_back(&envlst, envnew("SHLVL", "1", 0), 0);
-	}
-	if (!envlst)
-	{
-		envadd_back(&envlst, envnew("PATH",
-				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0), 1);
-		envadd_back(&envlst, envnew("SHLVL", "1", 0), 0);
-		envadd_back(&envlst, envnew("PWD", return_pwd(), 0), 0);
-		k = 1;
-	}
-	(void)envlst;
-	g_global.run = 0;
-	g_global.exit_status = 0;
+	root = parsinginit(input);
+	execute_input(root, envlst);
+}
+
+void	read_execute_loop(t_env **envlst, int initial_env)
+{
+	char	*input;
+
 	while (1)
 	{
-		g_global.run = 0;
 		input = NULL;
-		root = NULL;
 		input = readline("minishell>");
 		if (!input)
 		{
-			if (k == 1)
+			if (initial_env == 1)
 				ft_putendl_fd("\nexit", STDOUT_FILENO);
 			else
 				write(1, "exit\n", 6);
@@ -94,13 +71,22 @@ int	main(int argc, char *argv[], char *env[])
 			continue ;
 		}
 		add_history(input);
-		root = parsinginit(input);
-		if (root)
-		{
-			execute_all_heredocs(root, &envlst);
-			g_global.exit_status = execute_commands(root, &envlst, 0);
-			free_ast_node(root);
-		}
+		execute_command(envlst, input);
 	}
+}
+
+int	main(int argc, char *argv[], char *env[])
+{
+	t_env	*envlst;
+	int		initial_env;
+
+	initial_env = 0;
+	(void)argc;
+	(void)argv;
+	envlst = load_env(env);
+	signal(SIGINT, signal_hand);
+	signal(SIGQUIT, signal_hand);
+	initialize_shell(&envlst, &initial_env);
+	read_execute_loop(&envlst, initial_env);
 	return (0);
 }

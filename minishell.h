@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:29 by mbennani          #+#    #+#             */
-/*   Updated: 2023/05/16 16:49:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:51:42 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 # include <unistd.h>
+
+void	signal_hand(int signum);
 
 #endif

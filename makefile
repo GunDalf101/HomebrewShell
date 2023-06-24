@@ -51,6 +51,7 @@ SOURCES = exec/env/env.c \
 		exec/commands/sort_env.c \
 		exec/commands/export_init.c	\
 		minishell.c \
+		extra_signal.c
 
 
 OBJECTS = $(SOURCES:.c=.o)

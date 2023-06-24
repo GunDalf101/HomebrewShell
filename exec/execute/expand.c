@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:22:55 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:55:27 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	expand_intialize(t_expand *expand, char *str)
 	expand->str = str;
 	expand->i = 0;
 	expand->j = 0;
-	expand->len = strlen(str);
+	expand->len = ft_strlen(str);
 	expand->inside_single = FALSE;
 	expand->inside_double = FALSE;
 	expand->start = 0;

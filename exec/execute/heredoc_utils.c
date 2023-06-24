@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:50:11 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:22:12 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:55:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	write_heredoc_file(char *buffer, t_ast *node)
 		return ;
 	}
 	g_global.run = infile_fd;
-	if (write(infile_fd, buffer, strlen(buffer)) == -1)
+	if (write(infile_fd, buffer, ft_strlen(buffer)) == -1)
 	{
 		perror("write");
 		return ;
