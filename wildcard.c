@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 22:56:18 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/23 23:09:45 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:30:39 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,32 @@ int	match_pattern(const char *pattern, const char *text)
 	return (0);
 }
 
-void	wildcard_search(const char *pattern)
+char	*wild_redirection(char *pattern)
 {
 	char			current_directory[1024];
 	DIR				*dir;
 	struct dirent	*entry;
+	int				i;
+	char			*result;
+	
 
+	i = 0;
 	if (getcwd(current_directory, sizeof(current_directory)) == NULL)
 	{
 		fprintf(stderr, "Error: Failed to get current directory.\n");
-		return ;
+		return (NULL);
 	}
 	dir = opendir(current_directory);
 	if (dir == NULL)
 	{
 		fprintf(stderr, "Error: Failed to open directory.\n");
-		return ;
+		return (NULL);
 	}
 	entry = readdir(dir);
 	while (entry)
 	{
+		if (i > 0)
+			return (NULL);
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
@@ -58,9 +64,14 @@ void	wildcard_search(const char *pattern)
 		if (entry->d_name[0] == '.' && pattern[0] != '.')
 			continue ;
 		if (match_pattern(pattern, entry->d_name))
-			printf("%s\n", entry->d_name);
+		{
+			result = ft_strdup(entry->d_name);
+			i++;
+		}
 	}
 	closedir(dir);
+	free(pattern);
+	return (result);
 }
 
 int	main(void)

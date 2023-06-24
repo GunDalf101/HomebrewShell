@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:11 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:48:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_env	*get_env(t_env *head, char *env)
 		return (0);
 	while (tmp)
 	{
-		if (!strcmp(tmp->key, env))
+		if (!ft_strcmp(tmp->key, env))
 			return (tmp);
 		tmp = tmp->next;
 	}

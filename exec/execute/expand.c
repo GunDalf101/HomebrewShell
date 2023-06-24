@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:42:38 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:02:09 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	expand_start(t_expand *expand, t_env *env)
 	if (expand->end - expand->start > 1)
 	{
 		expand->var = ft_substr(expand->str, expand->start + 1, expand->end
-				- expand->start - 1);
+			- expand->start - 1);
 		expand->value = NULL;
 		if (expand->var[0] == '?')
 			expand->value = ft_itoa(g_global.exit_status);
@@ -93,6 +93,8 @@ t_ast	*expand(t_ast *node, t_env **env)
 	if (node)
 		node = rebuild_node(node);
 	if (node)
+		wildcard_dealer(node);
+	if (node)
 		node = expander(node, env, 1);
 	return (node);
 }
@@ -109,9 +111,9 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-					*env, f);
+				*env, f);
 			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
-					+ 1])
+				+ 1])
 			{
 				shift_args(node, i);
 				i = 0;

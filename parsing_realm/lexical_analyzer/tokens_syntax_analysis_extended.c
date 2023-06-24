@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 05:30:11 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:49:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	redirection_check_extended(char **tokens, int i)
 {
 	if (!tokens[i])
 		return (SUCCESS);
-	if (strcmp(tokens[i], ">>") != 0 && strcmp(tokens[i], ">") != 0
-		&& strcmp(tokens[i], "<<") != 0 && strcmp(tokens[i], "<") != 0)
+	if (ft_strcmp(tokens[i], ">>") != 0 && ft_strcmp(tokens[i], ">") != 0
+		&& ft_strcmp(tokens[i], "<<") != 0 && ft_strcmp(tokens[i], "<") != 0)
 	{
-		if (strcmp(tokens[i], ">>>") == 0)
+		if (ft_strcmp(tokens[i], ">>>") == 0)
 			return (printf("Error: syntax error near unexpected token `>'\n"), \
 					FAILURE);
-		else if (strcmp(tokens[i], "<<<") == 0)
+		else if (ft_strcmp(tokens[i], "<<<") == 0)
 			return (printf("Error: syntax error near unexpected token `<'\n"), \
 					FAILURE);
 		else if (tokens[i][0] == '>')
@@ -41,9 +41,9 @@ int	pipe_check_extended(char **tokens, int i)
 {
 	if (!tokens[i])
 		return (SUCCESS);
-	if (strcmp(tokens[i], "||") != 0 && strcmp(tokens[i], "|") != 0)
+	if (ft_strcmp(tokens[i], "||") != 0 && ft_strcmp(tokens[i], "|") != 0)
 	{
-		if (strcmp(tokens[i], "|||") == 0)
+		if (ft_strcmp(tokens[i], "|||") == 0)
 			return (printf("Error: syntax error near unexpected token `|'\n"), \
 					FAILURE);
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:47 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 00:23:47 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:49:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ t_ast	*parse_com_red(char **tokens, t_ast **astable, int *i, int *ascnt)
 
 t_ast	*cre_node(char **tokens, t_ast **astable, int *i, int *ascnt)
 {
-	if (strcmp(tokens[*i], "|") == 0)
+	if (ft_strcmp(tokens[*i], "|") == 0)
 	{
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_pipe, NULL, NULL);
 	}
-	else if (strcmp(tokens[*i], "||") == 0)
+	else if (ft_strcmp(tokens[*i], "||") == 0)
 	{
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_or, NULL, NULL);
 	}
-	else if (strcmp(tokens[*i], "&&") == 0)
+	else if (ft_strcmp(tokens[*i], "&&") == 0)
 	{
 		*i = *i + 1;
 		astable[*ascnt] = add_new_operation(ast_and, NULL, NULL);

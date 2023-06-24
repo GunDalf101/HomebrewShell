@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 00:42:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:17:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static size_t	ft_countwords(char *str, char c, t_quote_parenthesis *quotes)
 	{
 		super_quote_hander(quotes, str[i]);
 		parenthesis_life_time(str[i], quotes);
-		if (((quotes->sinquo == FALSE && quotes->dubquo == FALSE) || str[i \
-				- 1] == ' ') && (quotes->paren == FALSE || str[i] == ')'))
+		if ((quotes->sinquo == FALSE && quotes->dubquo == FALSE) && \
+		(quotes->paren == FALSE || str[i] == ')'))
 		{
 			while (str[i] == c)
 				i++;

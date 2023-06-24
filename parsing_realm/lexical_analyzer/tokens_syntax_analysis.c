@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 05:07:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:54:05 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ int	pipe_check(char **tokens, int i)
 {
 	if (pipe_check_extended(tokens, i) == FAILURE)
 		return (FAILURE);
-	if (i == 0 && strcmp(tokens[i], "|") == 0)
+	if (i == 0 && ft_strcmp(tokens[i], "|") == 0)
 		return (printf("Error: syntax error near unexpected token `|'\n"), \
 				FAILURE);
-	else if (i == 0 && strcmp(tokens[i], "||") == 0)
+	else if (i == 0 && ft_strcmp(tokens[i], "||") == 0)
 		return (printf("Error: syntax error near unexpected token `||'\n"), \
 				FAILURE);
 	else if (tokens[i + 1] == NULL)
@@ -64,7 +64,7 @@ int	pipe_check(char **tokens, int i)
 
 int	and_check(char **tokens, int i)
 {
-	if (strcmp(tokens[i], "&&") != 0)
+	if (ft_strcmp(tokens[i], "&&") != 0)
 		return (printf("Error: syntax error near unexpected token `&&'\n"), \
 				FAILURE);
 	if (i == 0)

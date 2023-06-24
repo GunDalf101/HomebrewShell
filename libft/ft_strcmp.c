@@ -1,50 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_env.c                                         :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 03:16:41 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 10:47:49 by mbennani         ###   ########.fr       */
+/*   Created: 2022/08/30 22:50:40 by mbennani          #+#    #+#             */
+/*   Updated: 2023/06/24 10:48:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "commands.h"
-
-void	sort_env(char **table, int size)
-{
-	char	*temp;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < size - 1)
-	{
-		j = 1 + i;
-		while (j < size)
-		{
-			if (ft_strcmp(table[i], table[j]) > 0)
-			{
-				temp = table[i];
-				table[i] = table[j];
-				table[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
-
-void	free_env(char **env, int size)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
-	while (i < size)
+	while (s1[i] == s2[i] && (s1[i] != 0 || s2[i] != 0))
 	{
-		free(env[i]);
 		i++;
 	}
-	free(env);
+	return (s1[i] - s2[i]);
 }

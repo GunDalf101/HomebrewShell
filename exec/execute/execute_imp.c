@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_imp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:37 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:35 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:48:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ int	execute_imp_commands(t_ast *node, t_env **env, int k)
 {
 	if (!node)
 		return (0);
-	if (!strcmp(node->u_data.cmd.cmd, "echo"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "echo"))
 		return (echo(node));
-	if (!strcmp(node->u_data.cmd.cmd, "cd"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "cd"))
 		return (cd(node, env));
-	if (!strcmp(node->u_data.cmd.cmd, "pwd"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "pwd"))
 		return (pwd(env));
-	if (!strcmp(node->u_data.cmd.cmd, "export"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "export"))
 		return (exportadd(env, node));
-	if (!strcmp(node->u_data.cmd.cmd, "env"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "env"))
 		return (envcmd(*env));
-	if (!strcmp(node->u_data.cmd.cmd, "unset"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "unset"))
 		return (unsetcmd(env, node));
-	if (!strcmp(node->u_data.cmd.cmd, "exit"))
+	if (!ft_strcmp(node->u_data.cmd.cmd, "exit"))
 		return (exitcmd(node, k));
 	return (0);
 }
@@ -39,13 +39,13 @@ void	set_imp_commands(t_ast *node)
 		return ;
 	if (node->type == ast_cmd)
 	{
-		if (!strcmp(node->u_data.cmd.cmd, "echo")
-			|| !strcmp(node->u_data.cmd.cmd, "cd")
-			|| !strcmp(node->u_data.cmd.cmd, "pwd")
-			|| !strcmp(node->u_data.cmd.cmd, "export")
-			|| !strcmp(node->u_data.cmd.cmd, "env")
-			|| !strcmp(node->u_data.cmd.cmd, "unset")
-			|| !strcmp(node->u_data.cmd.cmd, "exit"))
+		if (!ft_strcmp(node->u_data.cmd.cmd, "echo")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "cd")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "pwd")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "export")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "env")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "unset")
+			|| !ft_strcmp(node->u_data.cmd.cmd, "exit"))
 			node->type = ast_imp;
 	}
 }

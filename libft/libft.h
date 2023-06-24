@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 17:06:41 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 19:21:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:48:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 char	*ft_strmapi(char *s, char (*f)(unsigned int, char));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

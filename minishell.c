@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 00:25:11 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:00:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/readline.h>
 #include <signal.h>
 
-t_global g_global;
+t_global	g_global;
 
 void	signal_hand(int signum)
 {
@@ -37,32 +37,34 @@ void	signal_hand(int signum)
 	}
 }
 
-int	main(int argc, char *argv[],char *env[])
+int	main(int argc, char *argv[], char *env[])
 {
+	t_ast	*root;
+	char	*input;
+	t_env	*envlst;
+	int		k;
+
 	(void)argc;
 	(void)argv;
 	g_global.run = 0;
 	signal(SIGINT, signal_hand);
 	signal(SIGQUIT, signal_hand);
-	t_ast *root;
 	root = NULL;
-	char *input;
-
+	envlst = load_env(env);
 	rl_catch_signals = 0;
-
-	t_env *envlst = load_env(env);
-	int k = 0;
+	k = 0;
 	if (!envlst)
 	{
-		envadd_back(&envlst, envnew("PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0),1);
-		envadd_back(&envlst, envnew("PWD", return_pwd(), 0),0);
+		envadd_back(&envlst, envnew("PATH",
+				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0), 1);
+		envadd_back(&envlst, envnew("PWD", return_pwd(), 0), 0);
 		k = 1;
 	}
 	(void)envlst;
 	g_global.run = 0;
 	g_global.exit_status = 0;
 	while (1)
-	{ 
+	{
 		g_global.run = 0;
 		input = NULL;
 		root = NULL;
@@ -85,7 +87,7 @@ int	main(int argc, char *argv[],char *env[])
 		if (root)
 		{
 			execute_all_heredocs(root, &envlst);
-			g_global.exit_status = execute_commands(root, &envlst,0);
+			g_global.exit_status = execute_commands(root, &envlst, 0);
 			free_ast_node(root);
 		}
 	}

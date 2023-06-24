@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:04:59 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 02:28:09 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:43:48 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	what_about_args(char **tokens, int *i, char **args)
 		*i = *i + 1;
 		argcnt++;
 	}
+	args[argcnt] = NULL;
 }
 
 int	what_condition(char **tokens, int *tempi)

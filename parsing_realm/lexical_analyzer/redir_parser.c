@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 01:59:46 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 02:01:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:49:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_ast	*order_redirectout(t_ast *cmd, char **tokens, int *i, int *head_red)
 	int		tag;
 
 	tag = 0;
-	if (strcmp(tokens[*i], ">") == 0)
+	if (ft_strcmp(tokens[*i], ">") == 0)
 		tag = 1;
-	else if (strcmp(tokens[*i], ">>") == 0)
+	else if (ft_strcmp(tokens[*i], ">>") == 0)
 		tag = 2;
 	*i = *i + 1;
 	outfile = ft_strdup(tokens[*i]);
@@ -81,9 +81,9 @@ t_ast	*order_redirection(t_ast *cmd, char **tokens, int *i, int *head_red)
 {
 	if (tokens[*i + 1] && tokens[*i][0] == '>')
 		return (order_redirectout(cmd, tokens, i, head_red));
-	else if (strcmp(tokens[*i], "<") == 0)
+	else if (ft_strcmp(tokens[*i], "<") == 0)
 		return (order_redirectin(cmd, tokens, i, head_red));
-	else if (strcmp(tokens[*i], "<<") == 0)
+	else if (ft_strcmp(tokens[*i], "<<") == 0)
 		return (order_heredoc(cmd, tokens, i, head_red));
 	else
 		*i = *i + 1;

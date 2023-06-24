@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:43 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:31:18 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTE_H
 # include "../../parsing_realm/ast/ast.h"
 # include "../commands/commands.h"
+# include "../../parsing_realm/lexical_analyzer/lexing_lexer.h"
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -23,6 +24,11 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <dirent.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 typedef struct s_fd
 {
@@ -110,4 +116,6 @@ t_ast	*getting_fds_for_red(t_fd *fd, t_ast *node, t_env **env);
 t_ast	*rebuild_node(t_ast *node);
 t_ast	*expander(t_ast *node, t_env **env, int f);
 void	shift_args(t_ast *node, int i);
+void	wildcard_dealer(t_ast *node);
+
 #endif

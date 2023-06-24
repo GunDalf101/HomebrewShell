@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:45:44 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:47:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	to_home_dir(t_env **env, char *dir)
 	path = ft_strjoin("/Users/", getenv("USER"));
 	if (get_env(*env, "OLDPWD"))
 		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
-	if (dir == NULL || !strcmp(dir, "~"))
+	if (dir == NULL || !ft_strcmp(dir, "~"))
 	{
 		if (chdir(path) == 0)
 		{
@@ -112,7 +112,7 @@ int	cd(t_ast *node, t_env **env)
 	{
 		if (!ft_strncmp(node->u_data.cmd.args[1], "~", 1))
 			return (to_home_dir(env, node->u_data.cmd.args[1]));
-		else if (!strcmp(node->u_data.cmd.args[1], "-"))
+		else if (!ft_strcmp(node->u_data.cmd.args[1], "-"))
 			return (to_prev_dir(env));
 		else
 			return (to_dir(node, env));

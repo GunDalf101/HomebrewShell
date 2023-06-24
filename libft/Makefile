@@ -6,7 +6,7 @@
 #    By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/14 11:46:17 by mbennani          #+#    #+#              #
-#    Updated: 2022/10/23 20:29:35 by mbennani         ###   ########.fr        #
+#    Updated: 2023/06/24 10:52:21 by mbennani         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS		= ft_memset.c \
 			  ft_strlcat.c \
 			  ft_itoa.c \
 			  ft_strmapi.c \
-			  ft_striteri.c
+			  ft_striteri.c \
+			  ft_strcmp.c
 
 BNS_SRCS	= ft_lstnew.c \
 			  ft_lstadd_front.c \
