@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 12:01:43 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:48:29 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ t_ast	*expand(t_ast *node, t_env **env)
 {
 	if (node)
 		node = expander(node, env, 0);
-	if (node)
-		node = rebuild_node(node);
 	if (node)
 		node = expander(node, env, 1);
 	return (node);

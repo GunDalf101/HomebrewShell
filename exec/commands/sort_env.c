@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 03:16:41 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 12:05:06 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:46:43 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	sort_env(char **table, int size)
 void	free_env(char **env, int size)
 {
 	int	i;
-	
+
 	(void)size;
 	i = 0;
 	while (env[i])

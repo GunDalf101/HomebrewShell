@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 11:32:28 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:14:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	main(int argc, char *argv[],char *env[])
 			g_global.exit_status = execute_commands(root, &envlst,0);
 			free_ast_node(root);
 		}
-		// pointers_free();
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 11:09:29 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:25:17 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	execute_and(t_ast *node, t_env **env, int k)
 	int	left_status;
 
 	left_status = execute_commands(node->u_data.operation.left, env, k);
-	printf("left status: %d\n", left_status);
 	if (left_status == 0)
 		status = execute_commands(node->u_data.operation.right, env, k);
 	else
@@ -90,7 +89,7 @@ int	execute_commands(t_ast *node, t_env **env, int k)
 	if (!node)
 		return (0);
 	if (node->type == ast_cmd)
-		node = expand(node, env);
+		expand(node, env);
 	set_imp_commands(node);
 	if (!node)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 11:10:02 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:24:11 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 		close_fds(&fd);
 	if (g_global.run == 130)
 		return (130);
-	return (0);
+	return (1);
 }
