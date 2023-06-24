@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 03:16:41 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:08:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:57:56 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sort_env(char **table, int size)
 	int		j;
 
 	i = 0;
-	while (i < size - 1)
+	while (i < size)
 	{
 		j = 1 + i;
 		while (j < size)
@@ -42,9 +42,8 @@ void	free_env(char **env, int size)
 
 	(void)size;
 	i = 0;
-	while (env[i])
+	while (i < size)
 	{
-		printf("here\n");
 		free(env[i]);
 		i++;
 	}

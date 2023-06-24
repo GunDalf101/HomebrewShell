@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wild_for_red.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:10:39 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:20:40 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	match_pattern(const char *pattern, const char *text)
+static int	match_pattern(char *pattern, const char *text)
 {
 	if (*pattern == '\0' && *text == '\0')
 		return (1);
@@ -68,5 +68,6 @@ char	*wild_redirection(char *pattern)
 	closedir(dir);
     if (i == 0)
         return (pattern);
+	free(pattern);
 	return (result);
 }

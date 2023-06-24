@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:08:59 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:19:02 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	expand_start(t_expand *expand, t_env *env)
 	if (expand->end - expand->start > 1)
 	{
 		expand->var = ft_substr(expand->str, expand->start + 1, expand->end
-			- expand->start - 1);
+				- expand->start - 1);
 		expand->value = NULL;
 		if (expand->var[0] == '?')
 			expand->value = ft_itoa(g_global.exit_status);
@@ -109,9 +109,9 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-				*env, f);
+					*env, f);
 			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
-				+ 1])
+					+ 1])
 			{
 				shift_args(node, i);
 				i = 0;

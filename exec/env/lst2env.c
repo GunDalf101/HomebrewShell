@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 10:58:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:12:52 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**lst_to_env(t_env *head)
 	var.size = lstsize(head);
 	var.envs = malloc(var.size * sizeof(char *) + 1);
 	var.i = 0;
-	while (head != NULL)
+	while (var.i < (int)var.size)
 	{
 		if (head->hidden == 0)
 		{
@@ -44,10 +44,10 @@ char	**lst_to_env(t_env *head)
 			{
 				var.tmp = ft_strjoin(head->key, "=");
 				var.env = ft_strjoin(var.tmp, head->value);
+				free(var.tmp);
 			}
 			else
 				var.env = ft_strdup(head->key);
-			free(var.tmp);
 			var.envs[var.i] = var.env;
 			var.i++;
 		}

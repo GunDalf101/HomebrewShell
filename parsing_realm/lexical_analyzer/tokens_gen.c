@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_gen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:50:45 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 14:46:17 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:37:49 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	*space_expand(char *input, t_quote_parenthesis *quotes)
 	quotes->dubquo = FALSE;
 	quotes->sinquo = FALSE;
 	input_space_counter(input, quotes, &counter);
-	// printf("counter: %d\n", counter);
 	expansion = ft_calloc(counter + 1, 1);
 	expansion[0] = ' ';
 	input_spacer(input, quotes, expansion, counter);

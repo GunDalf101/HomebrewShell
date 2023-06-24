@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 12:01:33 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:50:03 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	key_value_helper2(t_argtoenv *var)
 		envadd_back(&var->head, envnew(ft_strdup(var->key),
 				ft_strdup(""), var->k), 0);
 	else if (!var->value)
-		envadd_back(&var->head, envnew(var->key, NULL, var->k), 0);
+		envadd_back(&var->head, envnew(ft_strdup(var->key), NULL, var->k), 0);
 	else if (var->found)
 		envadd_back(&var->head, envnew(ft_strdup(var->key),
 				ft_strdup(var->value), var->k), 0);

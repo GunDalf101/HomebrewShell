@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wild_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:44:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 21:04:28 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:34:18 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-int	match_pattern(const char *pattern, const char *text)
+static int	match_pattern(const char *pattern, const char *text)
 {
 	if (*pattern == '\0' && *text == '\0')
 		return (1);

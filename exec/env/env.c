@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:08:26 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:06:03 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,32 @@ t_env	*load_env(char **env)
 	char	*value;
 	int		i;
 	char	*tmp;
+	int 	found;
+	found = 0;
 
 	head = NULL;
 	i = 0;
 	while (*env)
 	{
+		found = 0;
 		key = NULL;
 		value = NULL;
 		i = 0;
 		tmp = strdup(*env);
+		
 		key = tmp;
 		while (tmp[i] != '=' && tmp[i] != '\0')
 			i++;
 		if (tmp[i] == '=')
+		{
+			found = 1;
 			value = &tmp[i + 1];
+		}
 		tmp[i] = '\0';
-		envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0), 0);
+		if (found)
+			envadd_back(&head, envnew(ft_strdup(key), ft_strdup(value), 0), 0);
+		else
+			envadd_back(&head, envnew(ft_strdup(key), ft_strdup(""), 0), 0);
 		free(tmp);
 		env++;
 	}
