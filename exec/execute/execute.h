@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:22:48 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:21:36 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	wildcard_dealer(t_ast *node);
 void	pointers_free(void);
 void	pointers_back(t_ast *new);
 char	*wild_redirection(char *pattern);
-int		match_pattern(const char *pattern, const char *text);
+int		match_pattern(char *pattern, char *text);
 int		is_wild(char *str);
 int		wildcount(char **args, int arg_count);
 

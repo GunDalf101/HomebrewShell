@@ -6,12 +6,13 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:44 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/22 02:25:49 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:25:51 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing_lexer.h"
 
+extern t_global	g_global;
 // are parenthesis balanced(odd or even)?
 
 int	parenthesis_check(char *input, t_quote_parenthesis *quotes)
@@ -92,10 +93,10 @@ int	semicolon_check(char *input, t_quote_parenthesis *quotes)
 int	input_syntax_checker(char *input, t_quote_parenthesis *quotes)
 {
 	if (parenthesis_check(input, quotes) == FAILURE)
-		return (FAILURE);
+		return (g_global.exit_status = (unsigned char)258, FAILURE);
 	if (quotes_check(input, quotes) == FAILURE)
-		return (FAILURE);
+		return (g_global.exit_status = (unsigned char)258, FAILURE);
 	if (semicolon_check(input, quotes) == FAILURE)
-		return (FAILURE);
+		return (g_global.exit_status = (unsigned char)258, FAILURE);
 	return (SUCCESS);
 }

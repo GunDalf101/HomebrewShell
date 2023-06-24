@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   wild_for_red.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:23:14 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:39:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-static int	match_pattern(char *pattern, const char *text)
+int	match_pattern(char *pattern, char *text)
 {
 	if (*pattern == '\0' && *text == '\0')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 22:03:31 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 22:18:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:32:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	is_wild(char *str)
 	return (free(quotes), iswild);
 }
 
-int	is_valid_entry(const struct dirent *entry, const char *pattern)
+int	is_valid_entry(struct dirent *entry, char *pattern)
 {
 	if (entry->d_type != DT_REG && entry->d_type != DT_DIR)
 	{
@@ -51,7 +51,7 @@ int	is_valid_entry(const struct dirent *entry, const char *pattern)
 	return (match_pattern(pattern, entry->d_name));
 }
 
-int	count_matching_entries(const char *pattern)
+int	count_matching_entries(char *pattern)
 {
 	DIR				*dir;
 	int				count;

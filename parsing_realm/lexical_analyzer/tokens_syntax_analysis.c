@@ -6,12 +6,13 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 10:54:05 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:25:30 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing_lexer.h"
 
+extern t_global	g_global;
 // are redirections cloned more than twice?
 
 int	rediretion_check(char **tokens, int i)
@@ -119,7 +120,7 @@ int	syntax_checker(char **tokens, t_quote_parenthesis *quotes)
 	while (tokens[i])
 	{
 		if (syntax_checker_extended(tokens, i, quotes) == FAILURE)
-			return (FAILURE);
+			return (g_global.exit_status = (unsigned char)258, FAILURE);
 		i++;
 	}
 	return (SUCCESS);

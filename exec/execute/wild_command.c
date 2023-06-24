@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wild_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:44:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 22:23:08 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:39:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-
-static int	match_pattern(const char *pattern, const char *text)
-{
-	if (*pattern == '\0' && *text == '\0')
-		return (1);
-	if (*pattern == '*' && *(pattern + 1) != '\0' && *text == '\0')
-		return (0);
-	if (*pattern == *text)
-		return (match_pattern(pattern + 1, text + 1));
-	if (*pattern == '*')
-		return (match_pattern(pattern + 1, text) || match_pattern(pattern, text
-				+ 1));
-	return (0);
-}
 
 void	wildsearch(char *pattern, char **args, int *k)
 {
