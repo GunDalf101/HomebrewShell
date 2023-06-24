@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:28 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:22:42 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:16:17 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_check_n(char *arg)
 	return (1);
 }
 
-void	echo_wihtout_n(t_ast *node,int flag)
+void	echo_wihtout_n(t_ast *node, int flag)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ int	echo(t_ast *node)
 
 	flag = 0;
 	i = 1;
-	while(ft_check_n(node->u_data.cmd.args[i++]))
+	while (ft_check_n(node->u_data.cmd.args[i++]))
 		flag++;
 	if (flag)
 		echo_wihtout_n(node, flag);

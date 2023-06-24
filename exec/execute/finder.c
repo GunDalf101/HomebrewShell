@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:59 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:39:31 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	find_command_path(t_ast *node, t_env *env)
 	int		i;
 
 	i = 0;
+	if (ft_strlen(node->u_data.cmd.cmd) == 0)
+		return (0);
 	path = get_env(env, "PATH");
 	paths = ft_split(path->value, ':');
 	cmd = ft_strjoin("/", node->u_data.cmd.cmd);

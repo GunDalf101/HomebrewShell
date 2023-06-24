@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:21:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:37:23 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,15 @@ typedef struct s_herevars
 	int		s;
 }	t_herevars;
 
+typedef struct s_wild
+{
+	DIR				*dir;
+	struct dirent	*entry;
+	int				i;
+	char			*result;
+	char			*pattern;
+}	t_wild;
+
 int		create_pipe(t_ast *node, t_env **env);
 int		execute_subshell(t_ast *node, t_env **env);
 int		execute_imp_commands(t_ast *node, t_env **env, int k);
@@ -119,5 +128,6 @@ char	*wild_redirection(char *pattern);
 int		match_pattern(char *pattern, char *text);
 int		is_wild(char *str);
 int		wildcount(char **args, int arg_count);
+void	wild_init(t_wild *wild, char *pattern);
 
 #endif

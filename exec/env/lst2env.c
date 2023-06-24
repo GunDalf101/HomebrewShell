@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:12:52 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:26:47 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,43 @@ int	lstsize(t_env *head)
 		tmp = tmp->next;
 	}
 	return (i);
+}
+
+void	load_env_init(t_loadenv *var)
+{
+	var->head = NULL;
+	var->key = NULL;
+	var->value = NULL;
+	var->i = 0;
+	var->tmp = NULL;
+	var->found = 0;
+}
+
+void	load_helper(t_loadenv *var, char **env)
+{
+	while (*env)
+	{
+		var->found = 0;
+		var->key = NULL;
+		var->value = NULL;
+		var->i = 0;
+		var->tmp = ft_strdup(*env);
+		var->key = var->tmp;
+		while (var->tmp[var->i] != '=' && var->tmp[var->i] != '\0')
+			var->i++;
+		if (var->tmp[var->i] == '=')
+		{
+			var->found = 1;
+			var->value = &var->tmp[var->i + 1];
+		}
+		var->tmp[var->i] = '\0';
+		if (var->found)
+			envadd_back(&var->head, envnew(ft_strdup(var->key),
+					ft_strdup(var->value), 0), 0);
+		else
+			envadd_back(&var->head, envnew(ft_strdup(var->key),
+					ft_strdup(""), 0), 0);
+		free(var->tmp);
+		env++;
+	}
 }

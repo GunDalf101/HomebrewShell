@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:39:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/06/24 23:37:43 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,48 +26,62 @@ int	match_pattern(char *pattern, char *text)
 	return (0);
 }
 
+void	wild_init(t_wild *wild, char *pattern)
+{
+	wild->i = 0;
+	wild->result = NULL;
+	wild->pattern = pattern;
+	wild->dir = NULL;
+	wild->entry = NULL;
+}
+
+char	*wild_helper(t_wild *wild)
+{
+	while (wild->entry)
+	{
+		if (wild->i > 1)
+		{
+			free(wild->result);
+			free(wild->pattern);
+			closedir(wild->dir);
+			return (NULL);
+		}
+		wild->entry = readdir(wild->dir);
+		if (wild->entry == NULL)
+			break ;
+		if (wild->entry->d_type != DT_REG && wild->entry->d_type != DT_DIR)
+			continue ;
+		if (wild->entry->d_name[0] == '.' && wild->pattern[0] != '.')
+			continue ;
+		if (match_pattern(wild->pattern, wild->entry->d_name))
+		{
+			if (wild->i == 1)
+				free(wild->result);
+			wild->result = ft_strdup(wild->entry->d_name);
+			wild->i++;
+		}
+	}
+	return (wild->result);
+}
+
 char	*wild_redirection(char *pattern)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	int				i;
-	char			*result;
-	
+	t_wild		wild;
 
-	i = 0;
-
-	dir = opendir(".");
-	if (dir == NULL)
+	wild_init(&wild, pattern);
+	wild.dir = opendir(".");
+	if (wild.dir == NULL)
 	{
 		fprintf(stderr, "Error: Failed to open directory.\n");
 		return (NULL);
 	}
-	entry = readdir(dir);
-	while (entry)
-	{
-		if (i > 1)
-        {
-            free(result);
-            closedir(dir);
-			return (NULL);
-        }
-		entry = readdir(dir);
-		if (entry == NULL)
-			break ;
-		if (entry->d_type != DT_REG && entry->d_type != DT_DIR)
-			continue ;
-		if (entry->d_name[0] == '.' && pattern[0] != '.')
-			continue ;
-		if (match_pattern(pattern, entry->d_name))
-		{   if(i == 1)
-                free(result);
-			result = ft_strdup(entry->d_name);
-			i++;
-		}
-	}
-	closedir(dir);
-    if (i == 0)
-        return (pattern);
-	free(pattern);
-	return (result);
+	wild.entry = readdir(wild.dir);
+	wild.result = wild_helper(&wild);
+	if (wild.result == NULL)
+		return (NULL);
+	closedir(wild.dir);
+	if (wild.i == 0)
+		return (pattern);
+	free(wild.pattern);
+	return (wild.result);
 }
