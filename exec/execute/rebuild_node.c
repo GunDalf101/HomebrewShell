@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 19:38:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:25:36 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:36:32 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,5 @@ t_ast *rebuild_node(t_ast *node)
         i++;
     }
     newinput[l] = 0;
-    // free_cmd_node(node);
     return(parsinginit(newinput));
 }

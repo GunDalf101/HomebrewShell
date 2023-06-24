@@ -1,52 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_env.c                                         :+:      :+:    :+:   */
+/*   export_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/10 03:16:41 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 12:05:06 by mlektaib         ###   ########.fr       */
+/*   Created: 2023/06/24 11:40:53 by mlektaib          #+#    #+#             */
+/*   Updated: 2023/06/24 11:51:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
 
-void	sort_env(char **table, int size)
+void	export_init(t_export *vars, t_env *head)
 {
-	char	*temp;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < size - 1)
-	{
-		j = 1 + i;
-		while (j < size)
-		{
-			if (strcmp(table[i], table[j]) > 0)
-			{
-				temp = table[i];
-				table[i] = table[j];
-				table[j] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
+	vars->i = 0;
+	vars->l = 0;
+	vars->key = NULL;
+	vars->value = NULL;
+	vars->size = lstsize(head);
+	vars->env = lst_to_env(head);
 }
 
-void	free_env(char **env, int size)
+void	free_env_node(t_env *new, char *tmpvalue)
 {
-	int	i;
-	
-	(void)size;
-	i = 0;
-	while (env[i])
-	{
-		printf("here\n");
-		free(env[i]);
-		i++;
-	}
-	free(env);
+	free(tmpvalue);
+	free(new->value);
+	free(new->key);
+	free(new);
 }

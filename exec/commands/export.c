@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:20:46 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:02:32 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,30 @@
 
 int	exportcmd(t_env *head)
 {
-	int		size;
-	char	**env;
-	int		i;
-	char	*key = NULL;
-	char	*value= NULL;
+	t_export	vars;
 
-	size = lstsize(head);
-	env = lst_to_env(head);
-	sort_env(env, size);
-	i = 0;
-	while (env[i])
+	export_init(&vars, head);
+	sort_env(vars.env, vars.size);
+	while (vars.env[vars.i])
 	{
 		ft_putstr_fd("declare -x ", 1);
-		int l = 0;
-		while(env[i][l] && env[i][l] != '=')
-			l++;
-		key = env[i];
-		env[i][l] = 0;
-		value = &env[i][l+1];
-		ft_putstr_fd(key, 1);
-		if (value[0] != '\0')
+		vars.l = 0;
+		while (vars.env[vars.i][vars.l] && vars.env[vars.i][vars.l] != '=')
+			vars.l++;
+		vars.key = vars.env[vars.i];
+		vars.env[vars.i][vars.l] = 0;
+		vars.value = &vars.env[vars.i][vars.l + 1];
+		ft_putstr_fd(vars.key, 1);
+		if (vars.value[0] != '\0')
 		{
 			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(value, 1);
+			ft_putstr_fd(vars.value, 1);
 			ft_putstr_fd("\"", 1);
 		}
 		ft_putstr_fd("\n", 1);
-		i++;
+		vars.i++;
 	}
-	free_env(env, size);
+	free_env(vars.env, vars.size);
 	return (0);
 }
 
@@ -89,10 +83,7 @@ void	add_to_env(t_env **head, t_env *new)
 	{
 		tmpvalue = tmp->value;
 		tmp->value = ft_strjoin(tmp->value, new->value);
-		free(tmpvalue);
-		free(new->value);
-		free(new->key);
-		free(new);
+		free_env_node(new, tmpvalue);
 	}
 }
 

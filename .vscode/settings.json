@@ -11,16 +11,9 @@
         "unordered_map": "c",
         "utility": "c",
         "vector": "c",
-        "string.h": "c",
-        "__(*node)_handle": "c",
         "__bit_reference": "c",
-        "ios": "c",
-        "commands.h": "c",
-        "libft.h": "c",
-        "stdio.h": "c",
-        "sstream": "c",
-        "execute.h": "c",
         "__functional_base": "c",
+        "__node_handle": "c",
         "algorithm": "c",
         "atomic": "c",
         "chrono": "c",
@@ -33,8 +26,6 @@
         "ratio": "c",
         "system_error": "c",
         "tuple": "c",
-        "type_traits": "c",
-        "env.h": "c",
-        "__node_handle": "c"
+        "type_traits": "c"
     }
 }

@@ -47,6 +47,7 @@ SOURCES = exec/env/env.c \
 		exec/commands/pwd.c \
 		exec/commands/unset.c \
 		exec/commands/sort_env.c \
+		exec/commands/export_init.c	\
 		minishell.c \
 
 
