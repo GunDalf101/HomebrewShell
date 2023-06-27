@@ -34,10 +34,8 @@ t_ast	*find_last_node(t_ast **lst)
 
 void	ft_redir_back(t_ast **lst, t_ast *new)
 {
-	t_ast	*last;
 	t_ast	*tmp;
 
-	last = *lst;
 	tmp = new;
 	if (*lst == NULL)
 		*lst = new;
@@ -57,9 +55,7 @@ t_ast	*setting_redirection(t_ast **lexical_table, int counter)
 {
 	t_ast	*head;
 	t_ast	*node;
-	int		i;
 
-	i = counter;
 	head = NULL;
 	while (lexical_table[counter]
 		&& (lexical_table[counter]->type == ast_heredoc

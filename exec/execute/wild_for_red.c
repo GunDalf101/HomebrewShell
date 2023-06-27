@@ -61,6 +61,8 @@ char	*wild_helper(t_wild *wild)
 			wild->i++;
 		}
 	}
+	if (wild->i == 0)
+		return (wild->pattern);
 	return (wild->result);
 }
 

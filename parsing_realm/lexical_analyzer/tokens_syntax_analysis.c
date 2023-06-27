@@ -96,6 +96,9 @@ int	parenthesis_check_zo(char **tokens, int i, t_quote_parenthesis *quotes)
 	quotes->sinquo = FALSE;
 	quotes->dubquo = FALSE;
 	paren_status = FAILURE;
+	if (i != 0 && (tokens[i - 1][0] != '|' || tokens[i - 1][0] != '&'))
+		return (printf("Error: syntax error near unexpected token `('\n"), \
+				FAILURE);
 	while (tokens[i][j])
 	{
 		super_quote_hander(quotes, tokens[i][j]);

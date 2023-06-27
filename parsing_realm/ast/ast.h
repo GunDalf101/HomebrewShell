@@ -29,7 +29,6 @@ enum							e_ast_type
 	ast_and,
 	ast_or,
 	ast_subshell,
-	ast_subshell_end,
 };
 
 enum							e_bool
@@ -72,18 +71,13 @@ struct							s_redirect_in
 	t_ast						*next;
 };
 
-struct							s_heredoc
+typedef struct							s_heredoc
 {
 	char						*delim;
 	t_ast						*cmd;
 	t_ast						*next;
 	char						*tmp;
 }								t_heredoc;
-
-struct							s_exit
-{
-	int							status;
-}								t_exit;
 
 struct							s_and
 {
@@ -116,7 +110,6 @@ struct							s_ast
 		struct s_and			_and;
 		struct s_or				_or;
 		struct s_subshell		subshell;
-		struct s_exit			exit;
 		t_env					envadds;
 	} u_data;
 };

@@ -27,6 +27,13 @@ void	super_quote_hander(t_quote_parenthesis *quotes, char c)
 		quotes->dubquo = FALSE;
 }
 
+int	isquote(char c)
+{
+	if (c == '"' || c == '\'')
+		return (TRUE);
+	return (FALSE);
+}
+
 void	parenthesis_life_time(char c, t_quote_parenthesis *quotes)
 {
 	if (c == '(' && quotes->sinquo == FALSE && quotes->dubquo == FALSE)

@@ -56,7 +56,7 @@ static size_t	ft_countwords(char *str, char c, t_quote_parenthesis *quotes)
 		if (str[i])
 			i++;
 	}
-	return (count);
+	return (count + 1);
 }
 
 static size_t	ft_wordlen(char *str, char c, t_quote_parenthesis *quotes)

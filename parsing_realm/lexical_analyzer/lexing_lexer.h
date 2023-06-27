@@ -28,6 +28,7 @@ char	**tokenizer(char *input, t_quote_parenthesis *quotes);
 t_ast	**lex_luthor(char **tokens);
 char	**split_with_a_twist(char *s, char c, t_quote_parenthesis *quotes);
 void	super_quote_hander(t_quote_parenthesis *quotes, char c);
+int		isquote(char c);
 void	parenthesis_life_time(char c, t_quote_parenthesis *quotes);
 void	free_tokens(char **s, int j);
 int		parenthesis_check_zo_extended(char c, int sinquo, int dubquo);

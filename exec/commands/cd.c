@@ -83,10 +83,8 @@ int	to_prev_dir(t_env **env)
 
 int	to_dir(t_ast *node, t_env **env)
 {
-	char	*path;
 	char	*pwd;
 
-	path = NULL;
 	if (a_relative_path(node->u_data.cmd.args[1]))
 		exportadd_for_cd(env, envnew("PWD", get_tmp_relative(node, env), 0));
 	if (get_env(*env, "OLDPWD"))

@@ -51,10 +51,7 @@ char	*generate_tmp_name(void)
 int	execute_heredocs(t_ast *node, t_env **env)
 {
 	t_fd	fd;
-	t_ast	*cmd;
 
-	cmd = NULL;
-	cmd = init_heredoc(&fd, node, env);
 	while (node && g_global.run != 130)
 	{
 		g_global.run = 0;

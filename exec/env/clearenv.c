@@ -12,7 +12,7 @@
 
 #include "env.h"
 
-void	clearenv(t_env **head)
+void	new_clearenv(t_env **head)
 {
 	t_env	*tmp;
 
