@@ -145,14 +145,17 @@ void	args_remake(t_ast *node)
 t_ast	*expander(t_ast *node, t_env **env, int f)
 {
 	int		i;
+	t_quote_parenthesis	*quotes;
 
+	quotes = malloc(sizeof(t_quote_parenthesis	*));
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
 		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
-		while (node->u_data.cmd.cmd[i])
+		while (node->u_data.cmd.cmd[i] && f == 0)
 		{
-			if (node->u_data.cmd.cmd[i] == ' ')
+			super_quote_hander(quotes, node->u_data.cmd.cmd[i]);
+			if (node->u_data.cmd.cmd[i] == ' ' && quotes->dubquo == FALSE && quotes->sinquo == FALSE)
 			{
 				args_remake(node);
 				break ;
