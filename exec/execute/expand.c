@@ -140,6 +140,7 @@ void	args_remake(t_ast *node)
 	}
 	free(fullargs);
 	node->u_data.cmd.args[count] = NULL;
+	node->u_data.cmd.arg_count = count;
 }
 
 t_ast	*expander(t_ast *node, t_env **env, int f)

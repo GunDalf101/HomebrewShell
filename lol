@@ -1,0 +1,16 @@
+.
+..
+exec
+extra_signal.c
+extra_signal.o
+.git
+libft
+lol
+makefile
+minishell
+minishell.c
+minishell.h
+minishell.o
+parsing_realm
+README.md
+.vscode
