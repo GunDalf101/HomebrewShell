@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:44:30 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 18:14:11 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:36:26 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	simple_command_es(int pid)
 
 	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-		status = 130;
-	else if (WIFEXITED(status))
+	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
+	signal(SIGINT, signal_hand);
+	signal(SIGQUIT, signal_hand);
 	g_global.run = 0;
-	return (status);
+	return (g_global.exit_status);
 }
 
 int	commnad_fd_es(int pid, int infile_fd, int outfile_fd)
@@ -34,9 +34,7 @@ int	commnad_fd_es(int pid, int infile_fd, int outfile_fd)
 
 	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-		status = 130;
-	else if (WIFEXITED(status))
+	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	if (infile_fd != STDIN_FILENO)
 		close(infile_fd);

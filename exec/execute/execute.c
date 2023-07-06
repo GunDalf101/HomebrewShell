@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 21:31:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:36:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	int		status;
 	pid_t	pid;
 
-	if (node->u_data.cmd.cmd == NULL)
-		return (0);
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);
 	g_global.run = 1;
+	
+	signal(SIGINT, command_sig);
+	signal(SIGQUIT, command_sig);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -83,7 +84,7 @@ int	execute_or(t_ast *node, t_env **env, int k)
 	left_status = execute_commands(node->u_data.operation.left, env, k);
 	if (left_status != 0 && left_status != 130)
 		return (execute_commands(node->u_data.operation.right, env, k));
-	return (25);
+	return (left_status);
 }
 
 int	execute_commands(t_ast *node, t_env **env, int k)

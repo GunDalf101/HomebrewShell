@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:39:31 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:37:14 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,22 @@ extern t_global	g_global;
 
 void	command_sig(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	g_global.run = 130;
-	g_global.exit_status = 130;
-	close(0);
-	close(1);
-	exit(130);
+	if(sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		g_global.run = 130;
+		g_global.exit_status = 130;
+	}
+	else if (sig == SIGQUIT)
+	{
+		write(1, "Quit: 3\n", 8);
+		g_global.run = 131;
+		g_global.exit_status = 131;
+	}
 }
 
 void	exec_cmd(t_ast *node, t_env **env)
 {
-	signal(SIGINT, command_sig);
 	execve(node->u_data.cmd.cmd, node->u_data.cmd.args, lst_to_env(*env));
 	perror(node->u_data.cmd.cmd);
 	exit(1);
