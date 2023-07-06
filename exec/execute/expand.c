@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 18:57:45 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:06:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,11 @@ void	args_remake(t_ast *node)
 
 t_ast	*expander(t_ast *node, t_env **env, int f)
 {
-	int		i;
+	int	i;
 	t_quote_parenthesis	*quotes;
 
 	quotes = malloc(sizeof(t_quote_parenthesis	*));
+	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;

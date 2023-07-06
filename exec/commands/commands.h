@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 20:03:01 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:36:42 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ int		a_relative_path(char *str);
 char	*get_tmp_relative(t_ast *node, t_env **env);
 void	export_init(t_export *vars, t_env *head);
 void	free_env_node(t_env *new, char *tmpvalue);
+int		_unsetenv(char *deleted, t_env **head);
 #endif

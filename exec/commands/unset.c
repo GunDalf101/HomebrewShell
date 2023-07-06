@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 10:47:58 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:38:59 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,31 @@ int	unsetcmd(t_env **head, t_ast *node)
 		deleted = deleted->next;
 	}
 	free_env_lst(tmp2);
+	return (0);
+}
+
+int	_unsetenv(char *deleted, t_env **head)
+{
+	t_env	*tmp;
+	t_env	*prev;
+
+	if (!*head)
+		return (0);
+	tmp = *head;
+	prev = NULL;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, deleted) == 0)
+		{
+			if (prev == NULL)
+				*head = tmp->next;
+			else
+				prev->next = tmp->next;
+			freeenvnode(tmp);
+			return (1);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
 	return (0);
 }

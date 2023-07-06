@@ -20,8 +20,6 @@ int	is_wild(char *str)
 
 	i = 0;
 	iswild = FALSE;
-	if (str == NULL)
-		return (0);
 	quotes = malloc(sizeof(t_quote_parenthesis));
 	quotes->dubquo = FALSE;
 	quotes->sinquo = FALSE;
