@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 22:50:40 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 10:48:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 21:32:27 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (1);
 	while (s1[i] == s2[i] && (s1[i] != 0 || s2[i] != 0))
 	{
 		i++;

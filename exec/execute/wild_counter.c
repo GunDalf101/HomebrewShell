@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 22:03:31 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:32:16 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:16:15 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	is_wild(char *str)
 
 	i = 0;
 	iswild = FALSE;
+	if (!str)
+		return (FALSE);
 	quotes = malloc(sizeof(t_quote_parenthesis));
 	quotes->dubquo = FALSE;
 	quotes->sinquo = FALSE;

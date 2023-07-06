@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 15:17:08 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 21:01:56 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static size_t	ft_countwords(char *str, char c, t_quote_parenthesis *quotes)
 		if (str[i])
 			i++;
 	}
-	return (count + 1);
+	return (count);
 }
 
 static size_t	ft_wordlen(char *str, char c, t_quote_parenthesis *quotes)

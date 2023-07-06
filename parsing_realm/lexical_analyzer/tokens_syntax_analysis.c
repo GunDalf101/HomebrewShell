@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:25:30 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:45:00 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	rediretion_check(char **tokens, int i)
 {
 	if (redirection_check_extended(tokens, i) == FAILURE)
 		return (FAILURE);
-	if (tokens[i + 1] == NULL)
+	if (tokens[i + 1] == NULL || tokens[i + 1][0] == '\0')
 		return (printf("Error: syntax error near unexpected token `newline'\n"), \
 				FAILURE);
 	else if (tokens[i + 1][0] == '>')
@@ -47,7 +47,7 @@ int	pipe_check(char **tokens, int i)
 	else if (i == 0 && ft_strcmp(tokens[i], "||") == 0)
 		return (printf("Error: syntax error near unexpected token `||'\n"), \
 				FAILURE);
-	else if (tokens[i + 1] == NULL)
+	else if (tokens[i + 1] == NULL || tokens[i + 1][0] == '\0')
 		return (printf("Error: syntax error near unexpected token `newline'\n"), \
 				FAILURE);
 	else if (tokens[i + 1][0] == '|')
@@ -71,7 +71,7 @@ int	and_check(char **tokens, int i)
 	if (i == 0)
 		return (printf("Error: syntax error near unexpected token `&&'\n"), \
 				FAILURE);
-	else if (tokens[i + 1] == NULL)
+	else if (tokens[i + 1] == NULL || tokens[i + 1][0] == '\0')
 		return (printf("Error: syntax error near unexpected token `newline'\n"), \
 				FAILURE);
 	else if (tokens[i + 1][0] == '&')

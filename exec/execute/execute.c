@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 18:25:17 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 21:31:08 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	int		status;
 	pid_t	pid;
 
+	if (node->u_data.cmd.cmd == NULL)
+		return (0);
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);

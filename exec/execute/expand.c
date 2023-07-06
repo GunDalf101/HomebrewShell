@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 19:06:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 21:36:10 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	args_remake(t_ast *node)
 	int					count;
 	t_quote_parenthesis	*quotes;
 
-	quotes = malloc(sizeof(t_quote_parenthesis	*));
+	quotes = ft_calloc(sizeof(t_quote_parenthesis	*), 1);
 	count = 0;
 	newargs = split_with_a_twist(node->u_data.cmd.cmd, ' ', quotes);
 	while (newargs[count])
@@ -114,14 +114,13 @@ void	args_remake(t_ast *node)
 	fullargs = ft_calloc(count + node->u_data.cmd.arg_count, sizeof(char *));
 	count = 0;
 	int k = 0;
-	while (newargs[k] && newargs[k][0] != '\0')
+	while (newargs[k])
 	{
 		fullargs[count] = ft_strdup(newargs[k]);
 		free(newargs[k]);
 		count++;
 		k++;
 	}
-	free(newargs[k]);
 	free(newargs);
 	k = 1;
 	while (node->u_data.cmd.args[k])
@@ -133,18 +132,10 @@ void	args_remake(t_ast *node)
 	}
 	free(node->u_data.cmd.args[0]);
 	free(node->u_data.cmd.args);
-	fullargs[count] = NULL;
-	node->u_data.cmd.args = ft_calloc(count, sizeof(char *));
 	count = 0;
-	while (fullargs[count] && fullargs[count][0] != '\0')
-	{
-		node->u_data.cmd.args[count] = ft_strdup(fullargs[count]);
-		free(fullargs[count]);
+	node->u_data.cmd.args = fullargs;
+	while (node->u_data.cmd.args[count])
 		count++;
-	}
-	free(fullargs[count]);
-	free(fullargs);
-	node->u_data.cmd.args[count] = NULL;
 	node->u_data.cmd.arg_count = count;
 	free(quotes);
 }
@@ -154,12 +145,14 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 	int	i;
 	t_quote_parenthesis	*quotes;
 
-	quotes = malloc(sizeof(t_quote_parenthesis	*));
+	quotes = ft_calloc(sizeof(t_quote_parenthesis	*), 1);
 	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
 		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
+		if (!node->u_data.cmd.cmd)
+			return (node);
 		while (node->u_data.cmd.cmd[i] && f == 0)
 		{
 			super_quote_hander(quotes, node->u_data.cmd.cmd[i]);
