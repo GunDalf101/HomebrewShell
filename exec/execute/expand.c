@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:55:27 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:57:45 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,33 +114,39 @@ void	args_remake(t_ast *node)
 	fullargs = ft_calloc(count + node->u_data.cmd.arg_count, sizeof(char *));
 	count = 0;
 	int k = 0;
-	while (newargs[k])
+	while (newargs[k] && newargs[k][0] != '\0')
 	{
 		fullargs[count] = ft_strdup(newargs[k]);
 		free(newargs[k]);
 		count++;
 		k++;
 	}
+	free(newargs[k]);
 	free(newargs);
 	k = 1;
 	while (node->u_data.cmd.args[k])
 	{
 		fullargs[count] = ft_strdup(node->u_data.cmd.args[k]);
+		free(node->u_data.cmd.args[k]);
 		count++;
 		k++;
 	}
+	free(node->u_data.cmd.args[0]);
+	free(node->u_data.cmd.args);
 	fullargs[count] = NULL;
 	node->u_data.cmd.args = ft_calloc(count, sizeof(char *));
 	count = 0;
-	while (fullargs[count])
+	while (fullargs[count] && fullargs[count][0] != '\0')
 	{
 		node->u_data.cmd.args[count] = ft_strdup(fullargs[count]);
 		free(fullargs[count]);
 		count++;
 	}
+	free(fullargs[count]);
 	free(fullargs);
 	node->u_data.cmd.args[count] = NULL;
 	node->u_data.cmd.arg_count = count;
+	free(quotes);
 }
 
 t_ast	*expander(t_ast *node, t_env **env, int f)
@@ -163,6 +169,7 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 			}
 			i++;
 		}
+		free(quotes);
 		i = 0;
 		while (node->u_data.cmd.args[i])
 		{
