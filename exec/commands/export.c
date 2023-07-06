@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:04:52 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:24:18 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ int	exportcmd(t_env *head)
 		vars.value = &vars.env[vars.i][vars.l + 1];
 		ft_putstr_fd(vars.key, 1);
 		if (vars.value[0] != '\0')
-		{
-			ft_putstr_fd("=\"", 1);
-			ft_putstr_fd(vars.value, 1);
-			ft_putstr_fd("\"", 1);
-		}
-		ft_putstr_fd("\n", 1);
+			printf("=\"%s\"\n", vars.value);
+		else
+			printf("\n");
 		vars.i++;
 	}
 	free_env(vars.env, vars.size);

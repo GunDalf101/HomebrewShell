@@ -97,73 +97,15 @@ t_ast	*expand(t_ast *node, t_env **env)
 	return (node);
 }
 
-void	args_remake(t_ast *node)
-{
-	char				**newargs;
-	char				**fullargs;
-	int					count;
-	t_quote_parenthesis	*quotes;
-
-	quotes = malloc(sizeof(t_quote_parenthesis	*));
-	count = 0;
-	newargs = split_with_a_twist(node->u_data.cmd.cmd, ' ', quotes);
-	while (newargs[count])
-		count++;
-	free(node->u_data.cmd.cmd);
-	node->u_data.cmd.cmd = ft_strdup(newargs[0]);
-	fullargs = ft_calloc(count + node->u_data.cmd.arg_count, sizeof(char *));
-	count = 0;
-	int k = 0;
-	while (newargs[k])
-	{
-		fullargs[count] = ft_strdup(newargs[k]);
-		free(newargs[k]);
-		count++;
-		k++;
-	}
-	free(newargs);
-	k = 1;
-	while (node->u_data.cmd.args[k])
-	{
-		fullargs[count] = ft_strdup(node->u_data.cmd.args[k]);
-		count++;
-		k++;
-	}
-	fullargs[count] = NULL;
-	node->u_data.cmd.args = ft_calloc(count, sizeof(char *));
-	count = 0;
-	while (fullargs[count])
-	{
-		node->u_data.cmd.args[count] = ft_strdup(fullargs[count]);
-		free(fullargs[count]);
-		count++;
-	}
-	free(fullargs);
-	node->u_data.cmd.args[count] = NULL;
-	node->u_data.cmd.arg_count = count;
-}
-
 t_ast	*expander(t_ast *node, t_env **env, int f)
 {
-	int		i;
-	t_quote_parenthesis	*quotes;
+	int	i;
 
-	quotes = malloc(sizeof(t_quote_parenthesis	*));
+	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
 		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
-		while (node->u_data.cmd.cmd[i] && f == 0)
-		{
-			super_quote_hander(quotes, node->u_data.cmd.cmd[i]);
-			if (node->u_data.cmd.cmd[i] == ' ' && quotes->dubquo == FALSE && quotes->sinquo == FALSE)
-			{
-				args_remake(node);
-				break ;
-			}
-			i++;
-		}
-		i = 0;
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],

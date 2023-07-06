@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:47:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 11:42:35 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,24 @@ t_global	g_global;
 
 void	initialize_shell(t_env **envlst, int *initial_env)
 {
+	char *tmp;
 	rl_catch_signals = 0;
-	if (!*envlst)
+	envadd_back(envlst, envnew("PWD", return_pwd(), 0), 0);
+	_unsetenv("OLDPWD", envlst);
+	if (get_env(*envlst, "PATH") == NULL)
 	{
-		envadd_back(envlst, envnew("PATH",
-				"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", 0), 1);
-		envadd_back(envlst, envnew("PWD", return_pwd(), 0), 0);
+		envadd_back(envlst, envnew(ft_strdup("PATH"),
+				ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."), 0), 1);
 		*initial_env = 1;
+	}
+	if (get_env(*envlst, "SHLVL") == NULL)
+		envadd_back(envlst, envnew(ft_strdup("SHLVL"), ft_strdup("1"), 0), 0);
+	else
+	{
+		tmp = get_env(*envlst, "SHLVL")->value;
+		*initial_env = ft_atoi(get_env(*envlst, "SHLVL")->value);
+		get_env(*envlst, "SHLVL")->value = ft_itoa(*initial_env + 1);
+		free(tmp);
 	}
 	g_global.run = 0;
 	g_global.exit_status = 0;

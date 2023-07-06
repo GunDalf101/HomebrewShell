@@ -48,16 +48,19 @@ static int	calcul_res(char *str, int i)
 
 int	exitcmd(t_ast *node, int k)
 {
+	int				sign;
 	long long int	res;
 	int				i;
 
 	i = 0;
+	sign = 1;
 	if (node->u_data.cmd.arg_count > 2 && k == 0)
 		printf("exit\nminishell: exit: too many arguments\n");
 	if (node->u_data.cmd.arg_count == 2)
 	{
 		if (node->u_data.cmd.args[1][0] == '-')
 		{
+			sign = -1;
 			i++;
 		}
 		res = calcul_res(node->u_data.cmd.args[1], i);

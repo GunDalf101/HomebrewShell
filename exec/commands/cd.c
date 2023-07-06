@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:07:55 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:04:33 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	to_home_dir(t_env **env, char *dir)
 
 	path = NULL;
 	path = ft_strjoin("/Users/", getenv("USER"));
-	if (get_env(*env, "OLDPWD"))
-		exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
+	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env, "PWD")->value), 0));
 	if (dir == NULL || !ft_strcmp(dir, "~"))
 	{
 		if (chdir(path) == 0)
@@ -50,7 +49,7 @@ int	to_home_dir(t_env **env, char *dir)
 		}
 	}
 	else if (!to_relative_dir(dir, path, env))
-		return (free(path), 0);
+		return (0);
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putendl_fd("Home not set", 2);
 	return (1);
@@ -68,12 +67,13 @@ int	to_prev_dir(t_env **env)
 		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
 		return (1);
 	}
-	exportadd_for_cd(env, envnew("OLDPWD", return_pwd(), 0));
+	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env, "PWD")->value), 0));
 	if (chdir(path) == 0)
 	{
 		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
-		printf("%s\n", return_pwd());
-		return (0);
+		path = return_pwd();
+		printf("%s\n", path);
+		return (free(path), 0);
 	}
 	ft_putstr_fd("bash: cd: ", 2);
 	ft_putstr_fd(path, 2);
@@ -83,16 +83,15 @@ int	to_prev_dir(t_env **env)
 
 int	to_dir(t_ast *node, t_env **env)
 {
-	char	*pwd;
+	char	*path;
 
+	path = NULL;
 	if (a_relative_path(node->u_data.cmd.args[1]))
 		exportadd_for_cd(env, envnew("PWD", get_tmp_relative(node, env), 0));
-	if (get_env(*env, "OLDPWD"))
-		exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
-						"PWD")->value), 0));
-	pwd = return_pwd();
-	if (chdir(node->u_data.cmd.args[1]) == 0 && pwd)
-		return (exportadd_for_cd(env, envnew("PWD", pwd, 0)), 0);
+	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
+				"PWD")->value), 0));
+	if (chdir(node->u_data.cmd.args[1]) == 0)
+		return (exportadd_for_cd(env, envnew("PWD", return_pwd(), 0)), 0);
 	if (a_relative_path(node->u_data.cmd.args[1]))
 	{
 		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);

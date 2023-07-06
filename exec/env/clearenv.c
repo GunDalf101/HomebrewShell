@@ -6,13 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 21:50:03 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:27:35 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-void	new_clearenv(t_env **head)
+void	clearenv(t_env **head)
 {
 	t_env	*tmp;
 
@@ -43,6 +43,8 @@ void	key_value_helper2(t_argtoenv *var)
 void	key_value_helper(t_argtoenv *var, char *env)
 {
 	var->key = env;
+	var->found = 0;
+	var->k = 0;
 	while (var->key[var->i2] != '=' && var->key[var->i2] != '\0')
 			var->i2++;
 	if (var->key[var->i2] == '=')
@@ -52,7 +54,7 @@ void	key_value_helper(t_argtoenv *var, char *env)
 	}
 	if (var->key[0] != '=')
 		var->key[var->i2] = '\0';
-	if (var->key[ft_strlen(var->key) - 1] == '+')
+	if (var->key[ft_strlen(var->key) - 1] == '+' && var->found == 1)
 	{
 		var->key[ft_strlen(var->key) - 1] = 0;
 		var->k = 1;

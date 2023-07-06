@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:01 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:26:39 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/06 13:29:10 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_env	*key_value_to_list(char **env)
 	{
 		var.k = 0;
 		var.keyvalue = NULL;
+		var.key = NULL;
+		var.value = NULL;
+		var.i2 = 0;
 		key_value_helper(&var, env[var.i]);
 		free(var.keyvalue);
 		var.i++;
