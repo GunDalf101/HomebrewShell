@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 22:36:54 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:08:33 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	if (status)
 		return (status);
 	g_global.run = 1;
-	
 	signal(SIGINT, command_sig);
 	signal(SIGQUIT, command_sig);
 	pid = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra_signal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 23:46:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:50:41 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:14:34 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	signal_hand(int signum)
 		rl_redisplay();
 		g_global.exit_status = 1;
 	}
-	if (signum == SIGINT && g_global.run == 1)
+	if (signum == SIGINT && g_global.run > 0)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
 		rl_on_new_line();
