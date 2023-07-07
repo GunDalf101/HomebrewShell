@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 22:42:15 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/07 00:30:32 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	check_if_dir(char *path)
 
 int	check_if_path(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	while (*cmd)
 	{
 		if (*cmd == '/')
