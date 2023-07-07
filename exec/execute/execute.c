@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:25:39 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/07 11:08:33 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/07 20:04:09 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	execute_simple_command(t_ast *node, t_env **env)
 	int		status;
 	pid_t	pid;
 
+	if (ft_strlen(node->u_data.cmd.cmd) == 0)
+		return (0);
 	status = check_cmd(node, *env);
 	if (status)
 		return (status);

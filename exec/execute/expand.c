@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 21:36:10 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/07 20:05:07 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,15 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 	int	i;
 	t_quote_parenthesis	*quotes;
 
+	if(!node->u_data.cmd.cmd)
+		return (node);
 	quotes = ft_calloc(sizeof(t_quote_parenthesis	*), 1);
 	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		i = 0;
 		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
-		if (!node->u_data.cmd.cmd)
-			return (node);
+		if(node->u_data.cmd.cmd){
 		while (node->u_data.cmd.cmd[i] && f == 0)
 		{
 			super_quote_hander(quotes, node->u_data.cmd.cmd[i]);
@@ -162,22 +163,21 @@ t_ast	*expander(t_ast *node, t_env **env, int f)
 				break ;
 			}
 			i++;
-		}
+		}}
 		free(quotes);
 		i = 0;
 		while (node->u_data.cmd.args[i])
 		{
 			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
 					*env, f);
-			if (node->u_data.cmd.args[i] == NULL && node->u_data.cmd.args[i
-					+ 1])
+			if (node->u_data.cmd.args[i] == NULL)
 			{
 				shift_args(node, i);
 				i = 0;
 			}
 			i++;
 		}
-		if (node->u_data.cmd.cmd == NULL)
+		if (node->u_data.cmd.cmd == NULL && node->u_data.cmd.args[0])
 			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
 	}
 	return (node);
