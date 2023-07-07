@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:44:30 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 22:36:26 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:12:06 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	simple_command_es(int pid)
 		status = WEXITSTATUS(status);
 	signal(SIGINT, signal_hand);
 	signal(SIGQUIT, signal_hand);
-	g_global.run = 0;
 	return (g_global.exit_status);
 }
 
@@ -40,6 +39,5 @@ int	commnad_fd_es(int pid, int infile_fd, int outfile_fd)
 		close(infile_fd);
 	if (outfile_fd != STDOUT_FILENO)
 		close(outfile_fd);
-	g_global.run = 0;
 	return (status);
 }

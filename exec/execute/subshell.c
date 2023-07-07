@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:22:39 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:11:57 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	get_subshell_exit_status(t_ast *node, int pid)
 
 	(void)node;
 	waitpid(pid, &status, 0);
-	g_global.run = 0;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))

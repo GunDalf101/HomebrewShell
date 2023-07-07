@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/06 20:45:06 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/07 11:13:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	initialize_shell(t_env **envlst, int *initial_env)
 		get_env(*envlst, "SHLVL")->value = ft_itoa(*initial_env + 1);
 		free(tmp);
 	}
-	g_global.run = 0;
 	g_global.exit_status = 0;
 }
 
@@ -67,11 +66,12 @@ void	read_execute_loop(t_env **envlst, int initial_env)
 	while (1)
 	{
 		input = NULL;
+		g_global.run = 0;
 		input = readline("minishell>");
 		if (!input)
 		{
 			if (initial_env == 1)
-				ft_putendl_fd("\nexit", STDOUT_FILENO);
+				ft_putendl_fd("exit", STDOUT_FILENO);
 			else
 				write(1, "exit\n", 6);
 			break ;
@@ -82,6 +82,7 @@ void	read_execute_loop(t_env **envlst, int initial_env)
 			continue ;
 		}
 		add_history(input);
+		g_global.run = 1;
 		execute_command(envlst, input);
 	}
 }
