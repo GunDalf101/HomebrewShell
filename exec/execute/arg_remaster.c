@@ -6,11 +6,19 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:19:58 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/08 14:58:52 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 22:03:37 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+
+void	quote_on_quote(t_expand *expand)
+{
+	if (expand->str[expand->i] == '\'' && !expand->inside_double)
+		expand->inside_single = !expand->inside_single;
+	else if (expand->str[expand->i] == '"' && !expand->inside_single)
+		expand->inside_double = !expand->inside_double;
+}
 
 void	update_command(t_ast *node, char *command)
 {
