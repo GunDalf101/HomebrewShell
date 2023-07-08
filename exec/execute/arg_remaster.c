@@ -6,30 +6,51 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:19:58 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/08 14:25:21 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:58:52 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-t_quote_parenthesis	*initialize_quotes(void)
-{
-	t_quote_parenthesis	*quotes;
-
-	quotes = ft_calloc(sizeof(t_quote_parenthesis *), 1);
-	return (quotes);
-}
-
-char	**split_command_with_quotes(t_ast *node, t_quote_parenthesis *quotes)
-{
-	char	**newargs;
-
-	newargs = split_with_a_twist(node->u_data.cmd.cmd, ' ', quotes);
-	return (newargs);
-}
-
 void	update_command(t_ast *node, char *command)
 {
 	free(node->u_data.cmd.cmd);
 	node->u_data.cmd.cmd = ft_strdup(command);
+}
+
+char	**create_fullargs_array(char **newargs, int arg_count)
+{
+	char	**fullargs;
+	int		count;
+	int		k;
+
+	fullargs = ft_calloc(arg_count, sizeof(char *));
+	count = 0;
+	k = 0;
+	while (newargs[k])
+	{
+		fullargs[count] = ft_strdup(newargs[k]);
+		free(newargs[k]);
+		count++;
+		k++;
+	}
+	free(newargs);
+	return (fullargs);
+}
+
+void	append_remaining_args(t_ast *node, char **fullargs, int count)
+{
+	int	k;
+
+	k = 1;
+	while (node->u_data.cmd.args[k])
+	{
+		fullargs[count] = ft_strdup(node->u_data.cmd.args[k]);
+		free(node->u_data.cmd.args[k]);
+		count++;
+		k++;
+	}
+	free(node->u_data.cmd.args[0]);
+	free(node->u_data.cmd.args);
+	node->u_data.cmd.args = fullargs;
 }
