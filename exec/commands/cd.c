@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 10:40:04 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:12:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	to_home_dir(t_env **env, char *dir)
 	}
 	else if (!to_relative_dir(dir, path, env))
 		return (0);
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putendl_fd("Home not set", 2);
 	return (1);
 }
@@ -65,7 +65,7 @@ int	to_prev_dir(t_env **env)
 		path = get_env(*env, "OLDPWD")->value;
 	if (!path)
 	{
-		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
+		ft_putendl_fd("minishell: cd: OLDPWD not set", 2);
 		return (1);
 	}
 	exportadd_for_cd(env, envnew("OLDPWD",
@@ -77,7 +77,7 @@ int	to_prev_dir(t_env **env)
 		printf("%s\n", path);
 		return (free(path), 0);
 	}
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 	return (1);
@@ -101,7 +101,7 @@ int	to_dir(t_ast *node, t_env **env)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (0);
 	}
-	ft_putstr_fd("bash: cd: ", 2);
+	ft_putstr_fd("minishell: cd: ", 2);
 	ft_putstr_fd(node->u_data.cmd.args[1], 2);
 	ft_putstr_fd(": No such file or directory\n", 2);
 	return (1);

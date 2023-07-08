@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 18:24:11 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:08:08 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ extern t_global	g_global;
 void	execute_command_fd(t_ast *node, t_env **env, int infile_fd,
 		int outfile_fd)
 {
-	signal(SIGINT, command_sig);
 	if (infile_fd != STDIN_FILENO)
 	{
 		if (dup2(infile_fd, STDIN_FILENO) == -1)

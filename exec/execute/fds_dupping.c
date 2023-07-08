@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 17:20:22 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:21:55 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:08:13 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_ast	*open_heredoc_tmp(t_fd *fd, t_ast *node)
 
 void	dupping_fds(int infile_fd, int outfile_fd)
 {
-	signal(SIGINT, command_sig);
 	if (infile_fd != STDIN_FILENO)
 	{
 		if (dup2(infile_fd, STDIN_FILENO) == -1)

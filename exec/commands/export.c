@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 13:24:18 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:12:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	exportcmd(t_env *head)
 
 void	display_export_error(t_env *new, int *k)
 {
-	ft_putstr_fd("bash: export: ", 1);
+	ft_putstr_fd("minishell: export: ", 1);
 	ft_putstr_fd("\'", 1);
 	ft_putstr_fd(new->key, 1);
 	if (ft_strlen(new->value))

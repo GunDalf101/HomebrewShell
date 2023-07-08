@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 23:46:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/07 11:14:34 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:03:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ extern t_global	g_global;
 
 void	signal_hand(int signum)
 {
+	if (signum ==SIGQUIT)
+	{
+		if (waitpid(-1, NULL, WNOHANG) == 0)
+		{
+			g_global.exit_status = 131;
+			return ;
+		}
+	}
 	if (signum == SIGINT && g_global.run == 0)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rand_tmp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:53 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 21:15:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:12:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	get_time(void)
 
 	if (stat("./minishell", &file_stat) != 0)
 	{
-		perror("bash : stat");
+		perror("minishell : stat");
 		return (1);
 	}
 	return (file_stat.st_atime);
