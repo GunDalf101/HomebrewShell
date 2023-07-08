@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:24:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:23:17 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 10:52:16 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ struct							s_redirect_in
 	t_ast						*next;
 };
 
-typedef struct							s_heredoc
+typedef struct s_heredoc
 {
 	char						*delim;
 	t_ast						*cmd;

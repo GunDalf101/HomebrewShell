@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 13:04:33 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 10:40:04 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	to_home_dir(t_env **env, char *dir)
 
 	path = NULL;
 	path = ft_strjoin("/Users/", getenv("USER"));
-	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env, "PWD")->value), 0));
+	exportadd_for_cd(env, envnew("OLDPWD",
+			ft_strdup(get_env(*env, "PWD")->value), 0));
 	if (dir == NULL || !ft_strcmp(dir, "~"))
 	{
 		if (chdir(path) == 0)
@@ -67,7 +68,8 @@ int	to_prev_dir(t_env **env)
 		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
 		return (1);
 	}
-	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env, "PWD")->value), 0));
+	exportadd_for_cd(env, envnew("OLDPWD",
+			ft_strdup(get_env(*env, "PWD")->value), 0));
 	if (chdir(path) == 0)
 	{
 		exportadd_for_cd(env, envnew("PWD", return_pwd(), 0));
@@ -89,7 +91,7 @@ int	to_dir(t_ast *node, t_env **env)
 	if (a_relative_path(node->u_data.cmd.args[1]))
 		exportadd_for_cd(env, envnew("PWD", get_tmp_relative(node, env), 0));
 	exportadd_for_cd(env, envnew("OLDPWD", ft_strdup(get_env(*env,
-				"PWD")->value), 0));
+					"PWD")->value), 0));
 	if (chdir(node->u_data.cmd.args[1]) == 0)
 		return (exportadd_for_cd(env, envnew("PWD", return_pwd(), 0)), 0);
 	if (a_relative_path(node->u_data.cmd.args[1]))

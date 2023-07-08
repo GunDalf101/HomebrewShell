@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:29:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 11:11:44 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 10:38:00 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,19 @@ void	wild_init(t_wild *wild, char *pattern)
 	wild->entry = NULL;
 }
 
+void	wild_free(t_wild *wild)
+{
+	free(wild->result);
+	free(wild->pattern);
+	closedir(wild->dir);
+}
+
 char	*wild_helper(t_wild *wild)
 {
 	while (wild->entry)
 	{
 		if (wild->i > 1)
-		{
-			free(wild->result);
-			free(wild->pattern);
-			closedir(wild->dir);
-			return (NULL);
-		}
+			return (wild_free(wild), NULL);
 		wild->entry = readdir(wild->dir);
 		if (wild->entry == NULL)
 			break ;

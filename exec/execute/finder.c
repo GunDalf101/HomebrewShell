@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 22:37:14 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 10:38:28 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern t_global	g_global;
 
 void	command_sig(int sig)
 {
-	if(sig == SIGINT)
+	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
 		g_global.run = 130;

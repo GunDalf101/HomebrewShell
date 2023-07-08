@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/07 11:13:36 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 10:51:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ t_global	g_global;
 
 void	initialize_shell(t_env **envlst, int *initial_env)
 {
-	char *tmp;
+	char	*tmp;
+
 	rl_catch_signals = 0;
 	envadd_back(envlst, envnew("PWD", return_pwd(), 0), 0);
 	_unsetenv("OLDPWD", envlst);
 	if (get_env(*envlst, "PATH") == NULL)
 	{
 		envadd_back(envlst, envnew(ft_strdup("PATH"),
-				ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."), 0), 1);
+				ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."),
+				0), 1);
 		*initial_env = 1;
 	}
 	if (get_env(*envlst, "SHLVL") == NULL)
