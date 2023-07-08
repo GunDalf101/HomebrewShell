@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:50:11 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 23:55:36 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:47:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	write_heredoc_file(char *buffer, t_ast *node)
 
 void	heredoc_sig(int sig)
 {
-	(void)sig;
-	g_global.run = 130;
-	close(0);
+	if(sig == SIGINT)
+	{
+		g_global.run = 130;
+		close(0);
+	}
 }
 
 void	open_tmp_file(t_ast *node, t_fd *fd)
