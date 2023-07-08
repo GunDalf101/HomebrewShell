@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:51:57 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:18:58 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:34:25 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_ast	*order_redirection(t_ast *cmd, char **tokens, int *i, int *head_red);
 t_ast	*order_command(char **tokens, int *i);
 size_t	strtablen(char **tokens);
 size_t	size_lol(char **tokens);
+int		closing_parentesis(char *token);
 
 #endif

@@ -6,13 +6,42 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 10:49:43 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:35:53 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing_lexer.h"
 
 // are redirections cloned more than twice?
+
+int	closing_parentesis(char *token)
+{
+	int	j;
+	int	closed;
+
+	j = 0;
+	closed = FALSE;
+	while (token[j])
+	{
+		if (token[j] == ')')
+		{
+			closed = TRUE;
+			j++;
+			continue ;
+		}
+		if (closed == TRUE && token[j] != ' ' && token[j] != '\0')
+		{
+			if (token[j] == '>' || token[j] == '<' || token[j] == '|' || \
+			token[j] == '&')
+				closed = FALSE;
+			else
+				return (printf("Error: syntax error near unexpected token \
+`)'\n"), FAILURE);
+		}
+		j++;
+	}
+	return (SUCCESS);
+}
 
 int	redirection_check_extended(char **tokens, int i)
 {
@@ -66,7 +95,7 @@ int	parenthesis_check_zo_extended(char c, int sinquo, int dubquo)
 	else if (c == '&' && sinquo == FALSE && dubquo == FALSE)
 		return (printf("Error: syntax error near unexpected token `&'\n"), \
 				FAILURE);
-	else if (c != ' ' && sinquo == FALSE && dubquo == FALSE)
+	else if (c != '\0' && sinquo == FALSE && dubquo == FALSE)
 		return (SUCCESS);
 	return (-1);
 }
