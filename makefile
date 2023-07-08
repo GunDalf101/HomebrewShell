@@ -23,6 +23,7 @@ SOURCES = exec/env/env.c \
 		parsing_realm/parsing101.c\
 		exec/execute/execute.c  \
 		exec/execute/pipe.c \
+		exec/execute/arg_remaster.c \
 		exec/execute/wild_command.c \
 		exec/execute/wild_counter.c \
 		exec/execute/redirections.c\
@@ -35,6 +36,7 @@ SOURCES = exec/env/env.c \
 		exec/execute/mix.c \
 		exec/execute/rand_tmp.c\
 		exec/execute/expand.c \
+		exec/execute/expand_com.c \
 		exec/execute/exit.c \
 		exec/execute/heredoc_expansion.c \
 		exec/execute/heredoc_first.c \

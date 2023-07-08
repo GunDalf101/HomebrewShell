@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/07 20:05:07 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 13:56:47 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	expand_start(t_expand *expand, t_env *env)
 	expand->end = expand->i;
 	if (expand->end - expand->start > 1)
 	{
-		expand->var = ft_substr(expand->str, expand->start + 1, expand->end
-				- expand->start - 1);
+		expand->var = ft_substr(expand->str, expand->start + 1, expand->end \
+			- expand->start - 1);
 		expand->value = NULL;
 		if (expand->var[0] == '?')
 			expand->value = ft_itoa(g_global.exit_status);
@@ -97,79 +97,20 @@ t_ast	*expand(t_ast *node, t_env **env)
 	return (node);
 }
 
-void	args_remake(t_ast *node)
-{
-	char				**newargs;
-	char				**fullargs;
-	int					count;
-	t_quote_parenthesis	*quotes;
-
-	quotes = ft_calloc(sizeof(t_quote_parenthesis	*), 1);
-	count = 0;
-	newargs = split_with_a_twist(node->u_data.cmd.cmd, ' ', quotes);
-	while (newargs[count])
-		count++;
-	free(node->u_data.cmd.cmd);
-	node->u_data.cmd.cmd = ft_strdup(newargs[0]);
-	fullargs = ft_calloc(count + node->u_data.cmd.arg_count, sizeof(char *));
-	count = 0;
-	int k = 0;
-	while (newargs[k])
-	{
-		fullargs[count] = ft_strdup(newargs[k]);
-		free(newargs[k]);
-		count++;
-		k++;
-	}
-	free(newargs);
-	k = 1;
-	while (node->u_data.cmd.args[k])
-	{
-		fullargs[count] = ft_strdup(node->u_data.cmd.args[k]);
-		free(node->u_data.cmd.args[k]);
-		count++;
-		k++;
-	}
-	free(node->u_data.cmd.args[0]);
-	free(node->u_data.cmd.args);
-	count = 0;
-	node->u_data.cmd.args = fullargs;
-	while (node->u_data.cmd.args[count])
-		count++;
-	node->u_data.cmd.arg_count = count;
-	free(quotes);
-}
-
 t_ast	*expander(t_ast *node, t_env **env, int f)
 {
-	int	i;
-	t_quote_parenthesis	*quotes;
+	int					i;
 
-	if(!node->u_data.cmd.cmd)
+	if (!node->u_data.cmd.cmd)
 		return (node);
-	quotes = ft_calloc(sizeof(t_quote_parenthesis	*), 1);
 	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
-		i = 0;
-		node->u_data.cmd.cmd = quotes_busters(node->u_data.cmd.cmd, *env, f);
-		if(node->u_data.cmd.cmd){
-		while (node->u_data.cmd.cmd[i] && f == 0)
-		{
-			super_quote_hander(quotes, node->u_data.cmd.cmd[i]);
-			if (node->u_data.cmd.cmd[i] == ' ' && quotes->dubquo == FALSE && quotes->sinquo == FALSE)
-			{
-				args_remake(node);
-				break ;
-			}
-			i++;
-		}}
-		free(quotes);
-		i = 0;
+		expand_command(node, env, f);
 		while (node->u_data.cmd.args[i])
 		{
-			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i],
-					*env, f);
+			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i], \
+				*env, f);
 			if (node->u_data.cmd.args[i] == NULL)
 			{
 				shift_args(node, i);
