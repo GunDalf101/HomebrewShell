@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/07 11:11:57 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:08:10 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	execute_subshell(t_ast *node, t_env **env)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGINT, command_sig);
 		status = execute_commands(node->u_data.subshell.child, env, 1);
 		exit(status);
 	}

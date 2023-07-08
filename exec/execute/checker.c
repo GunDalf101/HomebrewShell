@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:24 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/07 00:30:32 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:12:50 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_if_dir(char *path)
 	{
 		if (S_ISDIR(path_stat.st_mode))
 		{
-			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(path, 2);
 			ft_putstr_fd(": is a directory\n", 2);
 			return (126);
@@ -48,14 +48,14 @@ int	checking_current_dir(t_ast *node)
 		return (126);
 	else if (access(node->u_data.cmd.cmd, F_OK) != 0)
 	{
-		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(node->u_data.cmd.cmd, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (127);
 	}
 	else if (access(node->u_data.cmd.cmd, X_OK) != 0)
 	{
-		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(node->u_data.cmd.cmd, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 		return (126);
@@ -76,7 +76,7 @@ int	check_cmd(t_ast *node, t_env *env)
 			return (0);
 		else
 		{
-			ft_putstr_fd("bash: command not found", 2);
+			ft_putstr_fd("minishell: command not found", 2);
 			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(node->u_data.cmd.cmd, 2);
 			ft_putstr_fd("\n", 2);

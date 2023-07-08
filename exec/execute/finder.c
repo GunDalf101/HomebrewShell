@@ -6,29 +6,13 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:41:17 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 10:38:28 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:06:20 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
 extern t_global	g_global;
-
-void	command_sig(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		g_global.run = 130;
-		g_global.exit_status = 130;
-	}
-	else if (sig == SIGQUIT)
-	{
-		write(1, "Quit: 3\n", 8);
-		g_global.run = 131;
-		g_global.exit_status = 131;
-	}
-}
 
 void	exec_cmd(t_ast *node, t_env **env)
 {
