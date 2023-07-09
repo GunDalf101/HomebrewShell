@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:19:15 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 18:08:04 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 22:03:50 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ char				**create_fullargs_array(char **newargs, int arg_count);
 void				append_remaining_args(t_ast *node, char **fullargs,
 						int count);
 void				update_arg_count(t_ast *node);
+void				quote_on_quote(t_expand *expand);
 
 #endif

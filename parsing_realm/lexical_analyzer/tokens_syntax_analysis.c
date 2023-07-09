@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/06 20:45:00 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:34:03 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	parenthesis_check_zo(char **tokens, int i, t_quote_parenthesis *quotes)
 	while (tokens[i][j])
 	{
 		super_quote_hander(quotes, tokens[i][j]);
+		if (closing_parentesis(tokens[i]) == FAILURE)
+			return (FAILURE);
 		paren_status = parenthesis_check_zo_extended (tokens[i][j], \
 		quotes->sinquo, quotes->dubquo);
 		if (paren_status == FAILURE)

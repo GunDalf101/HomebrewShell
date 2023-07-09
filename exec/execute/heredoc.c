@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/24 00:22:18 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:46:28 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	handle_dupstdin_and_sig(void)
 		return (-1);
 	}
 	signal(SIGINT, heredoc_sig);
+	signal(SIGQUIT, heredoc_sig);
 	return (dupstdin);
 }
 

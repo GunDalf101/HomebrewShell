@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/09 14:29:35 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:44:35 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	expand_start(t_expand *expand, t_env *env)
 			expand->value = ft_strdup("");
 		if (expand->value)
 			replace_env(expand);
+		quote_on_quote(expand);
 		free(expand->var);
 		free(expand->value);
 	}
