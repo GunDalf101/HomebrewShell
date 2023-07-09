@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 13:56:47 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:29:35 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	expand_start(t_expand *expand, t_env *env)
 		free(expand->var);
 		free(expand->value);
 	}
+	else
+		expand->i--;
 }
 
 char	*quotes_busters(char *str, t_env *env, int flag)
