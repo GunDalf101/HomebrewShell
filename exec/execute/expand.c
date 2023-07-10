@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/09 14:44:35 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/10 08:58:28 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,7 @@ void	expand_start(t_expand *expand, t_env *env)
 		expand->i++;
 	expand->end = expand->i;
 	if (expand->end - expand->start > 1)
-	{
-		expand->var = ft_substr(expand->str, expand->start + 1, expand->end \
-			- expand->start - 1);
-		expand->value = NULL;
-		if (expand->var[0] == '?')
-			expand->value = ft_itoa(g_global.exit_status);
-		else if (get_env(env, expand->var))
-			expand->value = ft_strdup(get_env(env, expand->var)->value);
-		else
-			expand->value = ft_strdup("");
-		if (expand->value)
-			replace_env(expand);
-		quote_on_quote(expand);
-		free(expand->var);
-		free(expand->value);
-	}
+		expand_end(expand, env);
 	else
 		expand->i--;
 }
@@ -72,7 +57,7 @@ char	*quotes_busters(char *str, t_env *env, int flag)
 		else if (expand.str[expand.i] == '"' && !expand.inside_single)
 			expand.inside_double = !expand.inside_double;
 		if (!expand.inside_single)
-			if (expand.str[expand.i] == '$')
+			if (expand.str[expand.i] == '$' && !flag)
 				expand_start(&expand, env);
 		if (expand.str[expand.i] && (expand.str[expand.i] != '\''
 				|| expand.inside_double || expand.str[expand.i] != '"'

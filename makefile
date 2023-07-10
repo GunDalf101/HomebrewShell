@@ -36,6 +36,7 @@ SOURCES = exec/env/env.c \
 		exec/execute/mix.c \
 		exec/execute/rand_tmp.c\
 		exec/execute/expand.c \
+		exec/execute/expand_end.c \
 		exec/execute/expand_com.c \
 		exec/execute/exit.c \
 		exec/execute/heredoc_expansion.c \

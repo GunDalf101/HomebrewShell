@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mix.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:47 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 19:54:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/10 08:54:14 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,11 @@ int	execute_redirect_heredoc(t_ast *node, t_env **env)
 				fd.outfile_fd));
 	else if (!fd.error && g_global.run != 130 && cmd
 		&& cmd->type == ast_subshell)
-		return (cmd && execute_subshell_fd(cmd, env, fd.infile_fd,
+		return (execute_subshell_fd(cmd, env, fd.infile_fd,
 				fd.outfile_fd));
-	else
-	{
-		close_fds(&fd);
-		if(fd.error)
-			return (1);
-	}
+	close_fds(&fd);
+	if (fd.error)
+		return (1);
 	if (g_global.run == 130)
 		return (130);
 	return (0);

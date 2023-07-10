@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 23:46:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/09 14:44:29 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:00:37 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern t_global	g_global;
 
 void	signal_hand(int signum)
 {
-	if (signum ==SIGQUIT)
+	if (signum == SIGQUIT)
 	{
 		if (waitpid(-1, NULL, WNOHANG) == 0)
 			return ;
