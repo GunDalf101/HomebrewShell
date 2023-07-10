@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:32 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/06/22 19:19:02 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:54:54 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ int	envcmd(t_env *head)
 	{
 		if (head->hidden == 0 && head->value)
 		{
-			ft_putstr_fd(head->key, 1);
-			ft_putstr_fd("=", 1);
-			ft_putstr_fd(head->value, 1);
-			ft_putstr_fd("\n", 1);
+			if(head->value[0] != '\0')
+			{
+				ft_putstr_fd(head->key, 1);
+				ft_putstr_fd("=", 1);
+				ft_putstr_fd(head->value, 1);
+				ft_putstr_fd("\n", 1);
+			}
 		}
 		head = head->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 15:12:50 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:51:36 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,13 @@ int	exportcmd(t_env *head)
 		while (vars.env[vars.i][vars.l] && vars.env[vars.i][vars.l] != '=')
 			vars.l++;
 		vars.key = vars.env[vars.i];
+		if (vars.env[vars.i][vars.l])
+			vars.value = &vars.env[vars.i][vars.l + 1];
+		else
+			vars.value = NULL;
 		vars.env[vars.i][vars.l] = 0;
-		vars.value = &vars.env[vars.i][vars.l + 1];
 		ft_putstr_fd(vars.key, 1);
-		if (vars.value[0] != '\0')
+		if (vars.value)
 			printf("=\"%s\"\n", vars.value);
 		else
 			printf("\n");
@@ -122,6 +125,7 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 			tmp->value = new->value;
 			free(tmpvalue);
 		}
+		free(new->key);
 		free(new);
 	}
 	return (0);
