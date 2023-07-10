@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/10 11:45:25 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/10 11:59:08 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	read_execute_loop(t_env **envlst, int initial_env)
 				ft_putendl_fd("exit", STDOUT_FILENO);
 			else
 				write(1, "exit\n", 6);
-			exit(0);
+			exit(g_global.exit_status);
 		}
 		if (input[0] == '\n' || input[0] == '\0')
 		{
