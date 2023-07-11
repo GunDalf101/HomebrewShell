@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/06 21:01:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/11 03:47:37 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,28 @@ int	ft_countwords_extension(char *str, int *count, int *i, \
 {
 	if (!str)
 		return (0);
-	*i = 0;
-	*count = 0;
-	quotes->dubquo = FALSE;
-	quotes->sinquo = FALSE;
-	quotes->paren = FALSE;
-	quotes->life_counter = 0;
+	if (*i == 0)
+	{
+		*count = 0;
+		quotes->dubquo = FALSE;
+		quotes->sinquo = FALSE;
+		quotes->paren = FALSE;
+		quotes->life_counter = 0;
+	}
 	if (str[*i] == '(')
 		*count = *count + 1;
 	return (1);
 }
 
-static size_t	ft_countwords(char *str, char c, t_quote_parenthesis *quotes)
+static size_t	ft_countwords(char *str, char c, int i, \
+t_quote_parenthesis *quotes)
 {
-	int	i;
 	int	count;
 
-	if (ft_countwords_extension(str, &count, &i, quotes) == 0)
-		return (0);
 	while (str[i])
 	{
+		if (ft_countwords_extension(str, &count, &i, quotes) == 0)
+			return (0);
 		super_quote_hander(quotes, str[i]);
 		parenthesis_life_time(str[i], quotes);
 		if ((quotes->sinquo == FALSE && quotes->dubquo == FALSE) && \
@@ -101,12 +103,12 @@ char	**split_with_a_twist(char *s, char c, t_quote_parenthesis *quotes)
 		return (0);
 	i = -1;
 	pos = 0;
-	if (ft_countwords(s, c, quotes) == 0)
+	if (ft_countwords(s, c, 0, quotes) == 0)
 		return (NULL);
-	res = ft_calloc(sizeof(char *), ft_countwords(s, c, quotes) + 1);
+	res = ft_calloc(sizeof(char *), ft_countwords(s, c, 0, quotes) + 1);
 	if (!res)
 		return (0);
-	while (++i < ft_countwords(s, c, quotes))
+	while (++i < ft_countwords(s, c, 0, quotes))
 	{
 		while (s[pos] == c && s[pos])
 			pos++;

@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/08 18:35:53 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/11 03:49:55 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	parenthesis_check_zo_extended(char c, int sinquo, int dubquo)
 	else if (c == '&' && sinquo == FALSE && dubquo == FALSE)
 		return (printf("Error: syntax error near unexpected token `&'\n"), \
 				FAILURE);
-	else if (c != '\0' && sinquo == FALSE && dubquo == FALSE)
+	else if (c != '\0' && c != 32 && sinquo == FALSE && dubquo == FALSE)
 		return (SUCCESS);
 	return (-1);
 }
@@ -105,22 +105,18 @@ int	syntax_checker_extended(char **tokens, int i, t_quote_parenthesis *quotes)
 	if (!tokens[i])
 		return (SUCCESS);
 	if ((tokens[i][0] == '>' || tokens[i][0] == '<'))
-	{
-		if (rediretion_check(tokens, i) == FAILURE)
-			return (FAILURE);
-	}
+		return (rediretion_check(tokens, i));
 	else if (tokens[i][0] == '|')
-	{
-		if (pipe_check(tokens, i) == FAILURE)
-			return (FAILURE);
-	}
+		return (pipe_check(tokens, i));
 	else if (tokens[i][0] == '&')
-	{
-		if (and_check(tokens, i) == FAILURE)
-			return (FAILURE);
-	}
+		return (and_check(tokens, i));
 	else if (tokens[i][0] == '(')
 	{
+		if (tokens[i + 1] && tokens[i + 1][0] != '|' && \
+			tokens[i + 1][0] != '&' && tokens[i + 1][0] != '>' && \
+			tokens[i + 1][0] != '<')
+			return (printf("Error: syntax error near unexpected token `%s'\n", \
+				tokens[i + 1]), FAILURE);
 		if (parenthesis_check_zo(tokens, i, quotes) == FAILURE)
 			return (FAILURE);
 	}

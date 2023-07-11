@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 19:01:49 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/08 18:34:03 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/11 03:47:55 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	parenthesis_check_zo(char **tokens, int i, t_quote_parenthesis *quotes)
 	quotes->sinquo = FALSE;
 	quotes->dubquo = FALSE;
 	paren_status = FAILURE;
-	if (i != 0 && (tokens[i - 1][0] != '|' || tokens[i - 1][0] != '&'))
+	if (i != 0 && tokens[i - 1][0] != '|' && tokens[i - 1][0] != '&')
 		return (printf("Error: syntax error near unexpected token `('\n"), \
 				FAILURE);
 	while (tokens[i][j])
