@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 20:44:37 by mbennani          #+#    #+#             */
-/*   Updated: 2023/06/24 23:37:54 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/11 11:01:57 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	finish_him(char **new_args, t_ast *node, int k)
 	new_args[k] = NULL;
 	free(node->u_data.cmd.args);
 	node->u_data.cmd.args = new_args;
+	node->u_data.cmd.arg_count = k;
 	free(node->u_data.cmd.cmd);
 	node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
 	if (node->u_data.cmd.cmd == NULL)
