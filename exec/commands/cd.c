@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/10 11:41:42 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/11 10:58:29 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ int	to_dir(t_ast *node, t_env **env)
 	exportadd_for_cd(env, envnew(ft_strdup("OLDPWD"), ft_strdup(get_env(*env,
 					"PWD")->value), 0));
 	if (a_relative_path(node->u_data.cmd.args[1]))
-		exportadd_for_cd(env, envnew(ft_strdup("PWD"), get_tmp_relative(node, env), 0));
+		exportadd_for_cd(env, envnew(ft_strdup("PWD"), \
+		get_tmp_relative(node, env), 0));
 	if (chdir(node->u_data.cmd.args[1]) == 0)
-		return (exportadd_for_cd(env, envnew(ft_strdup("PWD"), return_pwd(), 0)), 0);
+		return (exportadd_for_cd(env, envnew(ft_strdup("PWD"), \
+			return_pwd(), 0)), 0);
 	if (a_relative_path(node->u_data.cmd.args[1]))
 	{
 		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
