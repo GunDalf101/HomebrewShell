@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 04:36:07 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/12 02:52:56 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/12 06:29:21 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_ast	*check_and_set_redirection(t_ast **lexical_table, int counter,
 			|| lexical_table[counter]->type == ast_redirect_in)
 		{
 			head = process_redirection(lexical_table, counter, subshell);
+			printf("head->type = %d\n", head->type);
 			i++;
 			break ;
 		}
@@ -74,10 +75,10 @@ t_ast	*setting_subshell(t_ast **lexical_table, int counter)
 
 	subshell = lexical_table[counter];
 	trim_subshell_reparsethis(subshell);
+	printf("counter = %d\n", counter);
 	if (subshell->u_data.subshell.reparsethis[0] == '\0')
 		return (NULL);
 	subshell->u_data.subshell.child = \
 	parsinginit(subshell->u_data.subshell.reparsethis);
-	counter++;
 	return (check_and_set_redirection(lexical_table, counter, subshell));
 }

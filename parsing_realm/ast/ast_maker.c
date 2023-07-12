@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:39:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/12 03:08:25 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/12 06:47:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,14 @@ t_ast	*setting_east_side(t_ast **lexical_table, int counter)
 }
 
 // this function is used to set the left side of the tree
-t_ast	*setting_west_side(t_ast **lexical_table, int counter)
+t_ast	*setting_west_side(t_ast **lexical_table, int counter, int len)
 {
 	t_ast	*root;
-	int		len;
+	int		i;
 
 	root = NULL;
 	len = 0;
-	while (lexical_table[len])
-		len++;
+	i = counter;
 	while (lexical_table[counter] && counter <= len)
 	{
 		if (lexical_table[counter]->type == ast_pipe
@@ -76,16 +75,17 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 			|| lexical_table[counter]->type == ast_or)
 		{
 			root = lexical_table[counter];
+			printf("i = %d\n", i);
 			root->u_data.operation.left = setting_east_side(lexical_table, \
-				counter - 1);
+				i);
 			root->u_data.operation.right = setting_west_side(lexical_table, \
-				counter + 1);
+				counter + 1, len);
 			break ;
 		}
 		counter++;
 	}
 	if (counter == len)
-		root = setting_east_side(lexical_table, counter - 1);
+		root = setting_east_side(lexical_table, i);
 	return (root);
 }
 
@@ -93,8 +93,10 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter)
 t_ast	*getting_the_root(t_ast **lexical_table, int len, int counter)
 {
 	t_ast	*root;
+	int		i;
 
 	root = NULL;
+	i = 0;
 	while (lexical_table[len])
 		len++;
 	while (lexical_table[counter] && counter <= len)
@@ -105,15 +107,15 @@ t_ast	*getting_the_root(t_ast **lexical_table, int len, int counter)
 		{
 			root = lexical_table[counter];
 			root->u_data.operation.left = setting_east_side(lexical_table, \
-				counter - 1);
+				i);
 			root->u_data.operation.right = setting_west_side(lexical_table, \
-				counter + 1);
+				counter + 1, len);
 			break ;
 		}
 		counter++;
 	}
 	if (counter == len)
-		root = setting_east_side(lexical_table, counter - 1);
+		root = setting_east_side(lexical_table, i);
 	return (root);
 }
 
