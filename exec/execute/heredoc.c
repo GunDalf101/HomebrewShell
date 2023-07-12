@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:20:44 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 18:46:28 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/12 23:59:31 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_ast	*heredoc_handler(t_ast *node, t_fd *fd, t_env **env)
 	g_global.run = 1;
 	totalbuffer = ft_strdup("");
 	node = read_heredoc(node, fd, &totalbuffer, env);
-	if (g_global.run != 130)
+	close(fd->dupstdin);
+	if (g_global.run != 130 && totalbuffer[0] != '\0')
 		write_in_heredoc_file(totalbuffer, tmp, fd);
 	else
 	{
