@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:01:38 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/10 08:58:28 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/13 00:14:11 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,25 +87,12 @@ t_ast	*expand(t_ast *node, t_env **env)
 
 t_ast	*expander(t_ast *node, t_env **env, int f)
 {
-	int					i;
-
 	if (!node->u_data.cmd.cmd)
 		return (node);
-	i = 0;
 	if (node->type == ast_cmd || node->type == ast_imp)
 	{
 		expand_command(node, env, f);
-		while (node->u_data.cmd.args[i])
-		{
-			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i], \
-				*env, f);
-			if (node->u_data.cmd.args[i] == NULL)
-			{
-				shift_args(node, i);
-				i = 0;
-			}
-			i++;
-		}
+		rebuild_cmd_node(node, env, f);
 		if (node->u_data.cmd.cmd == NULL && node->u_data.cmd.args[0])
 			node->u_data.cmd.cmd = ft_strdup(node->u_data.cmd.args[0]);
 	}

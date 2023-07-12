@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arg_remaster.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 14:19:58 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/08 22:03:37 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/13 00:14:05 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,26 @@ void	append_remaining_args(t_ast *node, char **fullargs, int count)
 	free(node->u_data.cmd.args[0]);
 	free(node->u_data.cmd.args);
 	node->u_data.cmd.args = fullargs;
+}
+
+void	rebuild_cmd_node(t_ast *node, t_env **env, int f)
+{
+	int	i;
+
+	i = 0;
+	while (i < node->u_data.cmd.arg_count)
+	{
+		if (node->u_data.cmd.args[i])
+		{
+			node->u_data.cmd.args[i] = quotes_busters(node->u_data.cmd.args[i], \
+			*env, f);
+			if (node->u_data.cmd.args[i] == NULL)
+			{
+				shift_args(node, i);
+				i = 0;
+				continue ;
+			}
+		}
+		i++;
+	}
 }
