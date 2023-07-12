@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 14:16:15 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/11 03:47:37 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/12 03:08:06 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	ft_countwords_extension(char *str, int *count, int *i, \
 		quotes->paren = FALSE;
 		quotes->life_counter = 0;
 	}
-	if (str[*i] == '(')
+	if (str[*i] == '(' && quotes->paren == FALSE && \
+	quotes->sinquo == FALSE && quotes->dubquo == FALSE)
 		*count = *count + 1;
 	return (1);
 }
