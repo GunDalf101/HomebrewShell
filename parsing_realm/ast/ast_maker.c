@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 02:39:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/12 06:47:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/12 06:50:31 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter, int len)
 	int		i;
 
 	root = NULL;
-	len = 0;
 	i = counter;
 	while (lexical_table[counter] && counter <= len)
 	{
@@ -75,7 +74,6 @@ t_ast	*setting_west_side(t_ast **lexical_table, int counter, int len)
 			|| lexical_table[counter]->type == ast_or)
 		{
 			root = lexical_table[counter];
-			printf("i = %d\n", i);
 			root->u_data.operation.left = setting_east_side(lexical_table, \
 				i);
 			root->u_data.operation.right = setting_west_side(lexical_table, \
