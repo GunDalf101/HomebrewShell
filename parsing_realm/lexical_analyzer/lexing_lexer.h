@@ -6,7 +6,7 @@
 /*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:51:57 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/11 03:26:52 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/13 02:50:16 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ typedef struct s_quote_parenthesis
 	int	dubquo;
 	int	sinquo;
 }		t_quote_parenthesis;
+
+typedef struct s_paren
+{
+	int		i;
+	int		j;
+	int		foundand;
+	char	*paren_input;
+}				t_paren;
 
 int		syntax_checker(char **tokens, t_quote_parenthesis *quotes);
 char	**tokenizer(char *input, t_quote_parenthesis *quotes);

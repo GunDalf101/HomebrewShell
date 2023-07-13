@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing101.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/13 01:40:18 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/13 02:54:19 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,56 @@ int	and_counter(char *input)
 	return ((count + 1) * 2);
 }
 
+void	and_skips(t_paren *paren, char *input)
+{
+	while (input[paren->i] == '&')
+	{
+		paren->paren_input[paren->j] = input[paren->i];
+		paren->j++;
+		paren->i++;
+	}
+}
+
+void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes)
+{
+	while (input[paren->i])
+	{
+		super_quote_hander(quotes, input[paren->i]);
+		paren->foundand = FALSE;
+		if (input[paren->i] == '&' && quotes->dubquo == FALSE
+			&& quotes->sinquo == FALSE)
+		{
+			paren->foundand = TRUE;
+			paren->paren_input[paren->j] = ')';
+			paren->j++;
+		}
+		and_skips(paren, input);
+		if (paren->foundand == TRUE && input[paren->i])
+		{
+			paren->paren_input[paren->j] = '(';
+			paren->j++;
+		}
+		paren->paren_input[paren->j] = input[paren->i];
+		paren->j++;
+		paren->i++;
+	}
+}
+
 char	*add_paren(char *input, t_quote_parenthesis *quotes)
 {
-	char	*paren_input;
-	int		i;
-	int		j;
-	int		foundand;
+	t_paren	paren;
 
-	paren_input = ft_calloc(ft_strlen(input) + and_counter(input) + 1, 1);
+	paren.paren_input = ft_calloc(ft_strlen(input) + and_counter(input) + 1, 1);
 	quotes->sinquo = FALSE;
 	quotes->dubquo = FALSE;
-	i = 0;
-	j = 0;
-	paren_input[0] = '(';
-	j++;
-	while (input[i])
-	{
-		foundand = FALSE;
-		if (input[i] == '&' && quotes->dubquo == FALSE && quotes->sinquo == FALSE)
-		{
-			paren_input[j] = ')';
-			j++;
-		}
-		while (input[i] == '&')
-		{
-			paren_input[j] = input[i];
-			j++;
-			i++;
-			foundand = TRUE;
-		}
-		if (foundand == TRUE)
-		{
-			paren_input[j] = '(';
-			j++;
-		}
-		paren_input[j] = input[i];
-		j++;
-		i++;
-	}
-	paren_input[j] = ')';
-	paren_input[j + 1] = '\0';
-	return (paren_input);
+	paren.i = 0;
+	paren.j = 0;
+	paren.paren_input[0] = '(';
+	paren.j++;
+	paren_maker(&paren, input, quotes);
+	paren.paren_input[paren.j] = ')';
+	paren.paren_input[paren.j + 1] = '\0';
+	return (paren.paren_input);
 }
 
 t_ast	*parsinginit(char *input, int subshell)
@@ -78,14 +87,14 @@ t_ast	*parsinginit(char *input, int subshell)
 	t_ast				**lexical_table;
 	char				**tokens;
 	t_quote_parenthesis	quotes;
-	root = NULL;
 
+	root = NULL;
 	if (!subshell)
 	{
 		paren_input = add_paren(input, &quotes);
 		free(input);
 	}
-	else 
+	else
 		paren_input = input;
 	tokens = tokenizer(paren_input, &quotes);
 	if (!tokens)

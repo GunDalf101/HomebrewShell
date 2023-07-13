@@ -27,6 +27,7 @@
         "system_error": "c",
         "tuple": "c",
         "type_traits": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "lexing_lexer.h": "c"
     }
 }
