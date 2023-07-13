@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/10 11:59:08 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/13 01:36:41 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	execute_command(t_env **envlst, char *input)
 {
 	t_ast	*root;
 
-	root = parsinginit(input);
+	root = parsinginit(input, FALSE);
 	execute_input(root, envlst);
 }
 

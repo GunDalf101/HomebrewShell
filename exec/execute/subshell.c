@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 03:30:56 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 18:08:10 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/13 01:43:14 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,5 @@ int	get_subshell_exit_status(t_ast *node, int pid)
 
 int	execute_subshell(t_ast *node, t_env **env)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	g_global.run = 1;
-	if (pid == -1)
-	{
-		perror("fork");
-		return (-1);
-	}
-	else if (pid == 0)
-	{
-		status = execute_commands(node->u_data.subshell.child, env, 1);
-		exit(status);
-	}
-	else
-	{
-		return (get_subshell_exit_status(node, pid));
-	}
+	return (execute_commands(node->u_data.subshell.child, env, 0));
 }
