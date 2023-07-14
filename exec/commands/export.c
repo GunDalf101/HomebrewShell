@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/10 11:51:36 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/14 00:31:11 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,12 @@ void	add_to_env(t_env **head, t_env *new)
 
 	tmp = get_env(*head, new->key);
 	if (!tmp)
+	{
 		envadd_back(head, new, 0);
-	else if (new->append == 0)
+		return ;
+	}
+	tmp->hidden = 0;
+	if (new->append == 0)
 	{
 		tmpvalue = tmp->value;
 		if (new->value)

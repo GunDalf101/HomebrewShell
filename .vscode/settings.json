@@ -28,6 +28,7 @@
         "tuple": "c",
         "type_traits": "c",
         "__locale": "c",
-        "lexing_lexer.h": "c"
+        "lexing_lexer.h": "c",
+        "execute.h": "c"
     }
 }

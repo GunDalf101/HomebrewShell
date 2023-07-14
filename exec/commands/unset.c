@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/08 10:38:42 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/14 01:00:17 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	delete_env(t_env *deleted, t_env *tmp, t_env *prev, t_env **head)
 	if (ft_strcmp("PWD", deleted->key) == 0 && get_env(*head, "PWD"))
 	{
 		get_env(*head, "PWD")->hidden = 1;
+		return (0);
+	}
+	else if (ft_strcmp("HOME", deleted->key) == 0 && get_env(*head, "USER"))
+	{
+		get_env(*head, "HOME")->hidden = 1;
 		return (0);
 	}
 	else if (ft_strcmp(tmp->key, deleted->key) == 0)

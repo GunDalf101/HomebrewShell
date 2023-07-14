@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:04 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/10 11:44:42 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/13 23:53:00 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	lstsize(t_env *head)
 	tmp = head;
 	while (tmp)
 	{
-		i++;
+		if (tmp->hidden == 0)
+			i++;
 		tmp = tmp->next;
 	}
 	return (i);

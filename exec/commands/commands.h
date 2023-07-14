@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/13 00:13:47 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/14 01:37:34 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../../parsing_realm/ast/ast.h"
 # include "../env/env.h"
 # include <string.h>
+# include <sys/stat.h>
 
 typedef struct s_export
 {
