@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/14 04:14:04 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/14 20:33:21 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,14 @@ int checkPath(char* path)
         return 0;
 }
 
+int check_permission_for_cd(char *path)
+{
+	if (access(path, F_OK) && !access(path, X_OK))
+		return (1);
+	return (0);
+}
 
-void convertToParentDirectory(char* path)
+char *convertToParentDirectory(char* path)
 {
     char* stack[2048];
     int top = -1;
@@ -104,7 +110,7 @@ void convertToParentDirectory(char* path)
 
     while (token[i])
 	{
-        if (ft_strcmp(token[i], ".") != 0)
+        if (ft_strcmp(token[i], ".") != 0 || ft_strcmp(token[i], "..") != 0)
 		{
             if (ft_strcmp(token[i], "..") == 0)
 			{
@@ -117,22 +123,25 @@ void convertToParentDirectory(char* path)
         i++;
     }
 	i = 0;
+    int pathLength = 0;
+    path[0] = '\0';
+    for (int i = 0; i <= top; i++) {
+        path = ft_strjoin(path, "/");
+		path = ft_strjoin(path, stack[i]);
+		pathLength += strlen(stack[i]) + 1;
+    }
 	while(token[i])
 	{
 		free(token[i]);
 		i++;
 	}
 	free(token);
-    int pathLength = 0;
-    path[0] = '\0';
-    for (int i = 0; i <= top; i++) {
-        strcat(path, "/");
-        strcat(path, stack[i]);
-        pathLength += strlen(stack[i]) + 1;
-    }
+	path[pathLength] = '\0';
     if (pathLength == 0) {
-        strcpy(path, "/");
+        path[0] = '/';
+		path[1] = '\0';
     }
+	return(path);
 }
 
 int	to_dir(t_ast *node, t_env **env)
@@ -154,7 +163,15 @@ int	to_dir(t_ast *node, t_env **env)
 		
 	}
 	if (a_relative_path(node->u_data.cmd.args[1]))
-		convertToParentDirectory(path);
+		path = convertToParentDirectory(path);
+	if (check_permission_for_cd(path))
+		{
+			ft_putstr_fd("cd: ", 2);
+			ft_putstr_fd(node->u_data.cmd.args[1], 2);
+			ft_putstr_fd(": Permission denied\n", 2);
+			free(path);
+			return (1);
+		}
 	if (chdir(path) != -1)
 	{
 		free(path);
