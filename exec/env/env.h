@@ -64,7 +64,7 @@ t_env				*key_value_to_list(char **env);
 char				**lst_to_env(t_env *head);
 int					lstsize(t_env *head);
 void				free_env_lst(t_env *head);
-void				clearenv(t_env **head);
+void				ft_clearenv(t_env **head);
 void				key_value_helper(t_argtoenv *var, char *env);
 void				argtoenv_init(t_argtoenv *var);
 void				load_env_init(t_loadenv *var);

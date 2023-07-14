@@ -12,7 +12,7 @@
 
 #include "execute.h"
 
-t_global	g_global;
+extern t_global	g_global;
 
 void	expand_end(t_expand *expand, t_env *env)
 {

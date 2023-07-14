@@ -38,7 +38,7 @@ void	and_skips(t_paren *paren, char *input)
 	}
 }
 
-void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes)
+void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes, int *and_found)
 {
 	while (input[paren->i])
 	{
@@ -48,6 +48,7 @@ void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes)
 			&& quotes->sinquo == FALSE)
 		{
 			paren->foundand = TRUE;
+			*and_found = TRUE;
 			paren->paren_input[paren->j] = ')';
 			paren->j++;
 		}
@@ -66,7 +67,9 @@ void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes)
 char	*add_paren(char *input, t_quote_parenthesis *quotes)
 {
 	t_paren	paren;
+	int		and_found;
 
+	and_found = FALSE;
 	paren.paren_input = ft_calloc(ft_strlen(input) + and_counter(input) + 1, 1);
 	quotes->sinquo = FALSE;
 	quotes->dubquo = FALSE;
@@ -74,9 +77,14 @@ char	*add_paren(char *input, t_quote_parenthesis *quotes)
 	paren.j = 0;
 	paren.paren_input[0] = '(';
 	paren.j++;
-	paren_maker(&paren, input, quotes);
+	paren_maker(&paren, input, quotes, &and_found);
 	paren.paren_input[paren.j] = ')';
 	paren.paren_input[paren.j + 1] = '\0';
+	if (and_found == FALSE)
+	{
+		paren.paren_input[0] = ' ';
+		paren.paren_input[paren.j] = ' ';
+	}
 	return (paren.paren_input);
 }
 
