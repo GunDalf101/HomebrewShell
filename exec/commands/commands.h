@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/15 06:21:56 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:33:27 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,5 @@ void	free_env_node(t_env *new, char *tmpvalue);
 int		_unsetenv(char *deleted, t_env **head);
 void	rebuild_cmd_node(t_ast *node, t_env **env, int f);
 char	*converttoparent(char	*path);
+int		to_dir(t_ast *node, t_env **env);
 #endif
