@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/15 06:14:38 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 11:29:33 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int	exportadd_for_cd(t_env **head, t_env *new)
 			tmp->value = new->value;
 			free(tmpvalue);
 		}
+		if (ft_strcmp(new->key, "PWD") == 0)
+			tmp->hidden = 0;
 		free(new->key);
 		free(new);
 	}

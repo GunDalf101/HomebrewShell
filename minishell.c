@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 17:47:25 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/14 04:31:39 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 10:41:12 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	initialize_shell(t_env **envlst, int *initial_env)
 	_unsetenv("OLDPWD", envlst);
 	_unsetenv("PWD", envlst);
 	_unsetenv("MY_$PWD", envlst);
-	envadd_back(envlst, envnew("PWD", return_pwd(), 0), 0);
-	envadd_back(envlst, envnew("MY_$PWD", return_pwd(), 0), 1);
+	envadd_back(envlst, envnew(ft_strdup("PWD"), return_pwd(), 0), 0);
+	envadd_back(envlst, envnew(ft_strdup("MY_$PWD"), return_pwd(), 0), 1);
 	if (get_env(*envlst, "PATH") == NULL)
 	{
 		envadd_back(envlst, envnew(ft_strdup("PATH"),

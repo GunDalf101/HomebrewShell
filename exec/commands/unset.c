@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:40 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/14 01:00:17 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 10:45:28 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ void	freeenvnode(t_env *tmp)
 
 int	delete_env(t_env *deleted, t_env *tmp, t_env *prev, t_env **head)
 {
-	if (ft_strcmp("PWD", deleted->key) == 0 && get_env(*head, "PWD"))
+	if (ft_strcmp("MY_$PWD", deleted->key) == 0 && get_env(*head, "MY_$PWD"))
+	{
+		get_env(*head, "MY_$PWD")->hidden = 1;
+		return (0);
+	}
+	else if (ft_strcmp("PWD", deleted->key) == 0 && get_env(*head, "PWD"))
 	{
 		get_env(*head, "PWD")->hidden = 1;
 		return (0);
