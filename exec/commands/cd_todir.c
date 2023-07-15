@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 06:29:53 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/15 06:32:19 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 07:30:09 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	chechpath(char	*path)
 
 int	check_permission_for_cd(char *path)
 {
-	if (access(path, F_OK) && !access(path, X_OK))
+	if (access(path, F_OK) == 0 && access(path, X_OK) == -1)
 		return (1);
+	if (access(path, F_OK) == -1 && access(path, X_OK) == -1)
+		return (2);	
 	return (0);
 }
 
@@ -43,7 +45,9 @@ char	*to_dir_relative(char *path, t_ast *node, t_env **env)
 int	to_dir(t_ast *node, t_env **env)
 {
 	char	*path;
+	char 	*oldpwd;
 
+	oldpwd = ft_strdup(get_env(*env, "MY_$PWD")->value);
 	path = NULL;
 	path = ft_strdup(node->u_data.cmd.args[1]);
 	exportadd_for_cd(env, envnew(ft_strdup("OLDPWD"), ft_strdup(get_env(*env,
@@ -52,9 +56,16 @@ int	to_dir(t_ast *node, t_env **env)
 		path = to_dir_relative(path, node, env);
 	if (check_permission_for_cd(path))
 	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(node->u_data.cmd.args[1], 2);
-		ft_putstr_fd(": Permission denied\n", 2);
+		if (check_permission_for_cd(path) == 2 && a_relative_path(node->u_data.cmd.args[1]))
+		{
+			free(path);
+			path = oldpwd;
+			ft_putendl_fd(RLTVERROR, 2);
+			return (1);
+		}
+		exportadd_for_cd(env, envnew(ft_strdup("MY_$PWD"), ft_strdup(oldpwd), 0));
+		exportadd_for_cd(env, envnew(ft_strdup("PWD"), ft_strdup(oldpwd), 0));
+		perror("minishell: cd");
 		free(path);
 		return (1);
 	}
