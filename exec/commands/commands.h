@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:26 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/14 01:37:34 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:21:56 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include "../env/env.h"
 # include <string.h>
 # include <sys/stat.h>
+# include <errno.h>
+# define RLTVERROR "cd: error retrieving current directory: \
+getcwd: cannot access parent directories: No such file or directory"
 
 typedef struct s_export
 {
@@ -27,6 +30,16 @@ typedef struct s_export
 	char	*value;
 	int		l;
 }	t_export;
+
+typedef struct s_cd
+{
+	char	*stack[4096];
+	int		top;
+	char	**tokens;
+	int		pathlength;
+	char	*path;
+	char	*tmp;
+}	t_cd;
 
 int		exportcmd(t_env *head);
 void	add_to_env(t_env **head, t_env *new);
@@ -49,4 +62,5 @@ void	export_init(t_export *vars, t_env *head);
 void	free_env_node(t_env *new, char *tmpvalue);
 int		_unsetenv(char *deleted, t_env **head);
 void	rebuild_cmd_node(t_ast *node, t_env **env, int f);
+char	*converttoparent(char	*path);
 #endif

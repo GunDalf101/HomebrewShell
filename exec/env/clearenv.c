@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 13:27:35 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:15:53 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,19 @@ void	argtoenv_init(t_argtoenv *var)
 	var->found = 0;
 	var->key = NULL;
 	var->value = NULL;
+}
+
+void	replace_env_node(t_env *tmp, t_env *new)
+{
+	char	*tmpvalue;
+
+	tmpvalue = NULL;
+	tmpvalue = tmp->value;
+	if (new->value)
+	{
+		tmp->value = new->value;
+		free(tmpvalue);
+	}
+	free(new->key);
+	free(new);
 }

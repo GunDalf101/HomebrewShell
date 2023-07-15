@@ -46,6 +46,8 @@ SOURCES = exec/env/env.c \
 		exec/execute/wild_for_red.c	\
 		exec/execute/fds_dupping.c \
 		exec/commands/cd.c \
+		exec/commands/cdv2.c \
+		exec/commands/cd_todir.c \
 		exec/commands/echo.c \
 		exec/commands/env.c \
 		exec/commands/export.c \

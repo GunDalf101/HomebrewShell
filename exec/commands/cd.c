@@ -6,12 +6,11 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:23 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/14 20:33:21 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:26:40 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "commands.h"
-#include <errno.h>
 
 int	to_relative_dir(char *dir, char *path, t_env **env)
 {
@@ -47,7 +46,8 @@ int	to_home_dir(t_env **env, char *dir)
 		if (chdir(path) != -1)
 		{
 			exportadd_for_cd(env, envnew(ft_strdup("PWD"), return_pwd(), 0));
-			exportadd_for_cd(env, envnew(ft_strdup("MY_$PWD"), return_pwd(), 0));
+			exportadd_for_cd(env, envnew(ft_strdup("MY_$PWD"), \
+				return_pwd(), 0));
 			free(path);
 			return (0);
 		}
@@ -84,121 +84,15 @@ int	to_prev_dir(t_env **env)
 	perror("minishell: cd");
 	return (1);
 }
-int checkPath(char* path)
-{
-    struct stat st;
-    if (stat(path, &st) == 0)
-        return 1;
-    else
-        return 0;
-}
-
-int check_permission_for_cd(char *path)
-{
-	if (access(path, F_OK) && !access(path, X_OK))
-		return (1);
-	return (0);
-}
-
-char *convertToParentDirectory(char* path)
-{
-    char* stack[2048];
-    int top = -1;
-    char** token;
-	int i = 0;
-    token = ft_split(path, '/');
-
-    while (token[i])
-	{
-        if (ft_strcmp(token[i], ".") != 0 || ft_strcmp(token[i], "..") != 0)
-		{
-            if (ft_strcmp(token[i], "..") == 0)
-			{
-                if (top >= 0)
-                    top--;
-            }
-            else
-                stack[++top] = token[i];
-        }
-        i++;
-    }
-	i = 0;
-    int pathLength = 0;
-    path[0] = '\0';
-    for (int i = 0; i <= top; i++) {
-        path = ft_strjoin(path, "/");
-		path = ft_strjoin(path, stack[i]);
-		pathLength += strlen(stack[i]) + 1;
-    }
-	while(token[i])
-	{
-		free(token[i]);
-		i++;
-	}
-	free(token);
-	path[pathLength] = '\0';
-    if (pathLength == 0) {
-        path[0] = '/';
-		path[1] = '\0';
-    }
-	return(path);
-}
-
-int	to_dir(t_ast *node, t_env **env)
-{
-	char	*path;
-
-	path = NULL;
-	path = ft_strdup(node->u_data.cmd.args[1]);
-	exportadd_for_cd(env, envnew(ft_strdup("OLDPWD"), ft_strdup(get_env(*env,
-					"PWD")->value), 0));
-	if (a_relative_path(node->u_data.cmd.args[1]))
-	{
-		free(path);
-		path = get_tmp_relative(node, env);
-		exportadd_for_cd(env, envnew(ft_strdup("MY_$PWD"), \
-		get_tmp_relative(node, env), 0));
-		exportadd_for_cd(env, envnew(ft_strdup("PWD"), \
-		get_tmp_relative(node, env), 0));
-		
-	}
-	if (a_relative_path(node->u_data.cmd.args[1]))
-		path = convertToParentDirectory(path);
-	if (check_permission_for_cd(path))
-		{
-			ft_putstr_fd("cd: ", 2);
-			ft_putstr_fd(node->u_data.cmd.args[1], 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-			free(path);
-			return (1);
-		}
-	if (chdir(path) != -1)
-	{
-		free(path);
-		return (exportadd_for_cd(env, envnew(ft_strdup("PWD"), \
-			return_pwd(), 0)), exportadd_for_cd(env, envnew(ft_strdup("MY_$PWD"), return_pwd(), 0)), 0);
-	}
-	if (a_relative_path(node->u_data.cmd.args[1]) && !checkPath(path) && errno == ENOENT)
-	{
-		ft_putstr_fd("cd: error retrieving current directory: getcwd:", 2);
-		ft_putstr_fd("cannot access parent directories", 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		free(path);
-		return (1);
-	}
-	free(path);
-	perror("minishell: cd");
-	return (1);
-}
 
 int	cd(t_ast *node, t_env **env)
 {
 	if (!node->u_data.cmd.args[1])
-		{
-			ft_putstr_fd("minishell: cd: ", 2);
-			ft_putendl_fd("No arguments were given", 2);
-			return (1);
-		}
+	{
+		ft_putstr_fd("minishell: cd: ", 2);
+		ft_putendl_fd("No arguments were given", 2);
+		return (1);
+	}
 	else
 	{
 		if (!ft_strncmp(node->u_data.cmd.args[1], "~", 1))

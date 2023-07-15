@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing101.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 21:35:05 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/13 02:54:19 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:07:46 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	and_skips(t_paren *paren, char *input)
 	}
 }
 
-void	paren_maker(t_paren *paren, char *input, t_quote_parenthesis *quotes, int *and_found)
+void	paren_maker(t_paren *paren, char *input, \
+	t_quote_parenthesis *quotes, int *and_found)
 {
 	while (input[paren->i])
 	{

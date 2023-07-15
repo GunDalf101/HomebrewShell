@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 21:21:35 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/14 00:31:11 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/15 06:14:38 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	add_to_env(t_env **head, t_env *new)
 	t_env	*tmp;
 	char	*tmpvalue;
 
+	tmpvalue = NULL;
 	tmp = get_env(*head, new->key);
 	if (!tmp)
 	{
@@ -73,16 +74,7 @@ void	add_to_env(t_env **head, t_env *new)
 	}
 	tmp->hidden = 0;
 	if (new->append == 0)
-	{
-		tmpvalue = tmp->value;
-		if (new->value)
-		{
-			tmp->value = new->value;
-			free(tmpvalue);
-		}
-		free(new->key);
-		free(new);
-	}
+		replace_env_node(tmp, new);
 	else if (new->append == 1)
 	{
 		tmpvalue = tmp->value;
