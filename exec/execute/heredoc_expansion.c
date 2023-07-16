@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_expansion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 23:02:19 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/06 21:12:04 by mbennani         ###   ########.fr       */
+/*   Updated: 2023/07/16 05:10:24 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	replace_env(t_expand *expand)
 	free(secondpart);
 	free(new_str);
 	expand->len = ft_strlen(expand->str);
-	expand->i = expand->start + ft_strlen(expand->value);
+	expand->i = expand->start + ft_strlen(expand->value) - 1;
 	expand->j = expand->i;
 }
 
