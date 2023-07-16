@@ -6,7 +6,7 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 23:46:55 by mbennani          #+#    #+#             */
-/*   Updated: 2023/07/10 09:00:37 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:22:07 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,15 @@ void	signal_hand(int signum)
 		if (waitpid(-1, NULL, WNOHANG) == 0)
 			return ;
 	}
-	if (signum == SIGINT && g_global.run == 0)
+	if (signum == SIGINT)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_global.exit_status = 1;
-	}
-	if (signum == SIGINT && g_global.run > 0)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_global.run = 130;
-		g_global.exit_status = 130;
+		if (waitpid(-1, NULL, WNOHANG))
+		{
+			ft_putchar_fd('\n', STDOUT_FILENO);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			g_global.exit_status = 1;
+		}
 	}
 }

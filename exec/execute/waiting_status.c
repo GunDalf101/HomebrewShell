@@ -6,13 +6,29 @@
 /*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:44:30 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/10 08:50:40 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:24:18 by mlektaib         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
 extern t_global	g_global;
+
+int	get_status(int status)
+{
+	if (status == 2)
+	{
+		write(1, "\n", 1);
+		status = 130;
+	}
+	else if (status == 3)
+	{
+		ft_putendl_fd("Quit: 3", 1);
+		status = 131;
+		g_global.exit_status = 131;
+	}
+	return (status);
+}
 
 int	simple_command_es(int pid)
 {
@@ -23,15 +39,7 @@ int	simple_command_es(int pid)
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-	{
-		if (status == 2)
-			status = 130;
-		else if (status == 3)
-		{
-			ft_putendl_fd("Quit: 3", 1);
-			status = 131;
-		}
-	}
+		status = get_status(status);
 	return (status);
 }
 
@@ -44,16 +52,7 @@ int	commnad_fd_es(int pid, int infile_fd, int outfile_fd)
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-	{
-		if (status == 2)
-			status = 130;
-		else if (status == 3)
-		{
-			ft_putendl_fd("Quit: 3", 1);
-			status = 131;
-			g_global.exit_status = 131;
-		}
-	}
+		status = get_status(status);
 	if (WIFEXITED(status))
 		status = WEXITSTATUS(status);
 	if (infile_fd != STDIN_FILENO)
