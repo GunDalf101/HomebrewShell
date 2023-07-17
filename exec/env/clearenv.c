@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clearenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlektaib <mlektaib@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbennani <mbennani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:42:06 by mlektaib          #+#    #+#             */
-/*   Updated: 2023/07/15 06:15:53 by mlektaib         ###   ########.fr       */
+/*   Updated: 2023/07/17 03:11:41 by mbennani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	key_value_helper(t_argtoenv *var, char *env)
 		var->key[var->i2] = '\0';
 	if (var->key[ft_strlen(var->key) - 1] == '+' && var->found == 1)
 	{
-		var->key[ft_strlen(var->key) - 1] = 0;
+		var->i2 = 0;
+		while (var->key[var->i2] != '+')
+			var->i2++;
+		var->key[var->i2] = 0;
 		var->k = 1;
 	}
 	key_value_helper2(var);
